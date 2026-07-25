@@ -16,7 +16,6 @@ const typographyUtil: TypographyUtils = {
     pxToRem: (px: number) => `${px / HTML_FONT_SIZE}` + 'rem',
 };
 
-// TODO: Add the necessary typographies here.
 /**
  * Creates a typography block with various styles
  * @param theme - Theme object to access the breakpoints.
@@ -29,15 +28,64 @@ const typographyStyle = (theme: Theme): TypographyOptions => ({
     fontWeightLight: 400,
     fontWeightRegular: 500,
     fontWeightMedium: 600,
+    fontWeightBold: 700,
 
     h1: {
-        fontSize: typographyUtil.pxToRem(30),
-        fontWeight: 700,
+        fontSize: typographyUtil.pxToRem(40),
+        fontWeight: theme.typography.fontWeightBold,
         lineHeight: typographyUtil.pxToRem(45),
+        color: theme.palette.common.black,
 
-        [theme.breakpoints.up('md')]: {
-            fontSize: typographyUtil.pxToRem(48),
+        [theme.breakpoints.up('tablet')]: {
+            fontSize: typographyUtil.pxToRem(64),
             lineHeight: typographyUtil.pxToRem(62.5),
+        },
+    },
+
+    h3: {
+        fontSize: typographyUtil.pxToRem(30),
+        fontWeight: theme.typography.fontWeightMedium,
+        lineHeight: typographyUtil.pxToRem(45),
+        letterSpacing: typographyUtil.pxToRem(1),
+        color: theme.palette.text.primary,
+
+        [theme.breakpoints.up('tablet')]: {
+            fontSize: typographyUtil.pxToRem(40),
+            lineHeight: typographyUtil.pxToRem(62.5),
+        },
+    },
+
+    subtitle1: {
+        fontSize: typographyUtil.pxToRem(14),
+        lineHeight: typographyUtil.pxToRem(15),
+        color: theme.palette.text.secondary,
+        letterSpacing: typographyUtil.pxToRem(0.5),
+
+        [theme.breakpoints.up('tablet')]: {
+            fontSize: typographyUtil.pxToRem(16),
+            lineHeight: typographyUtil.pxToRem(20),
+        },
+    },
+
+    body1: {
+        fontSize: typographyUtil.pxToRem(12),
+        fontWeight: theme.typography.fontWeightLight,
+        lineHeight: typographyUtil.pxToRem(15),
+
+        [theme.breakpoints.up('tablet')]: {
+            fontSize: typographyUtil.pxToRem(14),
+            lineHeight: typographyUtil.pxToRem(20),
+        },
+    },
+
+    caption: {
+        fontSize: typographyUtil.pxToRem(10),
+        fontWeight: theme.typography.fontWeightLight,
+        lineHeight: typographyUtil.pxToRem(15),
+
+        [theme.breakpoints.up('tablet')]: {
+            fontSize: typographyUtil.pxToRem(12),
+            lineHeight: typographyUtil.pxToRem(20),
         },
     },
 });
