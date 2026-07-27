@@ -63,7 +63,7 @@ const typographyStyle = (theme: Theme): TypographyOptions => ({
 
         [theme.breakpoints.up('tablet')]: {
             fontSize: typographyUtil.pxToRem(16),
-            lineHeight: typographyUtil.pxToRem(20),
+            lineHeight: typographyUtil.pxToRem(25),
         },
     },
 
