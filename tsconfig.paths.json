@@ -3,7 +3,9 @@
         "paths": {
             "@assets/*": ["./src/assets/*"],
             "@constant": ["./src/constant/index"],
-            "@theme": ["./src/theme/index"]
+            "@theme": ["./src/theme/index"],
+            "@pages/*": ["./src/pages/*"],
+            "@layouts/*": ["./src/layouts/*"]
         }
     }
 }

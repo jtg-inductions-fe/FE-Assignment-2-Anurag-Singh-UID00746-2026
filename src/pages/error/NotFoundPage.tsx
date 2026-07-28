@@ -1,5 +1,7 @@
-import { Typography } from '@mui/material';
+import { Typography as MuiTypography } from '@mui/material';
 
-const NotFoundPage = () => <Typography variant="h1">Not Found Page</Typography>;
+const NotFoundPage = () => (
+    <MuiTypography variant="h1">Not Found Page</MuiTypography>
+);
 
 export default NotFoundPage;
