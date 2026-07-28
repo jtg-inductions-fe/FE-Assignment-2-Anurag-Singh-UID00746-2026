@@ -44,10 +44,13 @@ const typographyStyle = (theme: Theme): TypographyOptions => ({
 
     h3: {
         fontSize: typographyUtil.pxToRem(30),
-        fontWeight: theme.typography.fontWeightMedium,
+        fontWeight: theme.typography.fontWeightBold,
         lineHeight: typographyUtil.pxToRem(45),
         letterSpacing: typographyUtil.pxToRem(1),
-        color: theme.palette.text.primary,
+        background: 'linear-gradient(180deg, #2b2d42 0%, #4a4e69 100%)',
+        WebkitBackgroundClip: 'text',
+        WebkitTextFillColor: 'transparent',
+        backgroundClip: 'text',
 
         [theme.breakpoints.up('tablet')]: {
             fontSize: typographyUtil.pxToRem(40),
@@ -71,6 +74,7 @@ const typographyStyle = (theme: Theme): TypographyOptions => ({
         fontSize: typographyUtil.pxToRem(12),
         fontWeight: theme.typography.fontWeightLight,
         lineHeight: typographyUtil.pxToRem(15),
+        letterSpacing: typographyUtil.pxToRem(1),
 
         [theme.breakpoints.up('tablet')]: {
             fontSize: typographyUtil.pxToRem(14),

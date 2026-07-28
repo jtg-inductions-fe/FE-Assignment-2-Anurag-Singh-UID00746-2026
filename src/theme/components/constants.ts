@@ -15,6 +15,12 @@ export const TOAST_TYPES = {
     INFO: 'info',
 } as const;
 
+export const INPUT_TYPES = {
+    TEXT: 'text',
+    EMAIL: 'email',
+    PASSWORD: 'password',
+} as const;
+
 export type DialogType =
     (typeof ACTION_DIALOG_TYPES)[keyof typeof ACTION_DIALOG_TYPES];
 
@@ -22,3 +28,5 @@ export type ExceptionStateType =
     (typeof EXCEPTION_STATE_TYPES)[keyof typeof EXCEPTION_STATE_TYPES];
 
 export type ToastType = (typeof TOAST_TYPES)[keyof typeof TOAST_TYPES];
+
+export type InputType = (typeof INPUT_TYPES)[keyof typeof INPUT_TYPES];
