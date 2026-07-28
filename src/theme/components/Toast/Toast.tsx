@@ -44,6 +44,12 @@ export const StyledToast = styled(Box)(({ theme }) => ({
     `,
     padding: theme.spacing(2),
     gap: theme.spacing(2.5),
+
+    [theme.breakpoints.down('tablet')]: {
+        minWidth: 0,
+        width: 'calc(100vw - 16px)',
+        maxWidth: 'none',
+    },
 }));
 
 export const StyledToastImage = styled('img')(({ theme }) => ({
@@ -84,7 +90,9 @@ export const StyledProgress = styled(LinearProgress)(() => ({
     height: 4,
 }));
 
-export const Transition = (props: SlideProps) => <Slide {...props} direction="left" />;
+export const Transition = (props: SlideProps) => (
+    <Slide {...props} direction="left" />
+);
 
 const Toast = ({
     open,
@@ -111,12 +119,19 @@ const Toast = ({
         >
             <StyledToast>
                 <StyledToastImage src={assets.toast} alt={type} />
-                <StyledContent>
+                <StyledContent
+                    role={
+                        type === TOAST_TYPES.SUCCESS ||
+                        type === TOAST_TYPES.INFO
+                            ? 'status'
+                            : 'alert'
+                    }
+                >
                     <StyledTitle variant="subtitle1">{title}</StyledTitle>
                     <StyledMessage variant="body2">{message}</StyledMessage>
                 </StyledContent>
 
-                <StyledAtoms src={assets.atoms} alt="Toast atoms" />
+                <StyledAtoms src={assets.atoms} alt="" />
 
                 <StyledProgress
                     variant="indeterminate"

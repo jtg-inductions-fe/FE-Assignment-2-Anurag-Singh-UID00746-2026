@@ -3,7 +3,6 @@ import type { SnackbarProps } from '@mui/material';
 import { TOAST_TYPES } from '../constants';
 
 export type ToastType = (typeof TOAST_TYPES)[keyof typeof TOAST_TYPES];
-
 export interface ToastProps
     extends Omit<
         SnackbarProps,
@@ -12,6 +11,6 @@ export interface ToastProps
     type: ToastType;
     title: string;
     message: string;
-    autoHideDuration?: number;
+    autoHideDuration?: number | null;
     onClose: () => void;
 }

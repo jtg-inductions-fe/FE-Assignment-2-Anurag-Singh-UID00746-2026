@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 import { ACTION_DIALOG_TYPES } from '../constants';
 
 export type DialogType =
@@ -10,7 +12,7 @@ export interface ActionDialogProps {
     description: string;
     cancelText?: string;
     confirmText?: string;
-    icon?: React.ReactNode;
+    icon?: ReactNode;
     onClose: () => void;
     onConfirm: () => void;
 }

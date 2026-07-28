@@ -9,4 +9,5 @@ export interface ExceptionStateProps extends BoxProps {
     type?: ExceptionType;
     title: string;
     description?: string;
+    onRetry?: () => void;
 }

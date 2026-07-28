@@ -71,12 +71,13 @@ const EmptyState = ({
     type = EXCEPTION_STATE_TYPES.ERROR,
     title,
     description,
+    onRetry,
     ...boxProps
 }: ExceptionStateProps) => {
     const navigate = useNavigate();
 
     const handleFixedRetry = () => {
-        window.location.reload();
+        onRetry?.();
     };
 
     const handleBack = async () => {
@@ -86,7 +87,7 @@ const EmptyState = ({
     return (
         <StyledContainer {...boxProps}>
             <StyledImage
-                alt="Empty state"
+                alt="Empty state image"
                 src={
                     type === EXCEPTION_STATE_TYPES.ERROR
                         ? ErrorStateImage
