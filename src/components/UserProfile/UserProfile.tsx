@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Divider, Typography } from '@mui/material';
@@ -17,19 +17,52 @@ import { USER_ROLE } from '../../types/user.types';
 
 const UserProfile = ({ handleLogout }: { handleLogout: () => void }) => {
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+    const logoutButtonRef = useRef<HTMLButtonElement | null>(null);
     const { user } = useAppSelector((state) => state.auth);
 
-    const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+    const handleOpenUserMenu = (
+        event: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>,
+    ) => {
         setAnchorElUser(event.currentTarget);
+    };
+
+    useEffect(() => {
+        if (anchorElUser) {
+            requestAnimationFrame(() => {
+                logoutButtonRef.current?.focus();
+            });
+        }
+    }, [anchorElUser]);
+
+    const handleUserMenuKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            handleOpenUserMenu(event);
+        }
     };
 
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
 
+    const handleLogoutKeyDown = (
+        event: React.KeyboardEvent<HTMLButtonElement>,
+    ) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            handleLogout();
+        }
+    };
+
     return (
         <UserProfileBox>
-            <UserIconButton onClick={handleOpenUserMenu}>
+            <UserIconButton
+                tabIndex={0}
+                role="button"
+                aria-label="Open user menu"
+                onClick={handleOpenUserMenu}
+                onKeyDown={handleUserMenuKeyDown}
+            >
                 <UserAvatar alt={user?.fullName} src="null" />
             </UserIconButton>
             <UserProfileMenu
@@ -61,11 +94,13 @@ const UserProfile = ({ handleLogout }: { handleLogout: () => void }) => {
                 <Divider />
                 <UserMenuItem onClick={handleCloseUserMenu}>
                     <MyButton
+                        ref={logoutButtonRef}
                         variant="text"
                         color="error"
                         disableRipple
                         startIcon={<LogoutIcon color="error" />}
                         onClick={handleLogout}
+                        onKeyDown={handleLogoutKeyDown}
                     >
                         Logout
                     </MyButton>

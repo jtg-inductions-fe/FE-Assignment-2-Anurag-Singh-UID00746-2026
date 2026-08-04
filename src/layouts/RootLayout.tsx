@@ -15,7 +15,11 @@ const RootLayout = () => {
     );
 
     return (
-        <Box>
+        <Box
+            margin="0 auto"
+            maxWidth={{ mobile: '100%', tablet: '90%', desktop: '1440px' }}
+            padding={{ desktop: 4 }}
+        >
             <Header />
             <Outlet />
             <Toast

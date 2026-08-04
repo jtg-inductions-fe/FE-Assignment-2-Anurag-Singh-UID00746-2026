@@ -1,3 +1,5 @@
+import { useEffect, useRef } from 'react';
+
 import { Divider } from '@mui/material';
 
 import MyButton from '@components/Button/Button';
@@ -28,9 +30,49 @@ export const ActionDialog = ({
     onClose,
     onConfirm,
 }: ActionDialogProps) => {
+    const cancelButtonRef = useRef<HTMLButtonElement | null>(null);
+    const confirmButtonRef = useRef<HTMLButtonElement | null>(null);
     const finalConfirmText =
         confirmText ||
         (type === ACTION_DIALOG_TYPES.ALERT ? 'Continue' : 'Confirm');
+
+    useEffect(() => {
+        if (open) {
+            requestAnimationFrame(() => {
+                cancelButtonRef.current?.focus();
+            });
+        }
+    }, [open]);
+
+    const handleDialogKeyDown = (
+        event: React.KeyboardEvent<HTMLDivElement>,
+    ) => {
+        if (event.key !== 'Tab') {
+            return;
+        }
+
+        const dialogButtons = [
+            cancelButtonRef.current,
+            confirmButtonRef.current,
+        ].filter(Boolean) as HTMLButtonElement[];
+
+        if (dialogButtons.length === 0) {
+            return;
+        }
+
+        const currentIndex = dialogButtons.findIndex(
+            (button) => button === document.activeElement,
+        );
+        const direction = event.shiftKey ? -1 : 1;
+        const nextIndex =
+            currentIndex === -1
+                ? 0
+                : (currentIndex + direction + dialogButtons.length) %
+                  dialogButtons.length;
+
+        event.preventDefault();
+        dialogButtons[nextIndex]?.focus();
+    };
 
     const renderIcon = () => {
         if (icon) return icon;
@@ -42,7 +84,11 @@ export const ActionDialog = ({
     };
 
     return (
-        <StyledDialog open={open} onClose={onClose}>
+        <StyledDialog
+            open={open}
+            onClose={onClose}
+            onKeyDown={handleDialogKeyDown}
+        >
             <ContentContainer>
                 <IconContainer dialogType={type}>{renderIcon()}</IconContainer>
                 <TextContainer>
@@ -57,6 +103,7 @@ export const ActionDialog = ({
             <Divider />
             <StyledDialogActions>
                 <MyButton
+                    ref={cancelButtonRef}
                     onClick={onClose}
                     variant="outlined"
                     disableRipple
@@ -67,6 +114,7 @@ export const ActionDialog = ({
                     {cancelText}
                 </MyButton>
                 <MyButton
+                    ref={confirmButtonRef}
                     onClick={onConfirm}
                     disableElevation
                     disableRipple

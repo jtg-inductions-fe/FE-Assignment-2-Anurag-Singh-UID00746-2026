@@ -1,9 +1,8 @@
-import { useState } from 'react';
-
 import { useNavigate } from 'react-router-dom';
 
 import AddIcon from '@mui/icons-material/Add';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import { Box, Link } from '@mui/material';
 
 import logo from '@assets/images/logo.webp';
 import { ActionDialog } from '@components/ActionDialog/ActionDialog';
@@ -29,13 +28,14 @@ import {
     SearchWrapper,
 } from './Header.styles';
 import { USER_ROLE } from '../../types/user.types';
+import { useState } from 'react';
 
 const Header = () => {
     const dispatch = useAppDispatch();
     const feedback = useAppSelector((state) => state.feedback);
     const navigate = useNavigate();
 
-    const [dialogOpen, setDialogOpen] = useState(false);
+    const [searchTerm, setSearchTerm] = useState<string>('');
 
     const handleLogin = () => {
         void navigate(ROUTES.AUTH.LOGIN);
@@ -51,8 +51,8 @@ const Header = () => {
 
     const onSubmit = () => {
         dispatch(logout());
-        setDialogOpen(false);
         void navigate(ROUTES.AUTH.LOGIN);
+        dispatch(closeDialog());
         dispatch(
             showToast({
                 type: TOAST_TYPES.SUCCESS,
@@ -63,7 +63,6 @@ const Header = () => {
     };
 
     const handleLogoutClick: () => void = () => {
-        setDialogOpen(true);
         dispatch(
             openDialog({
                 title: 'LOG OUT ?',
@@ -103,12 +102,18 @@ const Header = () => {
     return (
         <Root>
             <Container>
-                <LogoWrapper>
-                    <MyImage src={logo} alt="Bitego" />
-                </LogoWrapper>
+                <Link href={ROUTES.ROOT}>
+                    <LogoWrapper>
+                        <MyImage src={logo} alt="Bitego" />
+                    </LogoWrapper>
+                </Link>
 
                 <SearchWrapper>
-                    <SearchBar placeholder="Restaurant name" />
+                    <SearchBar
+                        placeholder="Restaurant name"
+                        value={searchTerm}
+                        onChange={setSearchTerm}
+                    />
                 </SearchWrapper>
 
                 <RightSection>
@@ -131,13 +136,32 @@ const Header = () => {
                         ))}
                     </ActionWrapper>
                     {isLoggedIn && (
-                        <UserProfile handleLogout={handleLogoutClick} />
+                        <Box
+                            tabIndex={0}
+                            onKeyDown={(
+                                e: React.KeyboardEvent<HTMLDivElement>,
+                            ) => {
+                                if (e.key === 'Enter' || e.key === ' ') {
+                                    e.preventDefault();
+                                    const profileButton =
+                                        e.currentTarget.querySelector(
+                                            '[role="button"], button',
+                                        ) as HTMLElement | null;
+
+                                    if (profileButton) {
+                                        profileButton.click();
+                                    }
+                                }
+                            }}
+                        >
+                            <UserProfile handleLogout={handleLogoutClick} />
+                        </Box>
                     )}
                 </RightSection>
             </Container>
 
             <ActionDialog
-                open={dialogOpen}
+                open={feedback.open}
                 title={feedback.title}
                 description={feedback.description}
                 type={feedback.type}

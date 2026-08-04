@@ -12,7 +12,6 @@ export const Search = styled('div')(({ theme }) => ({
     justifyContent: 'start',
     backgroundColor: alpha(theme.palette.secondary.light, 0.2),
     marginLeft: 0,
-    maxWidth: typography.typographyUtil.pxToRem(700),
     transition: 'all 0.2s ease-in-out',
 
     '&:hover': {
@@ -20,6 +19,7 @@ export const Search = styled('div')(({ theme }) => ({
     },
 
     [theme.breakpoints.up('tablet')]: {
+        maxWidth: typography.typographyUtil.pxToRem(700),
         marginLeft: theme.spacing(3),
         width: 'auto',
     },

@@ -15,7 +15,8 @@
             "@store/*": ["./src/store/*"],
             "@theme/*": ["./src/theme/*"],
             "@types/*": ["./src/types/*"],
-            "@validations/*": ["./src/validations/*"]
+            "@validations/*": ["./src/validations/*"],
+            "@utils/*": ["./src/utils/*"]
         }
     }
 }

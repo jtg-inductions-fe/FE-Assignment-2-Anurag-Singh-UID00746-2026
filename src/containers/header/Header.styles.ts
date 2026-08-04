@@ -4,11 +4,11 @@ import { typography } from '@theme/foundations';
 
 export const Root = styled(Box)(({ theme }: { theme: Theme }) => ({
     width: '100%',
-    padding: theme.spacing(3, 5),
+    padding: theme.spacing(4, 5),
     borderBottom: `1px solid ${theme.palette.divider}`,
 
     [theme.breakpoints.up('tablet')]: {
-        padding: theme.spacing(3, 10),
+        padding: theme.spacing(4, 0),
         borderBottom: 'none',
     },
 }));
@@ -42,6 +42,7 @@ export const LogoWrapper = styled(Box)(({ theme }: { theme: Theme }) => ({
     borderRadius: typography.typographyUtil.pxToRem(8),
     width: 90,
     height: 40,
+    cursor: 'pointer',
 }));
 
 export const SearchWrapper = styled(Box)({

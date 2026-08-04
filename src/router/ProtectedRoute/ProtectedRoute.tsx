@@ -1,8 +1,7 @@
 import { Navigate, Outlet } from 'react-router-dom';
 
 import { useAppSelector } from '@store/hooks';
-
-import { ROUTES } from './routes';
+import { ROUTES } from '@router/routes';
 
 const ProtectedRoute = () => {
     const { isLoggedIn } = useAppSelector((state) => state.auth);
