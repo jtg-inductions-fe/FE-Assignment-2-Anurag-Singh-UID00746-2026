@@ -12,7 +12,8 @@
         "lint:fix": "eslint --fix .",
         "preview": "vite preview",
         "prettier": "npx prettier --write ./",
-        "postinstall": "husky install"
+        "postinstall": "husky install",
+        "pre-commit": "lint-staged"
     },
     "dependencies": {
         "@emotion/react": "11.14.0",
@@ -20,7 +21,8 @@
         "@mui/icons-material": "6.4.1",
         "@mui/material": "6.4.1",
         "react": "19.0.0",
-        "react-dom": "19.0.0"
+        "react-dom": "19.0.0",
+        "react-router-dom": "^7.18.1"
     },
     "devDependencies": {
         "@types/eslint-plugin-jsx-a11y": "6",
@@ -46,5 +48,6 @@
         "vite": "6.0.11",
         "vite-plugin-image-optimizer": "1.1.8",
         "vite-tsconfig-paths": "5.1.4"
-    }
+    },
+    "packageManager": "yarn@4.5.0"
 }
