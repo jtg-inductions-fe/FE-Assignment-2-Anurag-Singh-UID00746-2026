@@ -1,5 +1,5 @@
 import { Box, LinearProgress, Snackbar, Typography } from '@mui/material';
-import { LinearProgressProps } from '@mui/material';
+import { LinearProgressProps, Theme } from '@mui/material';
 import Slide, { SlideProps } from '@mui/material/Slide';
 import { alpha, styled } from '@mui/material/styles';
 
@@ -27,7 +27,7 @@ const getProgressColor = (
 
 export const StyledSnackbar = styled(Snackbar)(() => ({}));
 
-export const StyledToast = styled(Box)(({ theme }) => ({
+export const StyledToast = styled(Box)(({ theme }: { theme: Theme }) => ({
     position: 'relative',
     overflow: 'hidden',
     display: 'flex',
@@ -45,21 +45,23 @@ export const StyledToast = styled(Box)(({ theme }) => ({
     padding: theme.spacing(2),
     gap: theme.spacing(2.5),
 
-    [theme.breakpoints.down('tablet')]: {
+    [theme.breakpoints.down('sm')]: {
         minWidth: 0,
         width: 'calc(100vw - 16px)',
         maxWidth: 'none',
     },
 }));
 
-export const StyledToastImage = styled('img')(({ theme }) => ({
-    width: theme.spacing(15),
-    height: theme.spacing(15),
-    flexShrink: 0,
-    objectFit: 'contain',
-}));
+export const StyledToastImage = styled('img')(
+    ({ theme }: { theme: Theme }) => ({
+        width: theme.spacing(15),
+        height: theme.spacing(15),
+        flexShrink: 0,
+        objectFit: 'contain',
+    }),
+);
 
-export const StyledAtoms = styled('img')(({ theme }) => ({
+export const StyledAtoms = styled('img')(({ theme }: { theme: Theme }) => ({
     width: theme.spacing(14),
     pointerEvents: 'none',
     userSelect: 'none',
@@ -72,15 +74,19 @@ export const StyledContent = styled(Box)(() => ({
     flexDirection: 'column',
 }));
 
-export const StyledTitle = styled(Typography)(({ theme }) => ({
-    fontWeight: theme.typography.fontWeightBold,
-    color: theme.palette.text.primary,
-    marginBottom: theme.spacing(0.5),
-}));
+export const StyledTitle = styled(Typography)(
+    ({ theme }: { theme: Theme }) => ({
+        fontWeight: theme.typography.fontWeightBold,
+        color: theme.palette.text.primary,
+        marginBottom: theme.spacing(0.5),
+    }),
+);
 
-export const StyledMessage = styled(Typography)(({ theme }) => ({
-    color: alpha(theme.palette.text.secondary, 0.8),
-}));
+export const StyledMessage = styled(Typography)(
+    ({ theme }: { theme: Theme }) => ({
+        color: alpha(theme.palette.text.secondary, 0.8),
+    }),
+);
 
 export const StyledProgress = styled(LinearProgress)(() => ({
     position: 'absolute',

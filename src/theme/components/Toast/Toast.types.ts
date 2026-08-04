@@ -3,6 +3,10 @@ import type { SnackbarProps } from '@mui/material';
 import { TOAST_TYPES } from '../constants';
 
 export type ToastType = (typeof TOAST_TYPES)[keyof typeof TOAST_TYPES];
+
+/**
+ * Represents the type of Toast's prop.
+ */
 export interface ToastProps
     extends Omit<
         SnackbarProps,

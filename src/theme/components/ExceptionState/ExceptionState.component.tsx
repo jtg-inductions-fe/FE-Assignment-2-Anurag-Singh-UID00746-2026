@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { ArrowBack } from '@mui/icons-material';
 import RefreshIcon from '@mui/icons-material/Refresh';
-import { Box, Button, Divider, Typography } from '@mui/material';
+import { Box, Button, Divider, Typography, Theme } from '@mui/material';
 import { alpha, styled } from '@mui/material/styles';
 
 import { ExceptionStateProps } from './ExceptionState.types';
@@ -10,7 +10,7 @@ import EmptyStateImage from '../../../assets/images/empty-state.webp';
 import ErrorStateImage from '../../../assets/images/error-state.webp';
 import { EXCEPTION_STATE_TYPES } from '../constants';
 
-const StyledContainer = styled(Box)(({ theme }) => ({
+const StyledContainer = styled(Box)(({ theme }: { theme: Theme }) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -21,7 +21,7 @@ const StyledContainer = styled(Box)(({ theme }) => ({
     padding: theme.spacing(6, 3),
 }));
 
-const StyledImage = styled('img')(({ theme }) => ({
+const StyledImage = styled('img')(({ theme }: { theme: Theme }) => ({
     width: '100%',
     maxWidth: theme.spacing(60),
     objectFit: 'contain',
@@ -30,7 +30,7 @@ const StyledImage = styled('img')(({ theme }) => ({
     marginBottom: theme.spacing(4),
 }));
 
-const StyledTitle = styled(Typography)(({ theme }) => ({
+const StyledTitle = styled(Typography)(({ theme }: { theme: Theme }) => ({
     fontWeight: theme.typography.fontWeightRegular,
     marginBottom: theme.spacing(2),
     letterSpacing: theme.spacing(0.3),
@@ -40,13 +40,13 @@ const StyledTitle = styled(Typography)(({ theme }) => ({
     backgroundClip: 'text',
 }));
 
-const StyledDescription = styled(Typography)(({ theme }) => ({
+const StyledDescription = styled(Typography)(({ theme }: { theme: Theme }) => ({
     maxWidth: theme.spacing(90),
     color: alpha(theme.palette.text.secondary, 0.5),
     marginBottom: theme.spacing(4),
 }));
 
-const StyledButton = styled(Button)(({ theme }) => ({
+const StyledButton = styled(Button)(({ theme }: { theme: Theme }) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',

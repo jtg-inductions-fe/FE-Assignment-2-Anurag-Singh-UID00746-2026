@@ -1,13 +1,22 @@
+/**
+ * Represents 2 different variants for action dialog component
+ */
 export const ACTION_DIALOG_TYPES = {
     ALERT: 'alert',
     CONFIRM: 'confirm',
 } as const;
 
+/**
+ * Represents 2 different variants for exception component
+ */
 export const EXCEPTION_STATE_TYPES = {
     ERROR: 'error',
     EMPTY: 'empty',
 } as const;
 
+/**
+ * Represents 2 different variants for toast component
+ */
 export const TOAST_TYPES = {
     SUCCESS: 'success',
     ERROR: 'error',

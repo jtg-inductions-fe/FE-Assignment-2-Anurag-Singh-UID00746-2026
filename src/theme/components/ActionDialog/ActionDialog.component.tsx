@@ -10,12 +10,12 @@ import {
     DialogTitle,
     Divider,
 } from '@mui/material';
-import { alpha, styled } from '@mui/material/styles';
+import { alpha, styled, Theme } from '@mui/material';
 
 import { ActionDialogProps } from './ActionDialog.types';
 import { ACTION_DIALOG_TYPES, DialogType } from '../constants';
 
-const StyledDialog = styled(Dialog)(({ theme }) => ({
+const StyledDialog = styled(Dialog)(({ theme }: { theme: Theme }) => ({
     '& .MuiPaper-root': {
         borderRadius: theme.shape.borderRadius * 2,
         padding: 0,
@@ -25,13 +25,13 @@ const StyledDialog = styled(Dialog)(({ theme }) => ({
         boxShadow:
             '0 10px 30px -10px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02)',
 
-        [theme.breakpoints.up('tablet')]: {
+        [theme.breakpoints.up('sm')]: {
             maxWidth: theme.spacing(130),
         },
     },
 }));
 
-const ContentContainer = styled(Box)(({ theme }) => ({
+const ContentContainer = styled(Box)(({ theme }: { theme: Theme }) => ({
     padding: theme.spacing(6, 4),
     display: 'flex',
     gap: theme.spacing(4),
@@ -71,44 +71,50 @@ const IconContainer = styled(Box, {
     };
 });
 
-const TextContainer = styled(Box)(({ theme }) => ({
+const TextContainer = styled(Box)(({ theme }: { theme: Theme }) => ({
     display: 'flex',
     flexDirection: 'column',
     gap: theme.spacing(1),
     flex: 1,
 }));
 
-const StyledDialogTitle = styled(DialogTitle)(({ theme }) => ({
-    padding: 0,
-    fontSize: theme.typography.h6.fontSize,
-    fontWeight: theme.typography.fontWeightMedium,
-    background: 'linear-gradient(180deg, #1a1c1e 10%, #5c636a 100%)',
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent',
-    backgroundClip: 'text',
-    lineHeight: 1.2,
-    letterSpacing: '0.05em',
-    textTransform: 'uppercase',
-}));
+const StyledDialogTitle = styled(DialogTitle)(
+    ({ theme }: { theme: Theme }) => ({
+        padding: 0,
+        fontSize: theme.typography.h6.fontSize,
+        fontWeight: theme.typography.fontWeightMedium,
+        background: 'linear-gradient(180deg, #1a1c1e 10%, #5c636a 100%)',
+        WebkitBackgroundClip: 'text',
+        WebkitTextFillColor: 'transparent',
+        backgroundClip: 'text',
+        lineHeight: 1.2,
+        letterSpacing: '0.05em',
+        textTransform: 'uppercase',
+    }),
+);
 
 const StyledDialogContent = styled(DialogContent)({
     padding: 0,
 });
 
-const StyledDialogContentText = styled(DialogContentText)(({ theme }) => ({
-    fontSize: theme.typography.body2.fontSize,
-    color: theme.palette.text.secondary,
-    lineHeight: 1.5,
-    letterSpacing: '0.02em',
-    textAlign: 'justify',
-}));
+const StyledDialogContentText = styled(DialogContentText)(
+    ({ theme }: { theme: Theme }) => ({
+        fontSize: theme.typography.body2.fontSize,
+        color: theme.palette.text.secondary,
+        lineHeight: 1.5,
+        letterSpacing: '0.02em',
+        textAlign: 'justify',
+    }),
+);
 
-const StyledDialogActions = styled(DialogActions)(({ theme }) => ({
-    backgroundColor: alpha(theme.palette.action.disabledBackground, 0.05),
-    padding: theme.spacing(3, 3),
-    justifyContent: 'flex-end',
-    gap: theme.spacing(1.5),
-}));
+const StyledDialogActions = styled(DialogActions)(
+    ({ theme }: { theme: Theme }) => ({
+        backgroundColor: alpha(theme.palette.action.disabledBackground, 0.05),
+        padding: theme.spacing(3, 3),
+        justifyContent: 'flex-end',
+        gap: theme.spacing(1.5),
+    }),
+);
 
 const StyledPrivacyIcon = styled(PrivacyTipOutlinedIcon)({
     fontSize: 30,
