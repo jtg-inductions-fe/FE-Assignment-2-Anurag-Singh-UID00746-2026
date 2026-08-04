@@ -1,5 +1,5 @@
-import { Typography } from '@mui/material';
+import { Typography as MuiTypography } from '@mui/material';
 
-const Login = () => <Typography variant="h1">Login Page</Typography>;
+const Login = () => <MuiTypography variant="h1">Login Page</MuiTypography>;
 
 export default Login;

@@ -1,12 +1,13 @@
 import { createBrowserRouter } from 'react-router-dom';
 
+import RootLayout from '@layouts/RootLayout';
+import ErrorPage from '@pages/error/ErrorPage';
+import NotFoundPage from '@pages/error/NotFoundPage';
+import Home from '@pages/home';
+import Login from '@pages/login';
+import Signup from '@pages/signup';
+
 import { ROUTES, ROUTES_SEGMENTS } from './routes';
-import RootLayout from '../layouts/RootLayout';
-import ErrorPage from '../pages/error/ErrorPage';
-import NotFoundPage from '../pages/error/NotFoundPage';
-import Home from '../pages/home';
-import Login from '../pages/login';
-import Signup from '../pages/signup';
 
 export const router = createBrowserRouter([
     {
