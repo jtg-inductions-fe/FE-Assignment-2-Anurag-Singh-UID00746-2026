@@ -9,7 +9,7 @@ export const ROUTES = {
     RESTAURANTS: {
         RESTAURANT_DETAILS: '/restaurants/:id',
         ADD_RESTAURANT: '/restaurants/add',
-        EDIT_RESTAURANT: '/restaurants/edit',
+        EDIT_RESTAURANT: '/restaurants/:id/edit',
     },
 } as const;
 

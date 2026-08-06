@@ -21,6 +21,7 @@ import { isOpenToday } from '@utils/getOpenRestaurants';
 import MultiToggle from '@components/MultiToggle/MultiToggle';
 import { FOOD_CATEGORY } from '@constant';
 import { Permission } from '@config/permissions';
+import { useSearchRestaurants } from '@hooks/useSearchRestaurants';
 
 const Home = () => {
     const navigate = useNavigate();
@@ -31,6 +32,9 @@ const Home = () => {
     const [restaurantToDelete, setRestaurantToDelete] = useState<
         Restaurant | undefined
     >(undefined);
+
+    useSearchRestaurants();
+
     const visibleRestaurants = getVisibleRestaurants(restaurants, user);
 
     const userRole = user?.role;
@@ -80,14 +84,29 @@ const Home = () => {
 
     const [category, setCategory] = useState<string>(FOOD_CATEGORY.BOTH);
 
-    const filteredVisibleRestaurants = visibleRestaurants.filter(
-        (restaurant) =>
-            category === FOOD_CATEGORY.BOTH
-                ? true
-                : category === FOOD_CATEGORY.VEG
-                  ? restaurant.isVeg
-                  : !restaurant.isVeg,
-    );
+    const filteredVisibleRestaurants = visibleRestaurants
+        .filter((restaurant) => {
+            if (category === FOOD_CATEGORY.BOTH) {
+                return true;
+            }
+
+            return restaurant.category === category;
+        })
+        .sort((a, b) => {
+            const currentDay = new Date()
+                .toLocaleString('en-US', { weekday: 'long' })
+                .toLowerCase();
+
+            const isAOpen = a.operatingDays
+                ? !!a.operatingDays[currentDay as keyof typeof a.operatingDays]
+                : true;
+
+            const isBOpen = b.operatingDays
+                ? !!b.operatingDays[currentDay as keyof typeof b.operatingDays]
+                : true;
+
+            return Number(isBOpen) - Number(isAOpen);
+        });
 
     const handleChange = (
         _event: React.MouseEvent<HTMLElement>,

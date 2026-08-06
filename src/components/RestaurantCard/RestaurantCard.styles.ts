@@ -12,7 +12,7 @@ export const StyledCard = styled(Card)(({ theme }: { theme: Theme }) => ({
     backgroundColor: theme.palette.common.white,
     filter: 'drop-shadow(rgba(27, 30, 36, 0.08) 0px 0px 7.905px)',
     border: '1px solid rgba(2, 6, 12, 0.08)',
-    maxHeight: typography.typographyUtil.pxToRem(395),
+    maxHeight: typography.typographyUtil.pxToRem(392),
     transition: 'all 0.3s ease-in-out',
 
     '&:hover': {
@@ -51,7 +51,7 @@ export const ActionContainer = styled(Box)(({ theme }: { theme: Theme }) => ({
     top: theme.spacing(2),
     right: theme.spacing(2),
     display: 'flex',
-    gap: theme.spacing(1),
+    gap: theme.spacing(2),
     zIndex: 1000,
 }));
 
@@ -126,4 +126,10 @@ export const IconWrapper = styled(Box)(({ theme }: { theme: Theme }) => ({
     padding: theme.spacing(5),
     backgroundColor: alpha(theme.palette.common.black, 0.2),
     backdropFilter: 'blur(12px)',
+}));
+
+export const HeaderBox = styled(Box)(() => ({
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
 }));

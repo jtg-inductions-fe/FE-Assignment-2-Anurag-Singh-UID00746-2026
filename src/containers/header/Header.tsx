@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import AddIcon from '@mui/icons-material/Add';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
@@ -28,14 +28,15 @@ import {
     SearchWrapper,
 } from './Header.styles';
 import { USER_ROLE } from '../../types/user.types';
-import { useState } from 'react';
 
 const Header = () => {
     const dispatch = useAppDispatch();
     const feedback = useAppSelector((state) => state.feedback);
     const navigate = useNavigate();
 
-    const [searchTerm, setSearchTerm] = useState<string>('');
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    const keyword = searchParams.get('restaurant') ?? '';
 
     const handleLogin = () => {
         void navigate(ROUTES.AUTH.LOGIN);
@@ -46,7 +47,7 @@ const Header = () => {
     };
 
     const handleAddRestaurant = () => {
-        void navigate(ROUTES.AUTH.LOGIN);
+        void navigate(ROUTES.RESTAURANTS.ADD_RESTAURANT);
     };
 
     const onSubmit = () => {
@@ -111,8 +112,12 @@ const Header = () => {
                 <SearchWrapper>
                     <SearchBar
                         placeholder="Restaurant name"
-                        value={searchTerm}
-                        onChange={setSearchTerm}
+                        value={keyword}
+                        onChange={(value) => {
+                            setSearchParams(
+                                value.trim() ? { restaurant: value } : {},
+                            );
+                        }}
                     />
                 </SearchWrapper>
 

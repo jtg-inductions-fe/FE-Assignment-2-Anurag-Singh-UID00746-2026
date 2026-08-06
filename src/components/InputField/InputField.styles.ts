@@ -27,7 +27,7 @@ export const StyledTextField = styled(TextField)(({ theme }) => ({
 
             '&::placeholder': {
                 color: alpha(theme.palette.text.secondary, 0.5),
-                letterSpacing: typography.typographyUtil.pxToRem(0.2),
+                letterSpacing: typography.typographyUtil.pxToRem(0.3),
                 opacity: 1,
             },
         },

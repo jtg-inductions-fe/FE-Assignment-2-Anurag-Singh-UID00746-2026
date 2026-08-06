@@ -4,6 +4,7 @@ import { alpha, Typography } from '@mui/material';
 import {
     ActionContainer,
     ClosedBadge,
+    HeaderBox,
     IconWrapper,
     ImageContainer,
     InfoContainer,
@@ -18,6 +19,8 @@ import { RestaurantCardProps } from './restaurantCard.types';
 import { MyImage } from '@components/ImageBox/ImageBox.styles';
 import HttpsOutlinedIcon from '@mui/icons-material/HttpsOutlined';
 import { theme } from '@theme/index';
+import { FOOD_CATEGORY } from '@constant';
+import Badge from '@components/Badge/Badge';
 
 export const RestaurantCard = ({
     restaurant,
@@ -111,15 +114,28 @@ export const RestaurantCard = ({
             </ImageContainer>
 
             <StyledCardContent>
-                <InfoContainer maxWidth={{ tablet: 400 }}>
-                    <Typography
-                        variant="h5"
-                        whiteSpace="nowrap"
-                        textOverflow="ellipsis"
-                        overflow="hidden"
-                    >
-                        {restaurant.name}
-                    </Typography>
+                <InfoContainer maxWidth={{ tablet: 500 }}>
+                    <HeaderBox>
+                        <Typography
+                            variant="h5"
+                            whiteSpace="nowrap"
+                            textOverflow="ellipsis"
+                            overflow="hidden"
+                        >
+                            {restaurant.name}
+                        </Typography>
+                        {restaurant.category === FOOD_CATEGORY.VEG && (
+                            <Badge label="Veg" size="medium" color="success" />
+                        )}
+
+                        {restaurant.category === FOOD_CATEGORY.NON_VEG && (
+                            <Badge
+                                label="Non Veg"
+                                size="medium"
+                                color="error"
+                            />
+                        )}
+                    </HeaderBox>
 
                     <Typography
                         variant="subtitle2"

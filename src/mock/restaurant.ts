@@ -1,3 +1,4 @@
+import { FOOD_CATEGORY } from '@constant';
 import { Restaurant } from '../types/restaurant.types';
 
 export const restaurants: Restaurant[] = [
@@ -11,15 +12,16 @@ export const restaurants: Restaurant[] = [
         image: '/src/assets/images/restaurants/punjab-grill.webp',
 
         isOpenToday: true,
-        isVeg: false,
+        category: FOOD_CATEGORY.BOTH,
 
         address: 'DLF Cyber Hub, Gurugram, Haryana',
+        contactNumber: '9876543210',
 
         operatingDays: {
             monday: true,
             tuesday: true,
             wednesday: true,
-            thursday: true,
+            thursday: false,
             friday: true,
             saturday: true,
             sunday: true,
@@ -118,9 +120,10 @@ export const restaurants: Restaurant[] = [
         image: '/src/assets/images/restaurants/california-burrito.webp',
 
         isOpenToday: true,
-        isVeg: false,
+        category: FOOD_CATEGORY.BOTH,
 
         address: 'Sector 29, Gurugram, Haryana',
+        contactNumber: '9876543211',
 
         operatingDays: {
             monday: true,
@@ -224,9 +227,10 @@ export const restaurants: Restaurant[] = [
         image: '/src/assets/images/restaurants/biryani-blues.webp',
 
         isOpenToday: true,
-        isVeg: false,
+        category: FOOD_CATEGORY.BOTH,
 
         address: 'Golf Course Road, Gurugram, Haryana',
+        contactNumber: '9876543212',
 
         operatingDays: {
             monday: true,
@@ -291,14 +295,15 @@ export const restaurants: Restaurant[] = [
         image: '/src/assets/images/restaurants/burger-singh.webp',
 
         isOpenToday: true,
-        isVeg: false,
+        category: FOOD_CATEGORY.BOTH,
 
         address: 'MG Road, Gurugram, Haryana',
+        contactNumber: '9876543213',
 
         operatingDays: {
             monday: true,
             tuesday: false,
-            wednesday: true,
+            wednesday: false,
             thursday: true,
             friday: true,
             saturday: true,
@@ -358,9 +363,10 @@ export const restaurants: Restaurant[] = [
         image: '/src/assets/images/restaurants/naivedyam.webp',
 
         isOpenToday: true,
-        isVeg: true,
+        category: FOOD_CATEGORY.VEG,
 
         address: 'Sector 29, Gurugram, Haryana',
+        contactNumber: '9876543214',
 
         operatingDays: {
             monday: true,
@@ -416,14 +422,15 @@ export const restaurants: Restaurant[] = [
         image: '/src/assets/images/restaurants/the-big-chill-cafe.webp',
 
         isOpenToday: true,
-        isVeg: false,
+        category: FOOD_CATEGORY.NON_VEG,
 
         address: 'DLF Cyber Hub, Gurugram, Haryana',
+        contactNumber: '9876543215',
 
         operatingDays: {
             monday: true,
             tuesday: false,
-            wednesday: true,
+            wednesday: false,
             thursday: true,
             friday: true,
             saturday: true,

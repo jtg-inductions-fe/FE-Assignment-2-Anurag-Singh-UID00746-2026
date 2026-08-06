@@ -1,3 +1,4 @@
+import { foodCategory } from '@constant';
 import { MenuItem } from './menuItem.types';
 
 export type Restaurant = {
@@ -9,8 +10,9 @@ export type Restaurant = {
     image: string;
 
     address: string;
+    contactNumber?: string;
 
-    isVeg: boolean;
+    category: foodCategory;
     isOpenToday: boolean;
 
     operatingDays: {

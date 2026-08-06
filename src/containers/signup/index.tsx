@@ -7,7 +7,7 @@ import { alpha, Box, Stack, Typography } from '@mui/material';
 
 import MyButton from '@components/Button/Button';
 import { TOAST_TYPES } from '@components/constants';
-import RoleCard from '@components/FeatureCard/RoleCard';
+import FeatureCard from '@components/FeatureCard/RoleCard';
 import { MyInputField } from '@components/InputField/InputField';
 import { SignupCredential } from '@features/auth/auth.types';
 import { signup } from '@features/auth/authThunk';
@@ -113,7 +113,7 @@ const Signup = () => {
                                     gap={3}
                                 >
                                     {ROLECARD.map((item) => (
-                                        <RoleCard
+                                        <FeatureCard
                                             key={item.value}
                                             image={item.image}
                                             title={item.title}

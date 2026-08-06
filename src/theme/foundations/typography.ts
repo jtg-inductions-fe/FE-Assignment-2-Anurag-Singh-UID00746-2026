@@ -55,13 +55,13 @@ const typographyStyle = (theme: Theme): TypographyOptions => ({
 
         [theme.breakpoints.up('tablet')]: {
             fontSize: typographyUtil.pxToRem(35),
-            lineHeight: typographyUtil.pxToRem(62.5),
+            lineHeight: typographyUtil.pxToRem(55),
         },
     },
 
     subtitle1: {
         fontSize: typographyUtil.pxToRem(14),
-        lineHeight: typographyUtil.pxToRem(15),
+        lineHeight: typographyUtil.pxToRem(23),
         color: theme.palette.text.secondary,
         letterSpacing: typographyUtil.pxToRem(0.5),
 
