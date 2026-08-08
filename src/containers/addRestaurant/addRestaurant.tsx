@@ -37,6 +37,7 @@ import {
 import { closeDialog, openDialog } from '@features/feedback/feedbackSlice';
 import { ActionDialog } from '@components/ActionDialog/ActionDialog';
 import { AddRestaurantFormValues } from './addRestaurant.types';
+import { nanoid } from '@reduxjs/toolkit';
 
 const AddRestaurant = () => {
     const dispatch = useAppDispatch();
@@ -102,7 +103,7 @@ const AddRestaurant = () => {
         dispatch(closeDialog());
 
         const payload: Restaurant = {
-            id: `${Date.now()}`,
+            id: nanoid(),
             ownerId: user?.id ?? 'guest-user',
             name: pendingFormData.name,
             description: pendingFormData.description,

@@ -19,7 +19,7 @@ export const Search = styled('div')(({ theme }) => ({
     },
 
     [theme.breakpoints.up('tablet')]: {
-        maxWidth: typography.typographyUtil.pxToRem(700),
+        maxWidth: typography.typographyUtil.pxToRem(650),
         marginLeft: theme.spacing(3),
         width: 'auto',
     },
@@ -38,14 +38,22 @@ export const SearchIconWrapper = styled('div')(({ theme }) => ({
 export const StyledInputBase = styled(InputBase)(({ theme }) => ({
     color: 'inherit',
     fontSize: typography.typographyUtil.pxToRem(15),
+    width: '100%',
+
+    '& input': {
+        textOverflow: 'ellipsis',
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+    },
 
     '& .MuiInputBase-input': {
         padding: theme.spacing(1, 1, 1, 0),
         paddingLeft: `calc(1em + ${theme.spacing(5)})`,
         transition: theme.transitions.create('width'),
         width: '100%',
+
         [theme.breakpoints.up('tablet')]: {
-            width: '20ch',
+            width: '100%',
         },
     },
 }));
