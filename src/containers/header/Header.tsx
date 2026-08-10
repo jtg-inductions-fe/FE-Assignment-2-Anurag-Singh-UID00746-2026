@@ -6,7 +6,7 @@ import AddIcon from '@mui/icons-material/Add';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 
 import logo from '@assets/images/logo.webp';
-import { ActionDialog } from '@components/ActionDialog/ActionDialog';
+import { ActionDialog } from '@components/ActionDialog/ActionDialog.component';
 import MyButton from '@components/Button/Button';
 import { ACTION_DIALOG_TYPES, TOAST_TYPES } from '@components/constants';
 import { MyImage } from '@components/ImageBox/ImageBox.styles';
