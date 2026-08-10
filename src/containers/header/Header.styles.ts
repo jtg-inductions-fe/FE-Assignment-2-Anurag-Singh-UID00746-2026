@@ -4,10 +4,10 @@ import { typography } from '@theme/foundations';
 
 export const Root = styled(Box)(({ theme }: { theme: Theme }) => ({
     width: '100%',
-    padding: theme.spacing(3, 5),
+    padding: theme.spacing(4, 5),
     borderBottom: `1px solid ${theme.palette.divider}`,
 
-    [theme.breakpoints.up('tablet')]: {
+    [theme.breakpoints.up('sm')]: {
         padding: theme.spacing(3, 10),
         borderBottom: 'none',
     },
@@ -23,7 +23,7 @@ export const Container = styled(Box)(({ theme }: { theme: Theme }) => ({
     rowGap: theme.spacing(3),
     alignItems: 'center',
 
-    [theme.breakpoints.up('tablet')]: {
+    [theme.breakpoints.up('sm')]: {
         gridTemplateColumns: 'auto minmax(0,1fr) auto',
         gridTemplateAreas: `"logo search right"`,
         columnGap: theme.spacing(3),
@@ -42,6 +42,7 @@ export const LogoWrapper = styled(Box)(({ theme }: { theme: Theme }) => ({
     borderRadius: typography.typographyUtil.pxToRem(8),
     width: 90,
     height: 40,
+    cursor: 'pointer',
 }));
 
 export const SearchWrapper = styled(Box)({
@@ -57,7 +58,7 @@ export const RightSection = styled(Stack)(({ theme }: { theme: Theme }) => ({
     gap: theme.spacing(3),
     flexShrink: 0,
 
-    [theme.breakpoints.up('tablet')]: {
+    [theme.breakpoints.up('sm')]: {
         gap: theme.spacing(5),
     },
 }));

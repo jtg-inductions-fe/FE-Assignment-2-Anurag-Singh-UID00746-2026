@@ -1,17 +1,16 @@
-import { Divider } from '@mui/material';
-
-import MyButton from '@components/Button/Button';
+import { Divider as MuiDivider } from '@mui/material';
+import Button from '@components/Button/Button.component';
+import CheckIcon from '@mui/icons-material/Check';
+import PrivacyTipOutlinedIcon from '@mui/icons-material/PrivacyTipOutlined';
 
 import {
     ContentContainer,
     IconContainer,
-    StyledCheckIcon,
     StyledDialog,
     StyledDialogActions,
     StyledDialogContent,
     StyledDialogContentText,
     StyledDialogTitle,
-    StyledPrivacyIcon,
     TextContainer,
 } from './ActionDialog.styles';
 import { ActionDialogProps } from './ActionDialog.types';
@@ -25,6 +24,10 @@ export const ActionDialog = ({
     cancelText = 'Cancel',
     confirmText,
     icon,
+    cancelButtonColor,
+    confirmButtonColor,
+    cancelButtonProps,
+    confirmButtonProps,
     onClose,
     onConfirm,
 }: ActionDialogProps) => {
@@ -32,12 +35,22 @@ export const ActionDialog = ({
         confirmText ||
         (type === ACTION_DIALOG_TYPES.ALERT ? 'Continue' : 'Confirm');
 
+    const cancelColor =
+        cancelButtonColor ??
+        cancelButtonProps?.color ??
+        (type === ACTION_DIALOG_TYPES.ALERT ? 'primary' : 'error');
+
+    const confirmColor =
+        confirmButtonColor ??
+        confirmButtonProps?.color ??
+        (type === ACTION_DIALOG_TYPES.ALERT ? 'error' : 'primary');
+
     const renderIcon = () => {
         if (icon) return icon;
         return type === ACTION_DIALOG_TYPES.ALERT ? (
-            <StyledPrivacyIcon />
+            <PrivacyTipOutlinedIcon fontSize="large" />
         ) : (
-            <StyledCheckIcon />
+            <CheckIcon fontSize="large" />
         );
     };
 
@@ -54,29 +67,27 @@ export const ActionDialog = ({
                     </StyledDialogContent>
                 </TextContainer>
             </ContentContainer>
-            <Divider />
+            <MuiDivider />
             <StyledDialogActions>
-                <MyButton
+                <Button
+                    {...cancelButtonProps}
                     onClick={onClose}
-                    variant="outlined"
+                    variant={cancelButtonProps?.variant ?? 'outlined'}
                     disableRipple
-                    color={
-                        type === ACTION_DIALOG_TYPES.ALERT ? 'primary' : 'error'
-                    }
+                    color={cancelColor}
                 >
                     {cancelText}
-                </MyButton>
-                <MyButton
+                </Button>
+                <Button
+                    {...confirmButtonProps}
                     onClick={onConfirm}
                     disableElevation
                     disableRipple
-                    variant="contained"
-                    color={
-                        type === ACTION_DIALOG_TYPES.ALERT ? 'error' : 'primary'
-                    }
+                    variant={confirmButtonProps?.variant ?? 'contained'}
+                    color={confirmColor}
                 >
                     {finalConfirmText}
-                </MyButton>
+                </Button>
             </StyledDialogActions>
         </StyledDialog>
     );

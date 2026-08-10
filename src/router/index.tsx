@@ -2,11 +2,11 @@ import { createBrowserRouter } from 'react-router-dom';
 
 import RootLayout from '@layouts/RootLayout';
 
-import ErrorPage from '@containers/exception/ErrorPage';
-import NotFoundPage from '@containers/exception/NotFoundPage';
-import Home from '@containers/home';
-import Login from '@containers/login';
-import Signup from '@containers/signup';
+import ErrorPage from '@containers/exception/Error.container';
+import NotFoundPage from '@containers/exception/NotFound.container';
+import Home from '@containers/home/Home.container';
+import Login from '@containers/login/Login.container';
+import Signup from '@containers/signup/Signup.container';
 
 import ProtectedRoute from './ProtectedRoute';
 import PublicRoute from './PublicRoute';

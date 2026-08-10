@@ -1,31 +1,17 @@
 import { Outlet } from 'react-router-dom';
 
-import { Box } from '@mui/material';
+import { Box as MuiBox } from '@mui/material';
 
-import Toast from '@components/Toast/Toast';
-import Header from '@containers/header/Header';
-import { hideToast } from '@features/toast/toastSlice';
-import { useAppDispatch, useAppSelector } from '@store/hooks';
+import Header from '@containers/header/Header.container';
+import Toast from '@containers/Toast/Toast.container';
 
 const RootLayout = () => {
-    const dispatch = useAppDispatch();
-
-    const { open, type, title, message } = useAppSelector(
-        (state) => state.toast,
-    );
-
     return (
-        <Box>
+        <MuiBox>
             <Header />
             <Outlet />
-            <Toast
-                open={open}
-                type={type}
-                title={title}
-                message={message}
-                onClose={() => dispatch(hideToast())}
-            />
-        </Box>
+            <Toast />
+        </MuiBox>
     );
 };
 

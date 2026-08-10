@@ -1,6 +1,6 @@
 import type { SnackbarProps } from '@mui/material';
 
-import { TOAST_TYPES } from '../constants';
+import { TOAST_TYPES } from '../../components/constants';
 
 export type ToastType = (typeof TOAST_TYPES)[keyof typeof TOAST_TYPES];
 

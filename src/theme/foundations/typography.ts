@@ -1,9 +1,22 @@
 import type { Theme } from '@mui/material/styles';
-import type { TypographyOptions } from '@mui/material/styles/createTypography';
+import type {
+    TypographyOptions,
+    TypographyUtils,
+} from '@mui/material/styles/createTypography';
 
 import { HTML_FONT_SIZE } from '@constant';
 
 import { FONT_WEIGHTS } from './constants';
+
+/* Custom px to rem function */
+const typographyUtil: TypographyUtils = {
+    /**
+     * Converts a pixel value to rem units.
+     * @param px - The pixel value to convert.
+     * @returns The equivalent value in rem units as a string.
+     */
+    pxToRem: (px: number) => `${px / HTML_FONT_SIZE}` + 'rem',
+};
 
 /**
  * Creates a typography block with various styles
@@ -31,15 +44,11 @@ const typographyStyle = (theme: Theme): TypographyOptions => ({
     },
 
     h3: {
-        fontSize: typographyUtil.pxToRem(27),
-        fontWeight: theme.typography.fontWeightBold,
-        lineHeight: typographyUtil.pxToRem(45),
-        letterSpacing: typographyUtil.pxToRem(1),
-        background: 'linear-gradient(180deg, #2b2d42 0%, #4a4e69 100%)',
-        WebkitBackgroundClip: 'text',
-        WebkitTextFillColor: 'transparent',
-        backgroundClip: 'text',
-        whiteSpace: 'no-wrap',
+        fontSize: theme.typography.pxToRem(30),
+        fontWeight: theme.typography.fontWeightMedium,
+        lineHeight: theme.typography.pxToRem(45),
+        letterSpacing: theme.typography.pxToRem(1),
+        color: theme.palette.text.primary,
 
         [theme.breakpoints.up('sm')]: {
             fontSize: theme.typography.pxToRem(40),
@@ -60,10 +69,9 @@ const typographyStyle = (theme: Theme): TypographyOptions => ({
     },
 
     body1: {
-        fontSize: typographyUtil.pxToRem(14),
+        fontSize: theme.typography.pxToRem(12),
         fontWeight: theme.typography.fontWeightLight,
-        lineHeight: typographyUtil.pxToRem(20),
-        letterSpacing: typographyUtil.pxToRem(1),
+        lineHeight: theme.typography.pxToRem(15),
 
         [theme.breakpoints.up('sm')]: {
             fontSize: theme.typography.pxToRem(14),
@@ -83,4 +91,4 @@ const typographyStyle = (theme: Theme): TypographyOptions => ({
     },
 });
 
-export const typography = { typographyStyle };
+export const typography = { typographyStyle, typographyUtil };

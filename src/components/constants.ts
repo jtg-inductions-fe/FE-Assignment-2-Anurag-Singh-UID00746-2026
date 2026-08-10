@@ -24,10 +24,22 @@ export const TOAST_TYPES = {
     INFO: 'info',
 } as const;
 
+/**
+ * Represents 3 different variants for input component
+ */
 export const INPUT_TYPES = {
     TEXT: 'text',
     EMAIL: 'email',
     PASSWORD: 'password',
+} as const;
+
+/**
+ * Represents 3 different types of users
+ */
+export const USER_ROLE = {
+    GUEST: 'guest',
+    CUSTOMER: 'customer',
+    OWNER: 'owner',
 } as const;
 
 export type DialogType =

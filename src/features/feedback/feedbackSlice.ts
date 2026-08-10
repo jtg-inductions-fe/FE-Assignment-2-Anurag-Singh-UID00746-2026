@@ -1,21 +1,6 @@
-import { ACTION_DIALOG_TYPES, DialogType } from '@components/constants';
+import { ACTION_DIALOG_TYPES } from '@components/constants';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-interface FeedbackPayload {
-    title: string;
-    description: string;
-    type: DialogType;
-    confirmText?: string;
-    cancelText?: string;
-}
-interface DialogState {
-    open: boolean;
-    title: string;
-    description: string;
-    type: DialogType;
-    confirmText?: string;
-    cancelText?: string;
-}
+import { DialogState, FeedbackPayload } from './feedback.types';
 
 const initialState: DialogState = {
     open: false,

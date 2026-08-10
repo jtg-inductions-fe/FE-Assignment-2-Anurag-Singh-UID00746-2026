@@ -7,11 +7,14 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 
 import logo from '@assets/images/logo.webp';
 import { ActionDialog } from '@components/ActionDialog/ActionDialog.component';
-import MyButton from '@components/Button/Button';
-import { ACTION_DIALOG_TYPES, TOAST_TYPES } from '@components/constants';
-import { MyImage } from '@components/ImageBox/ImageBox.styles';
-import SearchBar from '@components/SearchBar/SearchBar';
-import UserProfile from '@components/UserProfile/UserProfile';
+import {
+    ACTION_DIALOG_TYPES,
+    TOAST_TYPES,
+    USER_ROLE,
+} from '@components/constants';
+import { Image } from '@components/ImageBox/ImageBox.styles';
+import SearchBar from '@components/SearchBar/SearchBar.component';
+import UserProfile from '@components/UserProfile/UserProfile.component';
 import { HEADER_ACTION } from '@config/headerActions';
 import { rolePermissions } from '@config/rolePermissions';
 import { logout } from '@features/auth/authSlice';
@@ -28,7 +31,7 @@ import {
     Root,
     SearchWrapper,
 } from './Header.styles';
-import { USER_ROLE } from '../../types/user.types';
+import Button from '@components/Button/Button.component';
 
 const Header = () => {
     const dispatch = useAppDispatch();
@@ -37,18 +40,30 @@ const Header = () => {
 
     const [dialogOpen, setDialogOpen] = useState(false);
 
+    /**
+     * TODO: Will be changed in further branches
+     */
     const handleLogin = () => {
         void navigate(ROUTES.AUTH.LOGIN);
     };
 
+    /**
+     * TODO: Will be changed in further branches
+     */
     const handleCart = () => {
         void navigate(ROUTES.AUTH.LOGIN);
     };
 
+    /**
+     * TODO: Will be changed in further branches
+     */
     const handleAddRestaurant = () => {
         void navigate(ROUTES.AUTH.LOGIN);
     };
 
+    /**
+     * Logouts the user after confirmation
+     */
     const onSubmit = () => {
         dispatch(logout());
         setDialogOpen(false);
@@ -62,6 +77,9 @@ const Header = () => {
         );
     };
 
+    /**
+     * Opens a feedback modal for confirmation
+     */
     const handleLogoutClick: () => void = () => {
         setDialogOpen(true);
         dispatch(
@@ -76,7 +94,11 @@ const Header = () => {
         );
     };
 
+    /**
+     * Closes the feedback modal
+     */
     const handleCloseDialog = () => {
+        setDialogOpen(false);
         dispatch(closeDialog());
     };
 
@@ -104,7 +126,7 @@ const Header = () => {
         <Root>
             <Container>
                 <LogoWrapper>
-                    <MyImage src={logo} alt="Bitego" />
+                    <Image src={logo} alt="Bitego" />
                 </LogoWrapper>
 
                 <SearchWrapper>
@@ -114,7 +136,7 @@ const Header = () => {
                 <RightSection>
                     <ActionWrapper>
                         {actions.map((action) => (
-                            <MyButton
+                            <Button
                                 key={action.id}
                                 variant="contained"
                                 startIcon={
@@ -127,7 +149,7 @@ const Header = () => {
                                 onClick={action.onClick}
                             >
                                 {action.label}
-                            </MyButton>
+                            </Button>
                         ))}
                     </ActionWrapper>
                     {isLoggedIn && (

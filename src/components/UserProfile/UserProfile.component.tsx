@@ -1,9 +1,12 @@
 import { useState } from 'react';
 
 import LogoutIcon from '@mui/icons-material/Logout';
-import { Divider, Typography } from '@mui/material';
+import {
+    Divider as MuiDivider,
+    Typography as MuiTypography,
+} from '@mui/material';
 
-import MyButton from '@components/Button/Button';
+import MyButton from '@components/Button/Button.component';
 import { useAppSelector } from '@store/hooks';
 
 import {
@@ -13,7 +16,7 @@ import {
     UserProfileBox,
     UserProfileMenu,
 } from './UserProfile.styles';
-import { USER_ROLE } from '../../types/user.types';
+import { USER_ROLE } from '@components/constants';
 
 const UserProfile = ({ handleLogout }: { handleLogout: () => void }) => {
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
@@ -48,17 +51,17 @@ const UserProfile = ({ handleLogout }: { handleLogout: () => void }) => {
                 onClose={handleCloseUserMenu}
             >
                 <UserMenuItem onClick={handleCloseUserMenu}>
-                    <Typography variant="subtitle2">
+                    <MuiTypography variant="subtitle2">
                         {user?.fullName.toUpperCase() || USER_ROLE.GUEST}
-                    </Typography>
+                    </MuiTypography>
                 </UserMenuItem>
 
                 <UserMenuItem onClick={handleCloseUserMenu}>
-                    <Typography variant="body1" color="text.secondary">
+                    <MuiTypography variant="body1" color="text.secondary">
                         {user?.email}
-                    </Typography>
+                    </MuiTypography>
                 </UserMenuItem>
-                <Divider />
+                <MuiDivider />
                 <UserMenuItem onClick={handleCloseUserMenu}>
                     <MyButton
                         variant="text"
