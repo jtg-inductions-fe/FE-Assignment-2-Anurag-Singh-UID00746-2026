@@ -1,5 +1,12 @@
 import { createBrowserRouter } from 'react-router-dom';
 
+import RootLayout from '@layouts/RootLayout';
+import ErrorPage from '@pages/error/ErrorPage';
+import NotFoundPage from '@pages/error/NotFoundPage';
+import Home from '@pages/home';
+import Login from '@pages/login';
+import Signup from '@pages/signup';
+
 import ErrorPage from '@containers/exception/ErrorPage';
 import NotFoundPage from '@containers/exception/NotFoundPage';
 import Home from '@containers/home';

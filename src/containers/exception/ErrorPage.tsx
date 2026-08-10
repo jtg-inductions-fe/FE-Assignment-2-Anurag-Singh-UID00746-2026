@@ -1,5 +1,5 @@
-import { Typography } from '@mui/material';
+import { Typography as MuiTypography } from '@mui/material';
 
-const ErrorPage = () => <Typography variant="h1">Error Page</Typography>;
+const ErrorPage = () => <MuiTypography variant="h1">Error Page</MuiTypography>;
 
 export default ErrorPage;

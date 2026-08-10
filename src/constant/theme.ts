@@ -47,7 +47,6 @@ export const COLORS = {
     DIVIDER: '#E5E5E5',
 
     BACKGROUND: {
-        DEFAULT: '#ffffff',
         PAPER: '#f5f5f5',
     },
 };
