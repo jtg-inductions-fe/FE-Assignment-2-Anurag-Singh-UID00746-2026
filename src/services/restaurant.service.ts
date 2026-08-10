@@ -5,6 +5,7 @@ import {
     UpdateMenuItemParams,
 } from '@features/restaurant/restaurant.types';
 import { restaurants } from '@mock/restaurant';
+
 import { Restaurant } from '../types/restaurant.types';
 
 const cloneRestaurants = (): Restaurant[] =>

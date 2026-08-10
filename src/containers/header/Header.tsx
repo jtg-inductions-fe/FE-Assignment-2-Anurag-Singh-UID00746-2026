@@ -1,4 +1,4 @@
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 
 import AddIcon from '@mui/icons-material/Add';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
@@ -33,6 +33,7 @@ const Header = () => {
     const dispatch = useAppDispatch();
     const feedback = useAppSelector((state) => state.feedback);
     const navigate = useNavigate();
+    const location = useLocation();
 
     const [searchParams, setSearchParams] = useSearchParams();
 
@@ -43,11 +44,27 @@ const Header = () => {
     };
 
     const handleCart = () => {
-        void navigate(ROUTES.AUTH.LOGIN);
+        void navigate(ROUTES.CART);
     };
 
     const handleAddRestaurant = () => {
         void navigate(ROUTES.RESTAURANTS.ADD_RESTAURANT);
+    };
+
+    const handleSearch = (value: string) => {
+        const search = value.trim();
+
+        if (location.pathname !== ROUTES.ROOT) {
+            void navigate(
+                search
+                    ? `/?restaurant=${encodeURIComponent(search)}`
+                    : ROUTES.ROOT,
+            );
+
+            return;
+        }
+
+        setSearchParams(value.trim() ? { restaurant: value } : {});
     };
 
     const onSubmit = () => {
@@ -74,6 +91,10 @@ const Header = () => {
                 cancelText: 'Cancel',
             }),
         );
+    };
+
+    const handleOrdersClick: () => void = () => {
+        void navigate(ROUTES.ORDERS);
     };
 
     const handleCloseDialog = () => {
@@ -113,11 +134,7 @@ const Header = () => {
                     <SearchBar
                         placeholder="Restaurant name"
                         value={keyword}
-                        onChange={(value) => {
-                            setSearchParams(
-                                value.trim() ? { restaurant: value } : {},
-                            );
-                        }}
+                        onChange={handleSearch}
                     />
                 </SearchWrapper>
 
@@ -151,15 +168,18 @@ const Header = () => {
                                     const profileButton =
                                         e.currentTarget.querySelector(
                                             '[role="button"], button',
-                                        ) as HTMLElement | null;
+                                        );
 
                                     if (profileButton) {
-                                        profileButton.click();
+                                        (profileButton as HTMLElement).click();
                                     }
                                 }
                             }}
                         >
-                            <UserProfile handleLogout={handleLogoutClick} />
+                            <UserProfile
+                                handleLogout={handleLogoutClick}
+                                handleOrders={handleOrdersClick}
+                            />
                         </Box>
                     )}
                 </RightSection>

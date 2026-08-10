@@ -16,6 +16,9 @@ export const ROUTES = {
         ADD_MENU_ITEM: '/restaurants/:id/menu/add',
         EDIT_MENU_ITEM: '/restaurants/:id/menu/:menuItemId/edit',
     },
+
+    CART: '/cart',
+    ORDERS: '/orders',
 } as const;
 
 export const ROUTES_SEGMENTS = {
@@ -34,6 +37,9 @@ export const ROUTES_SEGMENTS = {
         ADD_MENU_ITEM: 'restaurants/:id/menu/add',
         EDIT_MENU_ITEM: 'restaurants/:id/menu/:menuItemId/edit',
     },
+
+    CART: 'cart',
+    ORDERS: 'orders',
 
     ERROR: {
         NOT_FOUND: '*',

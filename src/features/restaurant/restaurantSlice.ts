@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Restaurant } from '../../types/restaurant.types';
+
 import {
     addMenuItemThunk,
     addRestaurantThunk,
@@ -8,6 +8,7 @@ import {
     updateMenuItemThunk,
     updateRestaurantThunk,
 } from './restaurantThunk';
+import { Restaurant } from '../../types/restaurant.types';
 
 type RestaurantState = {
     restaurants: Restaurant[];

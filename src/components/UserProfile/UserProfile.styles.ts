@@ -1,4 +1,5 @@
 import { Avatar, Box, Menu, MenuItem, styled } from '@mui/material';
+
 import { typography } from '@theme/foundations';
 
 export const UserProfileBox = styled(Box)(() => ({
@@ -37,7 +38,10 @@ export const UserAvatar = styled(Avatar)(({ theme }) => ({
 
 export const UserMenuItem = styled(MenuItem)(({ theme }) => ({
     minHeight: 0,
-    padding: theme.spacing(0, 4, 1, 4),
+    padding: theme.spacing(2, 4, 1, 4),
     gap: 4,
+    display: 'flex',
+    alignItems: 'start',
+    flexDirection: 'column',
     justifyContent: 'start',
 }));

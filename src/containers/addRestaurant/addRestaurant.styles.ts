@@ -6,6 +6,7 @@ import {
     styled,
     Theme,
 } from '@mui/material';
+
 import { typography } from '@theme/foundations';
 
 export const Root = styled(Container)(({ theme }: { theme: Theme }) => ({

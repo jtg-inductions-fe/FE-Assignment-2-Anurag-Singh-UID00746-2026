@@ -1,5 +1,6 @@
-import { AddRestaurantFormValues } from '@containers/addRestaurant/addRestaurant.types';
 import * as yup from 'yup';
+
+import { AddRestaurantFormValues } from '@containers/addRestaurant/addRestaurant.types';
 
 export const restaurantSchema = yup.object({
     imageUrl: yup

@@ -1,8 +1,9 @@
+import { UserRole } from '../../types/user.types';
 import { MenuItem } from '../../types/menuItem.types';
 
 export type MenuItemCardProps = {
     menuItem: MenuItem;
-    isOwner: boolean;
+    role: UserRole;
     quantity?: number;
     onIncrement?: () => void;
     onDecrement?: () => void;

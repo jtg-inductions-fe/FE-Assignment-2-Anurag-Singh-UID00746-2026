@@ -1,4 +1,5 @@
 import { SelectProps } from '@mui/material/Select';
+
 import { StyledBaseSelect } from './BasicSelect.styles';
 
 export const MySelect = ({
@@ -6,10 +7,8 @@ export const MySelect = ({
     value,
     onChange,
     ...props
-}: SelectProps) => {
-    return (
+}: SelectProps) => (
         <StyledBaseSelect value={value} onChange={onChange} {...props}>
             {children}
         </StyledBaseSelect>
     );
-};

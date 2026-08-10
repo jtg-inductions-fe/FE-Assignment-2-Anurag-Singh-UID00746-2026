@@ -1,9 +1,11 @@
 import { useEffect } from 'react';
 
-import { useDebounce } from './useDebounce';
-import { useAppDispatch } from '@store/hooks';
-import { fetchRestaurantsThunk } from '@features/restaurant/restaurantThunk';
 import { useSearchParams } from 'react-router-dom';
+
+import { fetchRestaurantsThunk } from '@features/restaurant/restaurantThunk';
+import { useAppDispatch } from '@store/hooks';
+
+import { useDebounce } from './useDebounce';
 
 export const useSearchRestaurants = () => {
     const dispatch = useAppDispatch();

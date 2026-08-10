@@ -1,30 +1,32 @@
-import { rolePermissions } from '@config/rolePermissions';
-import { useAppDispatch, useAppSelector } from '@store/hooks';
-import { USER_ROLE } from '../../types/user.types';
+import { useState } from 'react';
+
 import { useNavigate, useParams } from 'react-router-dom';
-import ExceptionState from '@components/ExceptionState/ExceptionState';
+
+import AddIcon from '@mui/icons-material/Add';
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import PhoneIcon from '@mui/icons-material/Phone';
+import { alpha, Box, Grid2, Link, Stack, Typography } from '@mui/material';
+
+import { ActionDialog } from '@components/ActionDialog/ActionDialog';
+import MyButton from '@components/Button/Button';
 import {
     ACTION_DIALOG_TYPES,
     EXCEPTION_STATE_TYPES,
     TOAST_TYPES,
 } from '@components/constants';
-import { alpha, Box, Grid2, Link, Stack, Typography } from '@mui/material';
-import { theme } from '@theme/index';
-import { useSearchRestaurants } from '@hooks/useSearchRestaurants';
-import { useState } from 'react';
+import ExceptionState from '@components/ExceptionState/ExceptionState';
 import MenuItemCard from '@components/MenuItemCard/MenuItemCard';
-import { addToCart } from '@features/cart/cartSlice';
-import { MenuItem } from '../../types/menuItem.types';
-import { showToast } from '@features/toast/toastSlice';
-import { deleteMenuItemThunk } from '@features/restaurant/restaurantThunk';
-import { ActionDialog } from '@components/ActionDialog/ActionDialog';
-import { closeDialog, openDialog } from '@features/feedback/feedbackSlice';
-import { ROUTES } from '@router/routes';
 import { Permission } from '@config/permissions';
-import MyButton from '@components/Button/Button';
-import AddIcon from '@mui/icons-material/Add';
-import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import PhoneIcon from '@mui/icons-material/Phone';
+import { rolePermissions } from '@config/rolePermissions';
+import { addToCart } from '@features/cart/cartSlice';
+import { closeDialog, openDialog } from '@features/feedback/feedbackSlice';
+import { deleteMenuItemThunk } from '@features/restaurant/restaurantThunk';
+import { showToast } from '@features/toast/toastSlice';
+import { useSearchRestaurants } from '@hooks/useSearchRestaurants';
+import { ROUTES } from '@router/routes';
+import { useAppDispatch, useAppSelector } from '@store/hooks';
+import { theme } from '@theme/index';
+
 import {
     ContactWrapper,
     CustomDivider,
@@ -32,6 +34,8 @@ import {
     HeaderWrapper,
     TimingChip,
 } from './Restaurant.styles';
+import { MenuItem } from '../../types/menuItem.types';
+import { USER_ROLE } from '../../types/user.types';
 
 const Restaurant = () => {
     const navigate = useNavigate();
@@ -177,7 +181,7 @@ const Restaurant = () => {
                 <ContactWrapper>
                     <TimingChip>
                         <Typography variant="subtitle1" color="primary">
-                            Open now -&nbsp;
+                            Open now
                         </Typography>
                         <Typography variant="subtitle1" color="common.black">
                             {restaurant.openingTime} - {restaurant.closingTime}
@@ -208,35 +212,33 @@ const Restaurant = () => {
                 </MyButton>
             )}
             <Grid2 container spacing={8} mt={8}>
-                {restaurant.menuItems.map((item) => {
-                    return (
-                        <Grid2
-                            key={item.id}
-                            size={{ mobile: 12, tablet: 12, desktop: 6 }}
-                        >
-                            <MenuItemCard
-                                menuItem={item}
-                                isOwner={userRole === USER_ROLE.OWNER}
-                                quantity={selectedQuantity[item.id] ?? 0}
-                                onIncrement={() =>
-                                    setSelectedQuantity((prev) => ({
-                                        ...prev,
-                                        [item.id]: (prev[item.id] ?? 0) + 1,
-                                    }))
-                                }
-                                onDecrement={() =>
-                                    setSelectedQuantity((prev) => ({
-                                        ...prev,
-                                        [item.id]: (prev[item.id] ?? 0) - 1,
-                                    }))
-                                }
-                                onAddToCart={() => handleAddToCart(item)}
-                                onDelete={() => handleDeleteItem(item)}
-                                onEdit={() => handleEditMenuItem(item)}
-                            />
-                        </Grid2>
-                    );
-                })}
+                {restaurant.menuItems.map((item) => (
+                    <Grid2
+                        key={item.id}
+                        size={{ mobile: 12, tablet: 12, desktop: 6 }}
+                    >
+                        <MenuItemCard
+                            menuItem={item}
+                            role={userRole || USER_ROLE.GUEST}
+                            quantity={selectedQuantity[item.id] ?? 0}
+                            onIncrement={() =>
+                                setSelectedQuantity((prev) => ({
+                                    ...prev,
+                                    [item.id]: (prev[item.id] ?? 0) + 1,
+                                }))
+                            }
+                            onDecrement={() =>
+                                setSelectedQuantity((prev) => ({
+                                    ...prev,
+                                    [item.id]: (prev[item.id] ?? 0) - 1,
+                                }))
+                            }
+                            onAddToCart={() => handleAddToCart(item)}
+                            onDelete={() => handleDeleteItem(item)}
+                            onEdit={() => handleEditMenuItem(item)}
+                        />
+                    </Grid2>
+                ))}
             </Grid2>
             <ActionDialog
                 open={feedback.open && Boolean(itemtToDelete)}

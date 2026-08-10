@@ -1,11 +1,12 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { restaurantService } from '@services/restaurant.service';
+
 import {
     AddMenuItemParams,
     DeleteMenuItemParams,
     FetchRestaurantsParams,
     UpdateMenuItemParams,
 } from './restaurant.types';
-import { restaurantService } from '@services/restaurant.service';
 import { Restaurant } from '../../types/restaurant.types';
 
 export const fetchRestaurantsThunk = createAsyncThunk(

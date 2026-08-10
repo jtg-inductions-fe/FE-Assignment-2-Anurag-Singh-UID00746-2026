@@ -1,8 +1,8 @@
 import { Chip, styled } from '@mui/material';
+
 import { typography } from '@theme/foundations';
 
-export const StyledChip = styled(Chip)(({ theme }) => {
-    return {
+export const StyledChip = styled(Chip)(({ theme }) => ({
         borderRadius: typography.typographyUtil.pxToRem(6),
         fontWeight: theme.typography.fontWeightBold,
         fontSize: typography.typographyUtil.pxToRem(11),
@@ -47,5 +47,4 @@ export const StyledChip = styled(Chip)(({ theme }) => {
             padding: '0 4px',
             fontSize: typography.typographyUtil.pxToRem(10),
         },
-    };
-});
+    }));

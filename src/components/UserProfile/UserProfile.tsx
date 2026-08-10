@@ -14,10 +14,18 @@ import {
     UserProfileMenu,
 } from './UserProfile.styles';
 import { USER_ROLE } from '../../types/user.types';
+import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
 
-const UserProfile = ({ handleLogout }: { handleLogout: () => void }) => {
+const UserProfile = ({
+    handleLogout,
+    handleOrders,
+}: {
+    handleLogout: () => void;
+    handleOrders: () => void;
+}) => {
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
     const logoutButtonRef = useRef<HTMLButtonElement | null>(null);
+    const ordersButtonRef = useRef<HTMLButtonElement | null>(null);
     const { user } = useAppSelector((state) => state.auth);
 
     const handleOpenUserMenu = (
@@ -84,12 +92,25 @@ const UserProfile = ({ handleLogout }: { handleLogout: () => void }) => {
                     <Typography variant="subtitle2">
                         {user?.fullName.toUpperCase() || USER_ROLE.GUEST}
                     </Typography>
-                </UserMenuItem>
-
-                <UserMenuItem onClick={handleCloseUserMenu}>
                     <Typography variant="body1" color="text.secondary">
                         {user?.email}
                     </Typography>
+                </UserMenuItem>
+
+                <UserMenuItem onClick={handleCloseUserMenu}></UserMenuItem>
+                <Divider />
+                <UserMenuItem onClick={handleCloseUserMenu}>
+                    <MyButton
+                        ref={ordersButtonRef}
+                        variant="text"
+                        color="common.black"
+                        disableRipple
+                        onClick={handleOrders}
+                        startIcon={<LocalMallOutlinedIcon color="primary" />}
+                        onKeyDown={handleLogoutKeyDown}
+                    >
+                        MY ORDERS
+                    </MyButton>
                 </UserMenuItem>
                 <Divider />
                 <UserMenuItem onClick={handleCloseUserMenu}>

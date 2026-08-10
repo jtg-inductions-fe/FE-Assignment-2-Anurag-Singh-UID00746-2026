@@ -1,13 +1,14 @@
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 
+import MyButton from '@components/Button/Button';
+
 import {
     ActionButton,
     Container,
     QuantityDisplay,
 } from './QuantitySelector.styles';
 import { QuantitySelectorProps } from './QuantitySelector.types';
-import MyButton from '@components/Button/Button';
 
 const QuantitySelector = ({
     quantity,

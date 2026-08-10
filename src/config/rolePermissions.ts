@@ -18,5 +18,6 @@ export const rolePermissions: Record<UserRole, PermissionKey[]> = {
         Permission.ADD_MENU_ITEM,
         Permission.EDIT_MENU_ITEM,
         Permission.DELETE_MENU_ITEM,
+        Permission.MANAGE_ORDERS,
     ],
 };

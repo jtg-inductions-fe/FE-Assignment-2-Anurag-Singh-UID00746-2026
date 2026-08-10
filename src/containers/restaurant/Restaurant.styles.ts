@@ -1,12 +1,11 @@
 import { Box, Chip, Container, Divider, styled, Theme } from '@mui/material';
+
 import { typography } from '@theme/foundations';
 
-export const Wrapper = styled(Container)(() => {
-    return {
-        display: 'flex',
-        flexDirection: 'column',
-    };
-});
+export const Wrapper = styled(Container)(() => ({
+    display: 'flex',
+    flexDirection: 'column',
+}));
 
 export const HeaderWrapper = styled(Box)(({ theme }: { theme: Theme }) => ({
     display: 'flex',
@@ -37,7 +36,7 @@ export const CustomDivider = styled(Divider)(({ theme }: { theme: Theme }) => ({
 export const ContactWrapper = styled(Box)(({ theme }: { theme: Theme }) => ({
     display: 'flex',
     flexDirection: 'column',
-    margin: theme.spacing(3, 0),
+    margin: theme.spacing(5, 0),
     gap: theme.spacing(3),
 
     [theme.breakpoints.up('tablet')]: {
@@ -48,7 +47,13 @@ export const ContactWrapper = styled(Box)(({ theme }: { theme: Theme }) => ({
 export const TimingChip = styled(Box)(({ theme }: { theme: Theme }) => ({
     display: 'flex',
     alignItems: 'start',
-    padding: theme.spacing(2, 3),
+    padding: theme.spacing(2, 5),
     border: `1px solid ${theme.palette.text.disabled}`,
     borderRadius: typography.typographyUtil.pxToRem(10),
+    gap: theme.spacing(3),
+    maxWidth: typography.typographyUtil.pxToRem(280),
+
+    [theme.breakpoints.up('tablet')]: {
+        maxWidth: 'none',
+    },
 }));

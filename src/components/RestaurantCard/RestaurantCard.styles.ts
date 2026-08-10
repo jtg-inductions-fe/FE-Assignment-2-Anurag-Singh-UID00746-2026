@@ -1,5 +1,6 @@
 import { Box, Card, CardContent, Chip, IconButton, Theme } from '@mui/material';
 import { alpha, styled } from '@mui/material/styles';
+
 import { typography } from '@theme/foundations';
 
 export const StyledCard = styled(Card)(({ theme }: { theme: Theme }) => ({
@@ -88,17 +89,24 @@ export const StyledIconButton = styled(IconButton)(
 );
 
 export const ClosedBadge = styled(Chip)(({ theme }: { theme: Theme }) => ({
-    backgroundColor: alpha(theme.palette.error.main, 0.6),
-    borderRadius: typography.typographyUtil.pxToRem(10),
-    color: theme.palette.common.white,
-    boxShadow: '0 1px 3px rgba(0,0,0,0.1), 0 4px 8px rgba(0,0,0,0.04)',
-    backdropFilter: 'blur(12px)',
-    textTransform: 'uppercase',
     position: 'absolute',
-    paddingBottom: theme.spacing(0.5),
-    top: theme.spacing(3),
+    top: theme.spacing(2.5),
     left: theme.spacing(3),
-    zIndex: 1000,
+    zIndex: 10,
+    background: `linear-gradient(135deg, ${alpha(theme.palette.error.main, 0.75)} 0%, ${alpha(theme.palette.error.dark, 0.85)} 100%)`,
+    backdropFilter: 'blur(8px)',
+    border: `1px solid ${alpha(theme.palette.common.white, 0.15)}`,
+    color: theme.palette.common.white,
+    textTransform: 'uppercase',
+    letterSpacing: '0.08em',
+    fontSize: typography.typographyUtil.pxToRem(11),
+    padding: theme.spacing(0, 3),
+    borderRadius: theme.shape.borderRadius * 2,
+    boxShadow: `0 4px 12px ${alpha(theme.palette.common.black, 0.15)}`,
+
+    '& .MuiChip-label': {
+        padding: 0,
+    },
 }));
 
 export const ImageContainer = styled(Box)(() => ({

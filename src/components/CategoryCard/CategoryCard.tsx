@@ -1,5 +1,9 @@
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import { Typography } from '@mui/material';
+
+import { MyImage } from '@components/ImageBox/ImageBox.styles';
+
+import { CategoryCardProps } from './Category.types';
 import {
     ContentWrapper,
     LogoWrapper,
@@ -7,8 +11,6 @@ import {
     MyCardActionArea,
     StyledCard,
 } from './CategoryCard.styles';
-import { CategoryCardProps } from './Category.types';
-import { MyImage } from '@components/ImageBox/ImageBox.styles';
 
 const CategoryCard = ({
     image,

@@ -1,4 +1,4 @@
-import { Box, LinearProgress, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { alpha, styled } from '@mui/material/styles';
 
 export const StyledToast = styled(Box)(({ theme }) => ({
@@ -54,12 +54,4 @@ export const StyledTitle = styled(Typography)(({ theme }) => ({
 
 export const StyledMessage = styled(Typography)(({ theme }) => ({
     color: alpha(theme.palette.text.secondary, 0.8),
-}));
-
-export const StyledProgress = styled(LinearProgress)(() => ({
-    position: 'absolute',
-    left: 0,
-    bottom: 0,
-    width: '100%',
-    height: 4,
 }));

@@ -1,13 +1,15 @@
+import { CSSProperties } from 'react';
+
 import {
     Box,
     Card,
     IconButton,
     styled,
-    Typography,
     Theme,
+    Typography,
 } from '@mui/material';
+
 import { typography } from '@theme/foundations';
-import { CSSProperties } from 'react';
 
 const lineClamp = (lines: number = 1): CSSProperties => ({
     display: '-webkit-box',

@@ -1,27 +1,31 @@
-import { rolePermissions } from '@config/rolePermissions';
-import { useAppDispatch, useAppSelector } from '@store/hooks';
-import { USER_ROLE } from '../../types/user.types';
-import { DISCOVERY_ACTION } from '@config/discoveryActions';
-import { getVisibleRestaurants } from '@utils/getVisibleRestaurants';
+import { useState } from 'react';
+
 import { useNavigate } from 'react-router-dom';
-import { closeDialog, openDialog } from '@features/feedback/feedbackSlice';
+
+import { Box, Grid2 as Grid, ToggleButton, Typography } from '@mui/material';
+
+import { ActionDialog } from '@components/ActionDialog/ActionDialog';
 import {
     ACTION_DIALOG_TYPES,
     EXCEPTION_STATE_TYPES,
 } from '@components/constants';
-import { Restaurant } from '../../types/restaurant.types';
-import { RestaurantCard } from '@components/RestaurantCard/RestaurantCard';
-import { Box, Grid2 as Grid, ToggleButton, Typography } from '@mui/material';
-import { theme } from '@theme/index';
-import { ActionDialog } from '@components/ActionDialog/ActionDialog';
-import { useState } from 'react';
-import { deleteRestaurant } from '@features/restaurant/restaurantSlice';
 import ExceptionState from '@components/ExceptionState/ExceptionState';
-import { isOpenToday } from '@utils/getOpenRestaurants';
 import MultiToggle from '@components/MultiToggle/MultiToggle';
-import { FOOD_CATEGORY } from '@constant';
+import { RestaurantCard } from '@components/RestaurantCard/RestaurantCard';
+import { DISCOVERY_ACTION } from '@config/discoveryActions';
 import { Permission } from '@config/permissions';
+import { rolePermissions } from '@config/rolePermissions';
+import { FOOD_CATEGORY } from '@constant';
+import { closeDialog, openDialog } from '@features/feedback/feedbackSlice';
+import { deleteRestaurant } from '@features/restaurant/restaurantSlice';
 import { useSearchRestaurants } from '@hooks/useSearchRestaurants';
+import { useAppDispatch, useAppSelector } from '@store/hooks';
+import { theme } from '@theme/index';
+import { isOpenToday } from '@utils/getOpenRestaurants';
+import { getVisibleRestaurants } from '@utils/getVisibleRestaurants';
+
+import { Restaurant } from '../../types/restaurant.types';
+import { USER_ROLE } from '../../types/user.types';
 
 const Home = () => {
     const navigate = useNavigate();

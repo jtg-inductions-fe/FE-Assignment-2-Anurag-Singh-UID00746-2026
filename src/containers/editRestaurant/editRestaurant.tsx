@@ -2,24 +2,30 @@ import { ChangeEvent, useEffect, useState } from 'react';
 
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
-import { StorefrontOutlined } from '@mui/icons-material';
-import { alpha, Box, MenuItem, Stack, Typography } from '@mui/material';
-import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 
+import { StorefrontOutlined } from '@mui/icons-material';
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import { alpha, Box, MenuItem, Stack, Typography } from '@mui/material';
+
+import { ActionDialog } from '@components/ActionDialog/ActionDialog';
+import { MySelect } from '@components/BasicSelect/BasicSelect';
 import MyButton from '@components/Button/Button';
 import { ACTION_DIALOG_TYPES, TOAST_TYPES } from '@components/constants';
 import { MyInputField } from '@components/InputField/InputField';
-import { MySelect } from '@components/BasicSelect/BasicSelect';
-import { showToast } from '@features/toast/toastSlice';
+import { DAYS, DEFAULT_DAYS, FOOD_CATEGORY, FoodCategory } from '@constant';
+import { closeDialog, openDialog } from '@features/feedback/feedbackSlice';
 import { updateRestaurantThunk } from '@features/restaurant/restaurantThunk';
+import { showToast } from '@features/toast/toastSlice';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { ROUTES } from '@router/routes';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { theme } from '@theme/index';
-import { DAYS, DEFAULT_DAYS, FOOD_CATEGORY, FoodCategory } from '@constant';
-import { yupResolver } from '@hookform/resolvers/yup';
+import { normalizeTimeValue } from '@utils/getNormalizedTime';
 import { restaurantSchema } from '@validations/restaurant.validation';
-import { ROUTES } from '@router/routes';
 
+import { EditRestaurantFormValues } from './editRestaurant.types';
 import { Restaurant } from '../../types/restaurant.types';
+import { USER_ROLE } from '../../types/user.types';
 import {
     ActionContainer,
     FooterContainer,
@@ -34,11 +40,6 @@ import {
     SelectFormControl,
     TimeRangeContainer,
 } from '../addRestaurant/addRestaurant.styles';
-import { closeDialog, openDialog } from '@features/feedback/feedbackSlice';
-import { ActionDialog } from '@components/ActionDialog/ActionDialog';
-import { USER_ROLE } from '../../types/user.types';
-import { EditRestaurantFormValues } from './editRestaurant.types';
-import { normalizeTimeValue } from '@utils/getNormalizedTime';
 
 const editRestaurantSchema = restaurantSchema.omit(['imageUrl']);
 
@@ -97,7 +98,7 @@ const EditRestaurant = () => {
             closingTime: normalizeTimeValue(restaurantToEdit.closingTime),
             operatingDays: Object.entries(restaurantToEdit.operatingDays ?? {})
                 .filter(([, isSelected]) => isSelected)
-                .map(([day]) => day.toUpperCase()) as string[],
+                .map(([day]) => day.toUpperCase()),
         });
     }, [restaurantToEdit, reset]);
 

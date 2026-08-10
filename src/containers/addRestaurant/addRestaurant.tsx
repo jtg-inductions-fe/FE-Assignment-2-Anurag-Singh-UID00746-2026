@@ -2,24 +2,27 @@ import { ChangeEvent, useState } from 'react';
 
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { StorefrontOutlined } from '@mui/icons-material';
-import { alpha, Box, MenuItem, Stack, Typography } from '@mui/material';
-import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 
+import { StorefrontOutlined } from '@mui/icons-material';
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import { alpha, Box, MenuItem, Stack, Typography } from '@mui/material';
+
+import { ActionDialog } from '@components/ActionDialog/ActionDialog';
+import { MySelect } from '@components/BasicSelect/BasicSelect';
 import MyButton from '@components/Button/Button';
 import { ACTION_DIALOG_TYPES, TOAST_TYPES } from '@components/constants';
 import { MyInputField } from '@components/InputField/InputField';
-import { MySelect } from '@components/BasicSelect/BasicSelect';
-import { showToast } from '@features/toast/toastSlice';
+import { DAYS, DEFAULT_DAYS, FOOD_CATEGORY, FoodCategory } from '@constant';
+import { closeDialog, openDialog } from '@features/feedback/feedbackSlice';
 import { addRestaurantThunk } from '@features/restaurant/restaurantThunk';
+import { showToast } from '@features/toast/toastSlice';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { nanoid } from '@reduxjs/toolkit';
+import { ROUTES } from '@router/routes';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { theme } from '@theme/index';
-import { DAYS, DEFAULT_DAYS, FOOD_CATEGORY, FoodCategory } from '@constant';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { restaurantSchema } from '@validations/restaurant.validation';
-import { ROUTES } from '@router/routes';
 
-import { Restaurant } from '../../types/restaurant.types';
 import {
     ActionContainer,
     FooterContainer,
@@ -34,10 +37,8 @@ import {
     SelectFormControl,
     TimeRangeContainer,
 } from './addRestaurant.styles';
-import { closeDialog, openDialog } from '@features/feedback/feedbackSlice';
-import { ActionDialog } from '@components/ActionDialog/ActionDialog';
 import { AddRestaurantFormValues } from './addRestaurant.types';
-import { nanoid } from '@reduxjs/toolkit';
+import { Restaurant } from '../../types/restaurant.types';
 
 const AddRestaurant = () => {
     const dispatch = useAppDispatch();

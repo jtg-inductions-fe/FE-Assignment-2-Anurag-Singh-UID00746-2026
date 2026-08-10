@@ -9,4 +9,5 @@ export const Permission = {
     ADD_MENU_ITEM: 'ADD_MENU_ITEM',
     EDIT_MENU_ITEM: 'EDIT_MENU_ITEM',
     DELETE_MENU_ITEM: 'DELETE_MENU_ITEM',
+    MANAGE_ORDERS: 'MANAGE_ORDERS',
 } as const;
