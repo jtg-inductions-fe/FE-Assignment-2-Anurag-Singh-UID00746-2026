@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -8,7 +8,7 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { alpha, Box, MenuItem, Stack, Typography } from '@mui/material';
 
 import { ActionDialog } from '@components/ActionDialog/ActionDialog';
-import { MySelect } from '@components/BasicSelect/BasicSelect';
+import { MySelect } from '@components/BasicSelect/BasicSelect.component';
 import MyButton from '@components/Button/Button';
 import {
     ACTION_DIALOG_TYPES,
@@ -16,14 +16,13 @@ import {
     TOAST_TYPES,
 } from '@components/constants';
 import ExceptionState from '@components/ExceptionState/ExceptionState';
-import { MyInputField } from '@components/InputField/InputField';
+import { MyInputField } from '@components/InputField/InputField.component';
 import { FOOD_CATEGORY } from '@constant';
 import { closeDialog, openDialog } from '@features/feedback/feedbackSlice';
-import { addMenuItemThunk } from '@features/restaurant/restaurantThunk';
+import { updateMenuItemThunk } from '@features/restaurant/restaurantThunk';
 import { showToast } from '@features/toast/toastSlice';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useSearchRestaurants } from '@hooks/useSearchRestaurants';
-import { nanoid } from '@reduxjs/toolkit';
 import { ROUTES } from '@router/routes';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { theme } from '@theme/index';
@@ -42,10 +41,10 @@ import {
     RangeContainer,
     Root,
     SelectFormControl,
-} from './addMenuItem.styles';
+} from './EditMenuItem.styles';
 import { MenuItem as MenuItemType } from '../../types/menuItem.types';
 
-const AddMenuItem = () => {
+const EditMenuItem = () => {
     const {
         control,
         handleSubmit,
@@ -72,11 +71,33 @@ const AddMenuItem = () => {
     const [pendingFormData, setPendingFormData] =
         useState<MenuItemFormData | null>(null);
 
-    const { id } = useParams<{ id: string }>();
+    const { id, menuItemId } = useParams<{
+        id: string;
+        menuItemId: string;
+    }>();
 
     useSearchRestaurants();
 
     const restaurant = restaurants.find((item) => item.id === id);
+
+    const menuItemToEdit = restaurant?.menuItems.find(
+        (item) => item.id === menuItemId,
+    );
+
+    useEffect(() => {
+        if (!menuItemToEdit) {
+            return;
+        }
+
+        reset({
+            image: menuItemToEdit.image,
+            name: menuItemToEdit.name,
+            description: menuItemToEdit.description,
+            price: menuItemToEdit.price,
+            stock: menuItemToEdit.stock,
+            isVeg: menuItemToEdit.isVeg,
+        });
+    }, [menuItemToEdit, reset]);
 
     if (!restaurant) {
         return (
@@ -88,12 +109,22 @@ const AddMenuItem = () => {
         );
     }
 
+    if (!menuItemToEdit) {
+        return (
+            <ExceptionState
+                type={EXCEPTION_STATE_TYPES.EMPTY}
+                title="Menu item not found"
+                description="We couldn't find the menu item you are looking for."
+            />
+        );
+    }
+
     const onSubmitForm = (data: MenuItemFormData) => {
         setPendingFormData(data);
         dispatch(
             openDialog({
-                title: 'ADD MENU ITEM',
-                description: 'Are you sure you want to add this menu item ?',
+                title: 'EDIT MENU ITEM',
+                description: 'Are you sure you want to update this menu item ?',
                 type: ACTION_DIALOG_TYPES.CONFIRM,
                 confirmText: 'Confirm',
                 cancelText: 'Cancel',
@@ -107,7 +138,7 @@ const AddMenuItem = () => {
         dispatch(closeDialog());
 
         const menuItem: MenuItemType = {
-            id: nanoid(),
+            id: menuItemToEdit.id,
             name: pendingFormData.name,
             description: pendingFormData.description,
             image: pendingFormData.image,
@@ -118,7 +149,7 @@ const AddMenuItem = () => {
 
         try {
             await dispatch(
-                addMenuItemThunk({
+                updateMenuItemThunk({
                     restaurantId: id!,
                     menuItem,
                 }),
@@ -128,7 +159,7 @@ const AddMenuItem = () => {
                 showToast({
                     type: TOAST_TYPES.SUCCESS,
                     title: 'Success',
-                    message: 'Menu item added successfully !!',
+                    message: 'Menu item updated successfully !!',
                 }),
             );
             setPendingFormData(null);
@@ -139,7 +170,7 @@ const AddMenuItem = () => {
             dispatch(
                 showToast({
                     type: TOAST_TYPES.ERROR,
-                    title: 'Add Menu Item Failed',
+                    title: 'Update Menu Item Failed',
                     message: error as string,
                 }),
             );
@@ -173,13 +204,12 @@ const AddMenuItem = () => {
                     Back
                 </MyButton>
                 <HeadingWrapper>
-                    <Typography variant="h3">ADD MENU ITEM</Typography>
+                    <Typography variant="h3">EDIT MENU ITEM</Typography>
                     <Typography
                         variant="subtitle1"
                         color={alpha(theme.palette.text.secondary, 0.6)}
                     >
-                        Add a new item to our restaurant. Fill in the details
-                        below.
+                        Update the item details below and save the changes.
                     </Typography>
                 </HeadingWrapper>
                 <FormContainer>
@@ -366,7 +396,7 @@ const AddMenuItem = () => {
                             startIcon={<StorefrontOutlined />}
                             loading={isSubmitting}
                         >
-                            {!isSubmitting && 'Submit'}
+                            {!isSubmitting && 'Save changes'}
                         </MyButton>
                     </ActionContainer>
                 </FooterContainer>
@@ -385,4 +415,4 @@ const AddMenuItem = () => {
     );
 };
 
-export default AddMenuItem;
+export default EditMenuItem;

@@ -8,7 +8,7 @@ import {
     updateMenuItemThunk,
     updateRestaurantThunk,
 } from './restaurantThunk';
-import { Restaurant } from '../../types/restaurant.types';
+import { Restaurant } from '@types';
 
 type RestaurantState = {
     restaurants: Restaurant[];

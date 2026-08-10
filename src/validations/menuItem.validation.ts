@@ -9,22 +9,22 @@ export const menuItemSchema = yup.object({
         .string()
         .trim()
         .url('Enter a valid image URL')
-        .required('Image URL is required'),
+        .required('This field is required'),
 
     price: yup
         .number()
         .typeError('Price is required')
         .positive('Price must be greater than 0')
-        .required('Price is required'),
+        .required('This field is required'),
 
     stock: yup
         .number()
         .typeError('Stock is required')
         .integer('Stock must be a whole number')
         .min(0, 'Stock cannot be negative')
-        .required('Stock is required'),
+        .required('This field is required'),
 
-    isVeg: yup.boolean().required('Category is required'),
+    isVeg: yup.boolean().required('This field is required'),
 });
 
 export type MenuItemFormData = yup.InferType<typeof menuItemSchema>;

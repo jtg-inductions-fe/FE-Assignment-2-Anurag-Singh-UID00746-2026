@@ -1,4 +1,4 @@
-import { Restaurant } from '../types/restaurant.types';
+import { Restaurant } from '@types';
 
 export const isOpenToday = (restaurant: Restaurant) => {
     const today = new Date()

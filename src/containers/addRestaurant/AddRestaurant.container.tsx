@@ -1,35 +1,27 @@
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 
 import { Controller, useForm } from 'react-hook-form';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { StorefrontOutlined } from '@mui/icons-material';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { alpha, Box, MenuItem, Stack, Typography } from '@mui/material';
 
 import { ActionDialog } from '@components/ActionDialog/ActionDialog';
-import { MySelect } from '@components/BasicSelect/BasicSelect';
+import { MySelect } from '@components/BasicSelect/BasicSelect.component';
 import MyButton from '@components/Button/Button';
-import {
-    ACTION_DIALOG_TYPES,
-    EXCEPTION_STATE_TYPES,
-    TOAST_TYPES,
-} from '@components/constants';
-import ExceptionState from '@components/ExceptionState/ExceptionState';
-import { MyInputField } from '@components/InputField/InputField';
-import { FOOD_CATEGORY } from '@constant';
+import { ACTION_DIALOG_TYPES, TOAST_TYPES } from '@components/constants';
+import { MyInputField } from '@components/InputField/InputField.component';
+import { DAYS, DEFAULT_DAYS, FOOD_CATEGORY, FoodCategory } from '@constant';
 import { closeDialog, openDialog } from '@features/feedback/feedbackSlice';
-import { updateMenuItemThunk } from '@features/restaurant/restaurantThunk';
+import { addRestaurantThunk } from '@features/restaurant/restaurantThunk';
 import { showToast } from '@features/toast/toastSlice';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useSearchRestaurants } from '@hooks/useSearchRestaurants';
+import { nanoid } from '@reduxjs/toolkit';
 import { ROUTES } from '@router/routes';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { theme } from '@theme/index';
-import {
-    MenuItemFormData,
-    menuItemSchema,
-} from '@validations/menuItem.validation';
+import { restaurantSchema } from '@validations/restaurant.validation';
 
 import {
     ActionContainer,
@@ -38,93 +30,67 @@ import {
     FormGrid,
     HeadingWrapper,
     MetaContainer,
+    OperatingDayChip,
+    OperatingDaysContainer,
     RangeContainer,
     Root,
     SelectFormControl,
-} from './editMenuItem.styles';
-import { MenuItem as MenuItemType } from '../../types/menuItem.types';
+    TimeRangeContainer,
+} from './AddRestaurant.styles';
+import { AddRestaurantFormValues } from './addRestaurant.types';
+import { Restaurant } from '../../types/restaurant.types';
 
-const EditMenuItem = () => {
+const AddRestaurant = () => {
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+    const { user } = useAppSelector((state) => state.auth);
+    const { loading } = useAppSelector((state) => state.restaurant);
+    const feedback = useAppSelector((state) => state.feedback);
+
+    const [pendingFormData, setPendingFormData] =
+        useState<AddRestaurantFormValues | null>(null);
+
     const {
         control,
         handleSubmit,
         reset,
+        setValue,
+        watch,
         formState: { errors, isSubmitting },
-    } = useForm<MenuItemFormData>({
-        resolver: yupResolver(menuItemSchema),
+    } = useForm<AddRestaurantFormValues>({
+        resolver: yupResolver(restaurantSchema),
         defaultValues: {
-            image: '',
+            imageUrl: '',
             name: '',
             description: '',
-            price: 0,
-            stock: 0,
-            isVeg: true,
+            address: '',
+            contactNumber: '',
+            category: '',
+            openingTime: '',
+            closingTime: '',
+            operatingDays: DEFAULT_DAYS,
         },
     });
 
-    const dispatch = useAppDispatch();
-    const navigate = useNavigate();
+    const operatingDays = watch('operatingDays');
 
-    const { restaurants } = useAppSelector((state) => state.restaurant);
-    const feedback = useAppSelector((state) => state.feedback);
+    const handleDayToggle = (day: string) => {
+        const nextOperatingDays = operatingDays.includes(day)
+            ? operatingDays.filter((value) => value !== day)
+            : [...operatingDays, day];
 
-    const [pendingFormData, setPendingFormData] =
-        useState<MenuItemFormData | null>(null);
-
-    const { id, menuItemId } = useParams<{
-        id: string;
-        menuItemId: string;
-    }>();
-
-    useSearchRestaurants();
-
-    const restaurant = restaurants.find((item) => item.id === id);
-
-    const menuItemToEdit = restaurant?.menuItems.find(
-        (item) => item.id === menuItemId,
-    );
-
-    useEffect(() => {
-        if (!menuItemToEdit) {
-            return;
-        }
-
-        reset({
-            image: menuItemToEdit.image,
-            name: menuItemToEdit.name,
-            description: menuItemToEdit.description,
-            price: menuItemToEdit.price,
-            stock: menuItemToEdit.stock,
-            isVeg: menuItemToEdit.isVeg,
+        setValue('operatingDays', nextOperatingDays, {
+            shouldValidate: true,
+            shouldDirty: true,
         });
-    }, [menuItemToEdit, reset]);
+    };
 
-    if (!restaurant) {
-        return (
-            <ExceptionState
-                type={EXCEPTION_STATE_TYPES.EMPTY}
-                title="Restaurant not found"
-                description="We couldn't find the restaurant you are looking for."
-            />
-        );
-    }
-
-    if (!menuItemToEdit) {
-        return (
-            <ExceptionState
-                type={EXCEPTION_STATE_TYPES.EMPTY}
-                title="Menu item not found"
-                description="We couldn't find the menu item you are looking for."
-            />
-        );
-    }
-
-    const onSubmitForm = (data: MenuItemFormData) => {
+    const onSubmitForm = (data: AddRestaurantFormValues) => {
         setPendingFormData(data);
         dispatch(
             openDialog({
-                title: 'EDIT MENU ITEM',
-                description: 'Are you sure you want to update this menu item ?',
+                title: 'ADD RESTAURANT',
+                description: 'Are you sure you want to add this restaurant ?',
                 type: ACTION_DIALOG_TYPES.CONFIRM,
                 confirmText: 'Confirm',
                 cancelText: 'Cancel',
@@ -137,40 +103,49 @@ const EditMenuItem = () => {
 
         dispatch(closeDialog());
 
-        const menuItem: MenuItemType = {
-            id: menuItemToEdit.id,
+        const payload: Restaurant = {
+            id: nanoid(),
+            ownerId: user?.id ?? 'guest-user',
             name: pendingFormData.name,
             description: pendingFormData.description,
-            image: pendingFormData.image,
-            price: Number(pendingFormData.price),
-            stock: Number(pendingFormData.stock),
-            isVeg: pendingFormData.isVeg,
+            image: pendingFormData.imageUrl,
+            address: pendingFormData.address,
+            contactNumber: pendingFormData.contactNumber,
+            category: pendingFormData.category as FoodCategory,
+            isOpenToday: true,
+            operatingDays: DEFAULT_DAYS.reduce(
+                (acc, day) => {
+                    const key =
+                        day.toLowerCase() as keyof Restaurant['operatingDays'];
+
+                    acc[key] = pendingFormData.operatingDays.includes(day);
+
+                    return acc;
+                },
+                {} as Restaurant['operatingDays'],
+            ),
+            openingTime: pendingFormData.openingTime,
+            closingTime: pendingFormData.closingTime,
+            menuItems: [],
         };
 
         try {
-            await dispatch(
-                updateMenuItemThunk({
-                    restaurantId: id!,
-                    menuItem,
-                }),
-            ).unwrap();
-
+            await dispatch(addRestaurantThunk(payload)).unwrap();
             dispatch(
                 showToast({
                     type: TOAST_TYPES.SUCCESS,
                     title: 'Success',
-                    message: 'Menu item updated successfully !!',
+                    message: 'Restaurant added successfully !!',
                 }),
             );
+            reset();
             setPendingFormData(null);
-            void navigate(
-                ROUTES.RESTAURANTS.RESTAURANT_DETAILS.replace(':id', id!),
-            );
+            void navigate(ROUTES.ROOT);
         } catch (error) {
             dispatch(
                 showToast({
                     type: TOAST_TYPES.ERROR,
-                    title: 'Update Menu Item Failed',
+                    title: 'Add Restaurant Failed',
                     message: error as string,
                 }),
             );
@@ -186,30 +161,26 @@ const EditMenuItem = () => {
         <Root>
             <Box
                 component="form"
-                onSubmit={handleSubmit(onSubmitForm)}
+                onSubmit={(event: ChangeEvent<HTMLFormElement>) =>
+                    void handleSubmit(onSubmitForm)(event)
+                }
                 width="100%"
             >
                 <MyButton
                     variant="outlined"
                     startIcon={<ArrowBackIosNewIcon />}
-                    onClick={() =>
-                        void navigate(
-                            ROUTES.RESTAURANTS.RESTAURANT_DETAILS.replace(
-                                ':id',
-                                id!,
-                            ),
-                        )
-                    }
+                    onClick={() => void navigate(ROUTES.ROOT)}
                 >
                     Back
                 </MyButton>
                 <HeadingWrapper>
-                    <Typography variant="h3">EDIT MENU ITEM</Typography>
+                    <Typography variant="h3">ADD RESTAURANT</Typography>
                     <Typography
                         variant="subtitle1"
                         color={alpha(theme.palette.text.secondary, 0.6)}
                     >
-                        Update the item details below and save the changes.
+                        Add a new restaurant to our platform. Fill in the
+                        details below.
                     </Typography>
                 </HeadingWrapper>
                 <FormContainer>
@@ -220,22 +191,24 @@ const EditMenuItem = () => {
                                     Image URL
                                 </Typography>
                                 <Controller
-                                    name="image"
+                                    name="imageUrl"
                                     control={control}
                                     render={({ field }) => (
                                         <MyInputField
                                             {...field}
                                             placeholder="Paste your URL here"
                                             fullWidth
-                                            error={!!errors.image}
-                                            helperText={errors.image?.message}
+                                            error={!!errors.imageUrl}
+                                            helperText={
+                                                errors.imageUrl?.message
+                                            }
                                         />
                                     )}
                                 />
                             </Stack>
                             <Stack spacing={2} width="100%">
                                 <Typography variant="body1">
-                                    Item name
+                                    Restaurant name
                                 </Typography>
                                 <Controller
                                     name="name"
@@ -243,7 +216,7 @@ const EditMenuItem = () => {
                                     render={({ field }) => (
                                         <MyInputField
                                             {...field}
-                                            placeholder="Enter your item name"
+                                            placeholder="Enter your restaurant name"
                                             fullWidth
                                             error={!!errors.name}
                                             helperText={errors.name?.message}
@@ -255,7 +228,7 @@ const EditMenuItem = () => {
                         <Box width="100%">
                             <Stack spacing={2}>
                                 <Typography variant="body1">
-                                    Item description
+                                    Restaurant description
                                 </Typography>
                                 <Controller
                                     name="description"
@@ -263,7 +236,7 @@ const EditMenuItem = () => {
                                     render={({ field }) => (
                                         <MyInputField
                                             {...field}
-                                            placeholder="Enter your item description"
+                                            placeholder="Enter your restaurant description"
                                             fullWidth
                                             multiline
                                             rows={5}
@@ -280,20 +253,19 @@ const EditMenuItem = () => {
                             <MetaContainer>
                                 <Stack spacing={2} width="100%">
                                     <Typography variant="body1">
-                                        Price
+                                        Address
                                     </Typography>
                                     <Controller
-                                        name="price"
+                                        name="address"
                                         control={control}
                                         render={({ field }) => (
                                             <MyInputField
                                                 {...field}
-                                                type="number"
-                                                placeholder="Enter price of your item"
+                                                placeholder="Enter address of your restaurant"
                                                 fullWidth
-                                                error={!!errors.price}
+                                                error={!!errors.address}
                                                 helperText={
-                                                    errors.price?.message
+                                                    errors.address?.message
                                                 }
                                             />
                                         )}
@@ -301,20 +273,20 @@ const EditMenuItem = () => {
                                 </Stack>
                                 <Stack spacing={2} width="100%">
                                     <Typography variant="body1">
-                                        Quantity
+                                        Contact number
                                     </Typography>
                                     <Controller
-                                        name="stock"
+                                        name="contactNumber"
                                         control={control}
                                         render={({ field }) => (
                                             <MyInputField
                                                 {...field}
-                                                type="number"
-                                                placeholder="Enter available quantity"
+                                                placeholder="Enter contact number"
                                                 fullWidth
-                                                error={!!errors.stock}
+                                                error={!!errors.contactNumber}
                                                 helperText={
-                                                    errors.stock?.message
+                                                    errors.contactNumber
+                                                        ?.message
                                                 }
                                             />
                                         )}
@@ -328,26 +300,31 @@ const EditMenuItem = () => {
                                             Food category
                                         </Typography>
                                         <Controller
-                                            name="isVeg"
+                                            name="category"
                                             control={control}
                                             render={({ field }) => (
                                                 <MySelect
-                                                    value={
-                                                        field.value
-                                                            ? FOOD_CATEGORY.VEG
-                                                            : FOOD_CATEGORY.NON_VEG
-                                                    }
+                                                    {...field}
+                                                    value={field.value}
                                                     onChange={(event) =>
                                                         field.onChange(
-                                                            event.target
-                                                                .value ===
-                                                                FOOD_CATEGORY.VEG,
+                                                            event.target.value,
                                                         )
                                                     }
                                                     displayEmpty
                                                     fullWidth
-                                                    error={!!errors.isVeg}
+                                                    error={!!errors.category}
                                                 >
+                                                    <MenuItem value="" disabled>
+                                                        Select Category
+                                                    </MenuItem>
+                                                    <MenuItem
+                                                        value={
+                                                            FOOD_CATEGORY.BOTH
+                                                        }
+                                                    >
+                                                        BOTH
+                                                    </MenuItem>
                                                     <MenuItem
                                                         value={
                                                             FOOD_CATEGORY.VEG
@@ -365,17 +342,83 @@ const EditMenuItem = () => {
                                                 </MySelect>
                                             )}
                                         />
-                                        {errors.isVeg && (
-                                            <Typography
-                                                color="error.main"
-                                                variant="caption"
-                                            >
-                                                {errors.isVeg.message}
-                                            </Typography>
-                                        )}
                                     </Stack>
                                 </SelectFormControl>
+                                <TimeRangeContainer>
+                                    <Stack spacing={2} width="100%">
+                                        <Typography variant="body1">
+                                            Opening time
+                                        </Typography>
+                                        <Controller
+                                            name="openingTime"
+                                            control={control}
+                                            render={({ field }) => (
+                                                <MyInputField
+                                                    {...field}
+                                                    type="time"
+                                                    fullWidth
+                                                    error={!!errors.openingTime}
+                                                    helperText={
+                                                        errors.openingTime
+                                                            ?.message
+                                                    }
+                                                />
+                                            )}
+                                        />
+                                    </Stack>
+                                    <Stack spacing={2} width="100%">
+                                        <Typography variant="body1">
+                                            Closing time
+                                        </Typography>
+                                        <Controller
+                                            name="closingTime"
+                                            control={control}
+                                            render={({ field }) => (
+                                                <MyInputField
+                                                    {...field}
+                                                    type="time"
+                                                    fullWidth
+                                                    error={!!errors.closingTime}
+                                                    helperText={
+                                                        errors.closingTime
+                                                            ?.message
+                                                    }
+                                                />
+                                            )}
+                                        />
+                                    </Stack>
+                                </TimeRangeContainer>
                             </RangeContainer>
+                        </FormGrid>
+                        <FormGrid>
+                            <Stack spacing={2} width="100%">
+                                <Typography variant="body1">
+                                    Operating days
+                                </Typography>
+                                <OperatingDaysContainer>
+                                    {DAYS.map((day) => (
+                                        <OperatingDayChip
+                                            key={day.value}
+                                            selected={operatingDays.includes(
+                                                day.value,
+                                            )}
+                                            onClick={() =>
+                                                handleDayToggle(day.value)
+                                            }
+                                        >
+                                            {day.label}
+                                        </OperatingDayChip>
+                                    ))}
+                                </OperatingDaysContainer>
+                                {errors.operatingDays && (
+                                    <Typography
+                                        color="error.main"
+                                        variant="caption"
+                                    >
+                                        {errors.operatingDays.message}
+                                    </Typography>
+                                )}
+                            </Stack>
                         </FormGrid>
                     </FormGrid>
                 </FormContainer>
@@ -394,9 +437,9 @@ const EditMenuItem = () => {
                             type="submit"
                             variant="contained"
                             startIcon={<StorefrontOutlined />}
-                            loading={isSubmitting}
+                            loading={loading || isSubmitting}
                         >
-                            {!isSubmitting && 'Save changes'}
+                            {!loading && !isSubmitting && 'Submit'}
                         </MyButton>
                     </ActionContainer>
                 </FooterContainer>
@@ -415,4 +458,4 @@ const EditMenuItem = () => {
     );
 };
 
-export default EditMenuItem;
+export default AddRestaurant;

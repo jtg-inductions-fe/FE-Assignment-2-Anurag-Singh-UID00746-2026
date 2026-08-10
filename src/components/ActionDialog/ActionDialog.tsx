@@ -17,7 +17,7 @@ import {
     TextContainer,
 } from './ActionDialog.styles';
 import { ActionDialogProps } from './ActionDialog.types';
-import { ACTION_DIALOG_TYPES } from '../constants';
+import { ACTION_DIALOG_TYPES } from '@components/constants';
 
 export const ActionDialog = ({
     open,

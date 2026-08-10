@@ -1,6 +1,7 @@
 import * as yup from 'yup';
 
-import { USER_ROLE, UserRole } from '../types/user.types';
+import { USER_ROLE } from '../types/user.types';
+import { UserRole } from '@types';
 
 const email = yup
     .string()

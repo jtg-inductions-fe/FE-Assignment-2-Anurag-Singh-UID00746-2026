@@ -9,7 +9,7 @@ import { ActionDialog } from '@components/ActionDialog/ActionDialog';
 import MyButton from '@components/Button/Button';
 import { ACTION_DIALOG_TYPES, TOAST_TYPES } from '@components/constants';
 import { MyImage } from '@components/ImageBox/ImageBox.styles';
-import SearchBar from '@components/SearchBar/SearchBar';
+import SearchBar from '@components/SearchBar/SearchBar.component';
 import UserProfile from '@components/UserProfile/UserProfile';
 import { HEADER_ACTION } from '@config/headerActions';
 import { rolePermissions } from '@config/rolePermissions';

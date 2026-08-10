@@ -1,5 +1,5 @@
 import { alpha, styled } from '@mui/material/styles';
-import { Box, Typography } from '@mui/material';
+import { Box, Modal, Typography } from '@mui/material';
 import { typography } from '@theme/foundations';
 
 export const Container = styled(Box)(({ theme }) => ({
@@ -273,4 +273,38 @@ export const TotalSection = styled(Box)(({ theme }) => ({
     marginTop: theme.spacing(2),
     paddingTop: theme.spacing(2),
     borderTop: `2px solid ${theme.palette.text.primary}`,
+}));
+
+export const RejectionModal = styled(Modal)(() => ({
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+
+    '& .MuiBackdrop-root': {
+        backdropFilter: 'blur(4px)',
+    },
+}));
+
+export const ModalSurface = styled(Box)(({ theme }) => ({
+    display: 'flex',
+    gap: theme.spacing(3),
+    flexDirection: 'column',
+    backgroundColor: theme.palette.background.paper,
+    border: `1px solid ${theme.palette.divider}`,
+    padding: theme.spacing(5, 4),
+    borderRadius: theme.shape.borderRadius * 2,
+    width: '90%',
+    maxWidth: 400,
+    outline: 'none',
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+}));
+
+export const ActionButtons = styled(Box)(({ theme }) => ({
+    display: 'flex',
+    justifyContent: 'flex-end',
+    gap: theme.spacing(4),
+    marginTop: theme.spacing(2),
 }));

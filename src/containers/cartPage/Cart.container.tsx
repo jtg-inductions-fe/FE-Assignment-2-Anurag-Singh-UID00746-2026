@@ -7,7 +7,7 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { Divider, Typography } from '@mui/material';
 
 import { ActionDialog } from '@components/ActionDialog/ActionDialog';
-import QuantitySelector from '@components/QuantitySelector/QuantitySelector';
+import QuantitySelector from '@components/QuantitySelector/QuantitySelector.component';
 import {
     selectCartItemCount,
     selectCartItemsByRestaurant,
@@ -44,7 +44,7 @@ import {
     RestaurantCard,
     RestaurantHeader,
     RestaurantItems,
-} from './cartPage.styles';
+} from './Cart.styles';
 import MyButton from '@components/Button/Button';
 import { theme } from '@theme/index';
 import { ROUTES } from '@router/routes';

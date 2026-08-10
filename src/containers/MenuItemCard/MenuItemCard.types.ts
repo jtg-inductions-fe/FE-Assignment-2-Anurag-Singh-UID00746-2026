@@ -1,5 +1,4 @@
-import { UserRole } from '../../types/user.types';
-import { MenuItem } from '../../types/menuItem.types';
+import { UserRole, MenuItem } from '@types';
 
 export type MenuItemCardProps = {
     menuItem: MenuItem;

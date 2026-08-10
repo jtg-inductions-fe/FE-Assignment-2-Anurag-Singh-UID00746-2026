@@ -1,28 +1,31 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 
 import { Controller, useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { StorefrontOutlined } from '@mui/icons-material';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { alpha, Box, MenuItem, Stack, Typography } from '@mui/material';
 
 import { ActionDialog } from '@components/ActionDialog/ActionDialog';
-import { MySelect } from '@components/BasicSelect/BasicSelect';
+import { MySelect } from '@components/BasicSelect/BasicSelect.component';
 import MyButton from '@components/Button/Button';
 import { ACTION_DIALOG_TYPES, TOAST_TYPES } from '@components/constants';
-import { MyInputField } from '@components/InputField/InputField';
+import { MyInputField } from '@components/InputField/InputField.component';
 import { DAYS, DEFAULT_DAYS, FOOD_CATEGORY, FoodCategory } from '@constant';
 import { closeDialog, openDialog } from '@features/feedback/feedbackSlice';
-import { addRestaurantThunk } from '@features/restaurant/restaurantThunk';
+import { updateRestaurantThunk } from '@features/restaurant/restaurantThunk';
 import { showToast } from '@features/toast/toastSlice';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { nanoid } from '@reduxjs/toolkit';
 import { ROUTES } from '@router/routes';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { theme } from '@theme/index';
+import { normalizeTimeValue } from '@utils/getNormalizedTime';
 import { restaurantSchema } from '@validations/restaurant.validation';
 
+import { EditRestaurantFormValues } from './editRestaurant.types';
+import { Restaurant } from '@types';
+import { USER_ROLE } from '../../types/user.types';
 import {
     ActionContainer,
     FooterContainer,
@@ -36,19 +39,26 @@ import {
     Root,
     SelectFormControl,
     TimeRangeContainer,
-} from './addRestaurant.styles';
-import { AddRestaurantFormValues } from './addRestaurant.types';
-import { Restaurant } from '../../types/restaurant.types';
+} from '../addRestaurant/AddRestaurant.styles';
 
-const AddRestaurant = () => {
+const editRestaurantSchema = restaurantSchema.omit(['imageUrl']);
+
+const EditRestaurant = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
+    const { id } = useParams<{ id: string }>();
     const { user } = useAppSelector((state) => state.auth);
-    const { loading } = useAppSelector((state) => state.restaurant);
+    const { loading, restaurants } = useAppSelector(
+        (state) => state.restaurant,
+    );
     const feedback = useAppSelector((state) => state.feedback);
 
     const [pendingFormData, setPendingFormData] =
-        useState<AddRestaurantFormValues | null>(null);
+        useState<EditRestaurantFormValues | null>(null);
+
+    const restaurantToEdit = restaurants.find(
+        (restaurant) => restaurant.id === id,
+    );
 
     const {
         control,
@@ -57,8 +67,8 @@ const AddRestaurant = () => {
         setValue,
         watch,
         formState: { errors, isSubmitting },
-    } = useForm<AddRestaurantFormValues>({
-        resolver: yupResolver(restaurantSchema),
+    } = useForm<EditRestaurantFormValues>({
+        resolver: yupResolver(editRestaurantSchema),
         defaultValues: {
             imageUrl: '',
             name: '',
@@ -72,7 +82,40 @@ const AddRestaurant = () => {
         },
     });
 
+    useEffect(() => {
+        if (!restaurantToEdit) {
+            return;
+        }
+
+        reset({
+            imageUrl: restaurantToEdit.image,
+            name: restaurantToEdit.name,
+            description: restaurantToEdit.description,
+            address: restaurantToEdit.address,
+            contactNumber: restaurantToEdit.contactNumber ?? '',
+            category: restaurantToEdit.category,
+            openingTime: normalizeTimeValue(restaurantToEdit.openingTime),
+            closingTime: normalizeTimeValue(restaurantToEdit.closingTime),
+            operatingDays: Object.entries(restaurantToEdit.operatingDays ?? {})
+                .filter(([, isSelected]) => isSelected)
+                .map(([day]) => day.toUpperCase()),
+        });
+    }, [restaurantToEdit, reset]);
+
     const operatingDays = watch('operatingDays');
+
+    const onSubmitForm = (data: EditRestaurantFormValues) => {
+        setPendingFormData(data);
+        dispatch(
+            openDialog({
+                title: 'SAVE CHANGES',
+                description: 'Are you sure you want to save this changes ?',
+                type: ACTION_DIALOG_TYPES.CONFIRM,
+                confirmText: 'Save',
+                cancelText: 'Cancel',
+            }),
+        );
+    };
 
     const handleDayToggle = (day: string) => {
         const nextOperatingDays = operatingDays.includes(day)
@@ -85,34 +128,31 @@ const AddRestaurant = () => {
         });
     };
 
-    const onSubmitForm = (data: AddRestaurantFormValues) => {
-        setPendingFormData(data);
-        dispatch(
-            openDialog({
-                title: 'ADD RESTAURANT',
-                description: 'Are you sure you want to add this restaurant ?',
-                type: ACTION_DIALOG_TYPES.CONFIRM,
-                confirmText: 'Confirm',
-                cancelText: 'Cancel',
-            }),
-        );
-    };
-
-    const handleConfirmSubmit = async () => {
+    const onSubmit = async () => {
         if (!pendingFormData) return;
 
         dispatch(closeDialog());
 
+        if (!restaurantToEdit) {
+            dispatch(
+                showToast({
+                    type: TOAST_TYPES.ERROR,
+                    title: 'Restaurant Not Found',
+                    message: 'Unable to find the restaurant to update.',
+                }),
+            );
+            return;
+        }
+
         const payload: Restaurant = {
-            id: nanoid(),
-            ownerId: user?.id ?? 'guest-user',
+            ...restaurantToEdit,
+            ownerId: restaurantToEdit.ownerId || user?.id || USER_ROLE.GUEST,
             name: pendingFormData.name,
             description: pendingFormData.description,
-            image: pendingFormData.imageUrl,
+            image: pendingFormData.imageUrl ?? restaurantToEdit.image,
             address: pendingFormData.address,
             contactNumber: pendingFormData.contactNumber,
             category: pendingFormData.category as FoodCategory,
-            isOpenToday: true,
             operatingDays: DEFAULT_DAYS.reduce(
                 (acc, day) => {
                     const key =
@@ -122,30 +162,30 @@ const AddRestaurant = () => {
 
                     return acc;
                 },
+
                 {} as Restaurant['operatingDays'],
             ),
             openingTime: pendingFormData.openingTime,
             closingTime: pendingFormData.closingTime,
-            menuItems: [],
+            menuItems: restaurantToEdit.menuItems,
         };
 
         try {
-            await dispatch(addRestaurantThunk(payload)).unwrap();
+            await dispatch(updateRestaurantThunk(payload)).unwrap();
             dispatch(
                 showToast({
                     type: TOAST_TYPES.SUCCESS,
                     title: 'Success',
-                    message: 'Restaurant added successfully !!',
+                    message: 'Restaurant updated successfully !!',
                 }),
             );
             reset();
-            setPendingFormData(null);
             void navigate(ROUTES.ROOT);
         } catch (error) {
             dispatch(
                 showToast({
                     type: TOAST_TYPES.ERROR,
-                    title: 'Add Restaurant Failed',
+                    title: 'Update Restaurant Failed',
                     message: error as string,
                 }),
             );
@@ -174,13 +214,13 @@ const AddRestaurant = () => {
                     Back
                 </MyButton>
                 <HeadingWrapper>
-                    <Typography variant="h3">ADD RESTAURANT</Typography>
+                    <Typography variant="h3">EDIT RESTAURANT</Typography>
                     <Typography
                         variant="subtitle1"
                         color={alpha(theme.palette.text.secondary, 0.6)}
                     >
-                        Add a new restaurant to our platform. Fill in the
-                        details below.
+                        Update the restaurant details below and save the
+                        changes.
                     </Typography>
                 </HeadingWrapper>
                 <FormContainer>
@@ -315,9 +355,6 @@ const AddRestaurant = () => {
                                                     fullWidth
                                                     error={!!errors.category}
                                                 >
-                                                    <MenuItem value="" disabled>
-                                                        Select Category
-                                                    </MenuItem>
                                                     <MenuItem
                                                         value={
                                                             FOOD_CATEGORY.BOTH
@@ -439,7 +476,7 @@ const AddRestaurant = () => {
                             startIcon={<StorefrontOutlined />}
                             loading={loading || isSubmitting}
                         >
-                            {!loading && !isSubmitting && 'Submit'}
+                            {!loading && !isSubmitting && 'Save changes'}
                         </MyButton>
                     </ActionContainer>
                 </FooterContainer>
@@ -452,10 +489,10 @@ const AddRestaurant = () => {
                 confirmText={feedback.confirmText}
                 cancelText={feedback.cancelText}
                 onClose={handleCancelSubmit}
-                onConfirm={handleConfirmSubmit}
+                onConfirm={onSubmit}
             />
         </Root>
     );
 };
 
-export default AddRestaurant;
+export default EditRestaurant;

@@ -1,4 +1,4 @@
-import { ACTION_DIALOG_TYPES } from '../constants';
+import { ACTION_DIALOG_TYPES } from '@components/constants';
 
 export type DialogType =
     (typeof ACTION_DIALOG_TYPES)[keyof typeof ACTION_DIALOG_TYPES];

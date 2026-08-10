@@ -1,4 +1,4 @@
-import { MenuItem } from '../../types/menuItem.types';
+import { MenuItem } from '@types';
 
 export type FetchRestaurantsParams = {
     keyword?: string;

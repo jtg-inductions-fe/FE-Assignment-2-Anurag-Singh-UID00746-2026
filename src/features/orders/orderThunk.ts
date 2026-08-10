@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import { Order, OrderStatus } from '../../types/order.types';
+import { Order, OrderStatus } from '@types';
 import { orderService } from '@services/order.service';
 
 export const createOrderThunk = createAsyncThunk<
@@ -22,16 +22,20 @@ export const updateOrderStatusThunk = createAsyncThunk<
     {
         order: Order;
         status: OrderStatus;
+        reason?: string;
     },
     { rejectValue: string }
->('order/updateOrderStatus', async ({ order, status }, { rejectWithValue }) => {
-    try {
-        return await orderService.updateOrderStatus(order, status);
-    } catch (error) {
-        return rejectWithValue(
-            error instanceof Error
-                ? error.message
-                : 'Failed to update order status',
-        );
-    }
-});
+>(
+    'order/updateOrderStatus',
+    async ({ order, status, reason }, { rejectWithValue }) => {
+        try {
+            return await orderService.updateOrderStatus(order, status, reason);
+        } catch (error) {
+            return rejectWithValue(
+                error instanceof Error
+                    ? error.message
+                    : 'Failed to update order status',
+            );
+        }
+    },
+);

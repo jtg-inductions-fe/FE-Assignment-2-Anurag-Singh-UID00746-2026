@@ -7,7 +7,7 @@ import {
     FetchRestaurantsParams,
     UpdateMenuItemParams,
 } from './restaurant.types';
-import { Restaurant } from '../../types/restaurant.types';
+import { Restaurant } from '@types';
 
 export const fetchRestaurantsThunk = createAsyncThunk(
     'restaurant/fetchRestaurants',

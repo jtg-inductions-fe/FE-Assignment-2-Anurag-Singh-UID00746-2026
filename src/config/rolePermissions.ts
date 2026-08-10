@@ -1,5 +1,6 @@
 import { Permission } from './permissions';
-import { USER_ROLE, UserRole } from '../types/user.types';
+import { USER_ROLE } from '../types/user.types';
+import { UserRole } from '@types';
 
 type PermissionKey = (typeof Permission)[keyof typeof Permission];
 

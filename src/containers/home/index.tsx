@@ -10,8 +10,8 @@ import {
     EXCEPTION_STATE_TYPES,
 } from '@components/constants';
 import ExceptionState from '@components/ExceptionState/ExceptionState';
-import MultiToggle from '@components/MultiToggle/MultiToggle';
-import { RestaurantCard } from '@components/RestaurantCard/RestaurantCard';
+import MultiToggle from '@components/MultiToggle/MultiToggle.component';
+import { RestaurantCard } from '@containers/RestaurantCard/RestaurantCard.container';
 import { DISCOVERY_ACTION } from '@config/discoveryActions';
 import { Permission } from '@config/permissions';
 import { rolePermissions } from '@config/rolePermissions';
@@ -24,7 +24,7 @@ import { theme } from '@theme/index';
 import { isOpenToday } from '@utils/getOpenRestaurants';
 import { getVisibleRestaurants } from '@utils/getVisibleRestaurants';
 
-import { Restaurant } from '../../types/restaurant.types';
+import { Restaurant } from '@types';
 import { USER_ROLE } from '../../types/user.types';
 
 const Home = () => {

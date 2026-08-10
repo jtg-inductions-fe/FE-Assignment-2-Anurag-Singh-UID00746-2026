@@ -1,6 +1,6 @@
 import { DiscoveryAction } from '@config/discoveryActions';
 
-import { Restaurant } from '../../types/restaurant.types';
+import { Restaurant } from '@types';
 
 export type RestaurantCardProps = {
     restaurant: Restaurant;

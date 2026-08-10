@@ -1,7 +1,7 @@
 import { LoginCredential, SignupCredential } from '@features/auth/auth.types';
 import { users } from '@mock/user';
 
-import { User } from '../types/user.types';
+import { User } from '@types';
 
 export const authService = {
     login: async ({ email }: LoginCredential) => {

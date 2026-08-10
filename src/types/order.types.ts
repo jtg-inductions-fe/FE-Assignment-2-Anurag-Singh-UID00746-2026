@@ -21,4 +21,5 @@ export type Order = {
     totalPrice: number;
     date: string;
     status: OrderStatus;
+    rejectionReason?: string | null;
 };

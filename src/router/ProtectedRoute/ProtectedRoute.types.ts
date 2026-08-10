@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-import { UserRole } from '../../types/user.types';
+import { UserRole } from '@types';
 
 export type ProtectedRouteProps = {
     children: ReactNode;

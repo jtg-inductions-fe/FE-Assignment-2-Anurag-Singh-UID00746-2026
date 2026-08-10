@@ -1,6 +1,6 @@
 import { FOOD_CATEGORY } from '@constant';
 
-import { Restaurant } from '../types/restaurant.types';
+import { Restaurant } from '@types';
 
 export const restaurants: Restaurant[] = [
     {

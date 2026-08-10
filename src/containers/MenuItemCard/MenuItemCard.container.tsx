@@ -5,7 +5,6 @@ import { Box, Typography } from '@mui/material';
 import Badge from '@components/Badge/Badge';
 import MyButton from '@components/Button/Button';
 import { MyImage } from '@components/ImageBox/ImageBox.styles';
-import QuantitySelector from '@components/QuantitySelector/QuantitySelector';
 
 import {
     ActionIcon,
@@ -24,9 +23,6 @@ import { USER_ROLE } from '../../types/user.types';
 const MenuItemCard = ({
     menuItem,
     role,
-    quantity = 0,
-    onIncrement,
-    onDecrement,
     onEdit,
     onDelete,
     onAddToCart,
@@ -83,18 +79,10 @@ const MenuItemCard = ({
                         />
                     ) : (
                         role === USER_ROLE.CUSTOMER && (
-                            <QuantitySelector
-                                quantity={quantity}
-                                onIncrement={onIncrement!}
-                                onDecrement={onDecrement!}
-                            />
+                            <MyButton variant="contained" onClick={onAddToCart}>
+                                Add Item
+                            </MyButton>
                         )
-                    )}
-
-                    {role === USER_ROLE.CUSTOMER && quantity > 0 && (
-                        <MyButton variant="contained" onClick={onAddToCart}>
-                            Add Item
-                        </MyButton>
                     )}
                 </ActionWrapper>
             </Footer>

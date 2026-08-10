@@ -15,7 +15,7 @@ import {
     TOAST_TYPES,
 } from '@components/constants';
 import ExceptionState from '@components/ExceptionState/ExceptionState';
-import MenuItemCard from '@components/MenuItemCard/MenuItemCard';
+import MenuItemCard from '@containers/MenuItemCard/MenuItemCard.container';
 import { Permission } from '@config/permissions';
 import { rolePermissions } from '@config/rolePermissions';
 import { addToCart } from '@features/cart/cartSlice';
@@ -34,7 +34,7 @@ import {
     HeaderWrapper,
     TimingChip,
 } from './Restaurant.styles';
-import { MenuItem } from '../../types/menuItem.types';
+import { MenuItem } from '@types';
 import { USER_ROLE } from '../../types/user.types';
 
 const Restaurant = () => {
@@ -148,6 +148,13 @@ const Restaurant = () => {
         );
     };
 
+    const menuItems = [...restaurant.menuItems].sort((a, b) => {
+        const isAInStock = a.stock > 0;
+        const isBInStock = b.stock > 0;
+
+        return Number(isBInStock) - Number(isAInStock);
+    });
+
     return (
         <Box
             padding={{ mobile: theme.spacing(5), tablet: theme.spacing(4, 0) }}
@@ -212,7 +219,7 @@ const Restaurant = () => {
                 </MyButton>
             )}
             <Grid2 container spacing={8} mt={8}>
-                {restaurant.menuItems.map((item) => (
+                {menuItems.map((item) => (
                     <Grid2
                         key={item.id}
                         size={{ mobile: 12, tablet: 12, desktop: 6 }}

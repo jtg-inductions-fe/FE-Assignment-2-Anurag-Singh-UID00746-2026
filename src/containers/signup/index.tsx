@@ -8,7 +8,7 @@ import { alpha, Box, Stack, Typography } from '@mui/material';
 import MyButton from '@components/Button/Button';
 import { TOAST_TYPES } from '@components/constants';
 import FeatureCard from '@components/FeatureCard/RoleCard';
-import { MyInputField } from '@components/InputField/InputField';
+import { MyInputField } from '@components/InputField/InputField.component';
 import { SignupCredential } from '@features/auth/auth.types';
 import { signup } from '@features/auth/authThunk';
 import { showToast } from '@features/toast/toastSlice';

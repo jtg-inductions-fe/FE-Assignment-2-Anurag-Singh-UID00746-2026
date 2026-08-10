@@ -5,7 +5,7 @@ import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 
-import { alpha, Divider, IconButton, Typography } from '@mui/material';
+import { alpha, Box, Divider, IconButton, Typography } from '@mui/material';
 
 import { EXCEPTION_STATE_TYPES, TOAST_TYPES } from '@components/constants';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
@@ -40,9 +40,12 @@ import {
     Actions,
     OrderID,
     OrderTime,
-} from './ordersPage.styles';
+    RejectionModal,
+    ModalSurface,
+    ActionButtons,
+} from './Orders.styles';
 
-import type { Order, OrderStatus } from '../../types/order.types';
+import type { Order, OrderStatus } from '@types';
 import { rolePermissions } from '@config/rolePermissions';
 import { USER_ROLE } from '../../types/user.types';
 import { Permission } from '@config/permissions';
@@ -53,11 +56,16 @@ import Badge from '@components/Badge/Badge';
 import { formatOrderDateTime } from '@utils/getFormattedDateTime';
 import {
     CustomerOrderPanelProps,
-    orderStatusSteps,
     OrderTimelineItemProps,
     OwnerOrderPanelProps,
-} from './orderPage.types';
+    rejectionFormData,
+} from './order.types';
 import ExceptionState from '@components/ExceptionState/ExceptionState';
+import { MyInputField } from '@components/InputField/InputField.component';
+import { Controller, useForm } from 'react-hook-form';
+import { rejectionSchema } from './order.validation';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { orderStatusSteps } from './order.constants';
 
 const OrdersPage = () => {
     const navigate = useNavigate();
@@ -89,12 +97,17 @@ const OrdersPage = () => {
         );
     };
 
-    const handleStatusChange = async (order: Order, status: OrderStatus) => {
+    const handleStatusChange = async (
+        order: Order,
+        status: OrderStatus,
+        reason?: string,
+    ) => {
         try {
             await dispatch(
                 updateOrderStatusThunk({
                     order,
                     status,
+                    reason,
                 }),
             ).unwrap();
 
@@ -344,7 +357,10 @@ const CustomerOrderPanel = ({ order }: CustomerOrderPanelProps) => {
                 <Timeline>
                     <OrderTimelineItem label="PENDING" completed />
 
-                    <OrderTimelineItem label="REJECTED" rejected />
+                    <OrderTimelineItem
+                        label="REJECTED"
+                        rejected
+                    ></OrderTimelineItem>
                 </Timeline>
             ) : (
                 <Timeline>
@@ -379,11 +395,62 @@ const CustomerOrderPanel = ({ order }: CustomerOrderPanelProps) => {
                     />
                 </Timeline>
             )}
+
+            {isRejected && order.rejectionReason && (
+                <Box mt={5}>
+                    <Typography
+                        component="span"
+                        variant="caption"
+                        color="error.main"
+                        fontWeight={theme.typography.fontWeightBold}
+                        mb={0.25}
+                    >
+                        REASON FOR REJECTION
+                    </Typography>
+
+                    <Typography
+                        component="span"
+                        variant="body2"
+                        color="primary.main"
+                        display="block"
+                    >
+                        {order.rejectionReason}
+                    </Typography>
+                </Box>
+            )}
         </TimelineCard>
     );
 };
 
 const OwnerOrderPanel = ({ order, onStatusChange }: OwnerOrderPanelProps) => {
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+
+    const [reason, setReason] = useState('');
+    const maxLength = 150;
+
+    const {
+        control,
+        handleSubmit,
+        reset,
+        formState: { errors },
+    } = useForm<rejectionFormData>({
+        resolver: yupResolver(rejectionSchema),
+        defaultValues: {
+            reason: '',
+        },
+    });
+
+    const onRejectSubmit = (data: rejectionFormData) => {
+        const trimmedReason = data.reason.trim();
+
+        onStatusChange(order, 'Rejected', trimmedReason);
+        setReason('');
+        reset({ reason: '' });
+        handleClose();
+    };
+
     return (
         <TimelineCard>
             <Typography
@@ -412,10 +479,69 @@ const OwnerOrderPanel = ({ order, onStatusChange }: OwnerOrderPanelProps) => {
                         <MyButton
                             variant="outlined"
                             color="error"
-                            onClick={() => onStatusChange(order, 'Rejected')}
+                            onClick={handleOpen}
                         >
                             Reject
                         </MyButton>
+                        <RejectionModal
+                            open={open}
+                            onClose={handleClose}
+                            aria-labelledby="modal-modal-title"
+                            aria-describedby="modal-modal-description"
+                        >
+                            <ModalSurface
+                                component="form"
+                                onSubmit={handleSubmit(onRejectSubmit)}
+                            >
+                                <Typography id="modal-modal-title" variant="h6">
+                                    Reason for rejection ?
+                                </Typography>
+                                <Controller
+                                    name="reason"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <MyInputField
+                                            {...field}
+                                            type="text"
+                                            rows={5}
+                                            multiline
+                                            placeholder="Enter reason for rejecting the order"
+                                            required
+                                            value={reason}
+                                            onChange={(e) => {
+                                                field.onChange(e);
+                                                setReason(e.target.value);
+                                            }}
+                                            error={Boolean(errors.reason)}
+                                            helperText={
+                                                errors.reason?.message ??
+                                                `${reason.length} / ${maxLength}`
+                                            }
+                                            slotProps={{
+                                                htmlInput: { maxLength: 150 },
+                                            }}
+                                        />
+                                    )}
+                                />
+                                <ActionButtons>
+                                    <MyButton
+                                        variant="outlined"
+                                        color="primary"
+                                        type="button"
+                                        onClick={handleClose}
+                                    >
+                                        Cancel
+                                    </MyButton>
+                                    <MyButton
+                                        variant="contained"
+                                        color="error"
+                                        type="submit"
+                                    >
+                                        Reject
+                                    </MyButton>
+                                </ActionButtons>
+                            </ModalSurface>
+                        </RejectionModal>
                     </React.Fragment>
                 )}
 
@@ -465,6 +591,7 @@ const OrderTimelineItem = ({
     active = false,
     completed = false,
     rejected = false,
+    helperText,
 }: OrderTimelineItemProps) => {
     return (
         <TimelineItem>
@@ -478,23 +605,35 @@ const OrderTimelineItem = ({
                 <TimelineDot />
             )}
 
-            <Typography
-                variant="body2"
-                fontWeight={
-                    active || completed || rejected
-                        ? theme.typography.fontWeightBold
-                        : theme.typography.fontWeightRegular
-                }
-                color={
-                    rejected
-                        ? 'error'
-                        : active || completed
-                          ? 'text.primary'
-                          : 'text.secondary'
-                }
-            >
-                {label}
-            </Typography>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5 }}>
+                <Typography
+                    variant="body2"
+                    fontWeight={
+                        active || completed || rejected
+                            ? theme.typography.fontWeightBold
+                            : theme.typography.fontWeightRegular
+                    }
+                    color={
+                        rejected
+                            ? 'error'
+                            : active || completed
+                              ? 'text.primary'
+                              : 'text.secondary'
+                    }
+                >
+                    {label}
+                </Typography>
+
+                {helperText && (
+                    <Typography
+                        variant="caption"
+                        color="error.main"
+                        sx={{ lineHeight: 1.4, maxWidth: 220 }}
+                    >
+                        {helperText}
+                    </Typography>
+                )}
+            </Box>
         </TimelineItem>
     );
 };

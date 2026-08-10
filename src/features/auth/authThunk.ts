@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { authService } from '@services/auth.service';
 
 import { LoginCredential, SignupCredential } from './auth.types';
-import { User } from '../../types/user.types';
+import { User } from '@types';
 
 export const login = createAsyncThunk<
     User,

@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { Order } from '../../types/order.types';
+import { Order } from '@types';
 import { createOrderThunk, updateOrderStatusThunk } from './orderThunk';
 
 type OrderState = {

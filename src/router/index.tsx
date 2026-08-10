@@ -1,15 +1,15 @@
 import { createBrowserRouter } from 'react-router-dom';
 
-import AddMenuItem from '@containers/addMenuItem/addMenuItem';
-import AddRestaurant from '@containers/addRestaurant/addRestaurant';
-import CartPage from '@containers/cartPage/cartPage';
-import EditMenuItem from '@containers/editMenuItem/editMenuItem';
-import EditRestaurant from '@containers/editRestaurant/editRestaurant';
+import AddMenuItem from '@containers/addMenuItem/AddMenuItem.container';
+import AddRestaurant from '@containers/addRestaurant/AddRestaurant.container';
+import CartPage from '@containers/cartPage/Cart.container';
+import EditMenuItem from '@containers/editMenuItem/EditMenuItem.container';
+import EditRestaurant from '@containers/editRestaurant/EditRestaurant.container';
 import ErrorPage from '@containers/exception/ErrorPage';
 import NotFoundPage from '@containers/exception/NotFoundPage';
 import Home from '@containers/home';
 import Login from '@containers/login';
-import Restaurant from '@containers/restaurant/Restaurant';
+import Restaurant from '@containers/restaurant/Restaurant.container';
 import Signup from '@containers/signup';
 import RootLayout from '@layouts/RootLayout';
 
@@ -18,7 +18,7 @@ import PublicRoute from './PublicRoute';
 import RoleGuard from './RoleGuard/RoleGuard';
 import { ROUTES, ROUTES_SEGMENTS } from './routes';
 import { USER_ROLE } from '../types/user.types';
-import OrdersPage from '@containers/ordersPage/ordersPage';
+import OrdersPage from '@containers/ordersPage/Orders.container';
 
 export const router = createBrowserRouter([
     {
