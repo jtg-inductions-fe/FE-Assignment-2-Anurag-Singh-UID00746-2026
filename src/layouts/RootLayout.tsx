@@ -9,8 +9,8 @@ const RootLayout = () => {
     return (
         <MuiBox
             margin="0 auto"
-            maxWidth={{ mobile: '100%', tablet: '90%', desktop: '1440px' }}
-            padding={{ desktop: 4 }}
+            maxWidth={{ xs: '100%', sm: '90%', md: '1440px' }}
+            padding={{ md: 4 }}
         >
             <Header />
             <Outlet />

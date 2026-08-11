@@ -15,13 +15,13 @@ import { Box, Grid2 as Grid, ToggleButton, Typography } from '@mui/material';
 import { theme } from '@theme/index';
 import { useState } from 'react';
 import { deleteRestaurant } from '@features/restaurant/restaurantSlice';
-import ExceptionState from '@components/ExceptionState/ExceptionState';
 import { isOpenToday } from '@utils/getOpenRestaurants';
 import MultiToggle from '@components/MultiToggle/MultiToggle';
 import { FOOD_CATEGORY } from '@constant';
 import { Permission } from '@config/permissions';
 import { useSearchRestaurants } from '@hooks/useSearchRestaurants';
 import { ActionDialog } from '@components/ActionDialog/ActionDialog.component';
+import ExceptionState from '@components/ExceptionState/ExceptionState.component';
 
 const Home = () => {
     const navigate = useNavigate();
@@ -117,7 +117,7 @@ const Home = () => {
 
     return (
         <Box
-            padding={{ mobile: theme.spacing(4), tablet: theme.spacing(4, 0) }}
+            padding={{ xs: theme.spacing(4), sm: theme.spacing(4, 0) }}
             marginBottom={8}
         >
             <MultiToggle

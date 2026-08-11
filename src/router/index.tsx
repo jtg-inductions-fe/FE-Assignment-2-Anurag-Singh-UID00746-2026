@@ -8,20 +8,14 @@ import Home from '@containers/home/Home.container';
 import Login from '@containers/login/Login.container';
 import Signup from '@containers/signup/Signup.container';
 
-import ErrorPage from '@containers/exception/Error.container';
-import NotFoundPage from '@containers/exception/NotFound.container';
-import Home from '@containers/home/Home.container';
-import Login from '@containers/login/Login.container';
-import Signup from '@containers/signup/Signup.container';
-
-import ProtectedRoute from './ProtectedRoute';
 import PublicRoute from './PublicRoute';
 import { ROUTES, ROUTES_SEGMENTS } from './routes';
 import AddRestaurant from '@containers/addRestaurant/addRestaurant';
 import EditRestaurant from '@containers/editRestaurant/editRestaurant';
 import Restaurant from '@containers/Restaurant/Restaurant';
 import RoleGuard from './RoleGuard/RoleGuard';
-import { USER_ROLE } from '../types/user.types';
+import ProtectedRoute from './ProtectedRoute/ProtectedRoute';
+import { USER_ROLE } from '@components/constants';
 
 export const router = createBrowserRouter([
     {

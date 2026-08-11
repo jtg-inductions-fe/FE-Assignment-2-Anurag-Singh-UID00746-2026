@@ -16,11 +16,11 @@ import {
     StyledIconButton,
 } from './RestaurantCard.styles';
 import { RestaurantCardProps } from './restaurantCard.types';
-import { MyImage } from '@components/ImageBox/ImageBox.styles';
 import HttpsOutlinedIcon from '@mui/icons-material/HttpsOutlined';
 import { theme } from '@theme/index';
 import { FOOD_CATEGORY } from '@constant';
 import Badge from '@components/Badge/Badge';
+import { Image } from '@components/ImageBox/ImageBox.styles';
 
 export const RestaurantCard = ({
     restaurant,
@@ -87,7 +87,7 @@ export const RestaurantCard = ({
             {!isOpen && <ClosedBadge label="closed" size="medium" />}
 
             <ImageContainer>
-                <MyImage
+                <Image
                     src={restaurant.image}
                     alt={restaurant.name}
                     height={250}

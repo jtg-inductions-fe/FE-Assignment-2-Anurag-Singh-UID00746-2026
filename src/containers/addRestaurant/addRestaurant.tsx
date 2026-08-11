@@ -8,7 +8,6 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 
 import MyButton from '@components/Button/Button';
 import { ACTION_DIALOG_TYPES, TOAST_TYPES } from '@components/constants';
-import { MyInputField } from '@components/InputField/InputField';
 import { MySelect } from '@components/BasicSelect/BasicSelect';
 import { showToast } from '@features/toast/toastSlice';
 import { addRestaurantThunk } from '@features/restaurant/restaurantThunk';
@@ -35,8 +34,9 @@ import {
     TimeRangeContainer,
 } from './addRestaurant.styles';
 import { closeDialog, openDialog } from '@features/feedback/feedbackSlice';
-import { ActionDialog } from '@components/ActionDialog/ActionDialog';
 import { AddRestaurantFormValues } from './addRestaurant.types';
+import { ActionDialog } from '@components/ActionDialog/ActionDialog.component';
+import { InputField } from '@components/InputField/InputField.component';
 
 const AddRestaurant = () => {
     const dispatch = useAppDispatch();
@@ -192,7 +192,7 @@ const AddRestaurant = () => {
                                     name="imageUrl"
                                     control={control}
                                     render={({ field }) => (
-                                        <MyInputField
+                                        <InputField
                                             {...field}
                                             placeholder="Paste your URL here"
                                             fullWidth
@@ -212,7 +212,7 @@ const AddRestaurant = () => {
                                     name="name"
                                     control={control}
                                     render={({ field }) => (
-                                        <MyInputField
+                                        <InputField
                                             {...field}
                                             placeholder="Enter your restaurant name"
                                             fullWidth
@@ -232,7 +232,7 @@ const AddRestaurant = () => {
                                     name="description"
                                     control={control}
                                     render={({ field }) => (
-                                        <MyInputField
+                                        <InputField
                                             {...field}
                                             placeholder="Enter your restaurant description"
                                             fullWidth
@@ -257,7 +257,7 @@ const AddRestaurant = () => {
                                         name="address"
                                         control={control}
                                         render={({ field }) => (
-                                            <MyInputField
+                                            <InputField
                                                 {...field}
                                                 placeholder="Enter address of your restaurant"
                                                 fullWidth
@@ -277,7 +277,7 @@ const AddRestaurant = () => {
                                         name="contactNumber"
                                         control={control}
                                         render={({ field }) => (
-                                            <MyInputField
+                                            <InputField
                                                 {...field}
                                                 placeholder="Enter contact number"
                                                 fullWidth
@@ -351,7 +351,7 @@ const AddRestaurant = () => {
                                             name="openingTime"
                                             control={control}
                                             render={({ field }) => (
-                                                <MyInputField
+                                                <InputField
                                                     {...field}
                                                     type="time"
                                                     fullWidth
@@ -372,7 +372,7 @@ const AddRestaurant = () => {
                                             name="closingTime"
                                             control={control}
                                             render={({ field }) => (
-                                                <MyInputField
+                                                <InputField
                                                     {...field}
                                                     type="time"
                                                     fullWidth

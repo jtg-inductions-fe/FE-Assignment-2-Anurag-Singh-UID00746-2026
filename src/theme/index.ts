@@ -27,6 +27,7 @@ let theme = createTheme({
 theme = createTheme(theme, {
     typography: {
         ...typography.typographyStyle(theme),
+        ...typography.typographyUtil,
     },
 });
 

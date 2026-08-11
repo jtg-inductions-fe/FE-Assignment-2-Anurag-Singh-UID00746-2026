@@ -6,11 +6,10 @@ import { typography } from '@theme/foundations';
 export const Root = styled(Box)(({ theme }: ThemeType) => ({
     width: '100%',
     padding: theme.spacing(4, 5),
-    padding: theme.spacing(4, 5),
     borderBottom: `1px solid ${theme.palette.divider}`,
 
     [theme.breakpoints.up('sm')]: {
-        padding: theme.spacing(3, 10),
+        padding: theme.spacing(4, 0),
         borderBottom: 'none',
     },
 }));

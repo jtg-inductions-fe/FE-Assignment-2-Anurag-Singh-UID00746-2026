@@ -20,6 +20,7 @@ export const Search = styled('div')(({ theme }: ThemeType) => ({
     },
 
     [theme.breakpoints.up('sm')]: {
+        maxWidth: typography.typographyUtil.pxToRem(700),
         marginLeft: theme.spacing(3),
         width: 'auto',
     },
