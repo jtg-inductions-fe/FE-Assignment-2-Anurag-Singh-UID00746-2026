@@ -1,3 +1,4 @@
+import { ThemeType } from '@components/types';
 import { Container, styled, Typography, TypographyProps } from '@mui/material';
 
 export const CenteredContainer = styled(Container)({
@@ -13,7 +14,7 @@ export const ClickableLink = styled(Typography)<
         to?: string;
         href?: string;
     }
->(({ theme }) => ({
+>(({ theme }: ThemeType) => ({
     cursor: 'pointer',
     display: 'inline',
     textDecoration: 'none',

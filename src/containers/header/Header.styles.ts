@@ -9,7 +9,7 @@ export const Root = styled(Box)(({ theme }: ThemeType) => ({
     borderBottom: `1px solid ${theme.palette.divider}`,
 
     [theme.breakpoints.up('sm')]: {
-        padding: theme.spacing(3, 10),
+        padding: theme.spacing(4, 0),
         borderBottom: 'none',
     },
 }));
@@ -41,8 +41,8 @@ export const LogoWrapper = styled(Box)(({ theme }: ThemeType) => ({
     backgroundColor: theme.palette.primary.light,
     padding: theme.spacing(1, 3),
     borderRadius: typography.typographyUtil.pxToRem(8),
-    width: 90,
-    height: 40,
+    width: typography.typographyUtil.pxToRem(90),
+    height: typography.typographyUtil.pxToRem(40),
     cursor: 'pointer',
 }));
 

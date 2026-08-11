@@ -13,7 +13,6 @@ export const Search = styled('div')(({ theme }: ThemeType) => ({
     justifyContent: 'start',
     backgroundColor: alpha(theme.palette.secondary.light, 0.2),
     marginLeft: 0,
-    maxWidth: typography.typographyUtil.pxToRem(700),
     transition: 'all 0.2s ease-in-out',
 
     '&:hover': {
@@ -21,6 +20,7 @@ export const Search = styled('div')(({ theme }: ThemeType) => ({
     },
 
     [theme.breakpoints.up('sm')]: {
+        maxWidth: typography.typographyUtil.pxToRem(700),
         marginLeft: theme.spacing(3),
         width: 'auto',
     },
@@ -45,8 +45,9 @@ export const StyledInputBase = styled(InputBase)(({ theme }: ThemeType) => ({
         paddingLeft: `calc(1em + ${theme.spacing(5)})`,
         transition: theme.transitions.create('width'),
         width: '100%',
+
         [theme.breakpoints.up('sm')]: {
-            width: '20ch',
+            width: typography.typographyUtil.pxToRem(200),
         },
     },
 }));

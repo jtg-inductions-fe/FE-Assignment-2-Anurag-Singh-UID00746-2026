@@ -1,6 +1,5 @@
 import { ThemeType } from '@components/types';
 import { Avatar, Box, Menu, MenuItem, styled } from '@mui/material';
-
 import { typography } from '@theme/foundations';
 
 export const UserProfileBox = styled(Box)(() => ({
@@ -17,9 +16,9 @@ export const UserProfileMenu = styled(Menu)(({ theme }: ThemeType) => ({
 }));
 
 export const UserIconButton = styled(Avatar)(() => ({
-    padding: 0,
-    height: 45,
-    width: 45,
+    height: typography.typographyUtil.pxToRem(46),
+    width: typography.typographyUtil.pxToRem(46),
+
     boxShadow:
         'inset 0px -4px 0px rgba(0, 0, 0, 0.2), 0px 4px 10px rgba(0, 0, 0, 0.15)',
 }));
@@ -30,7 +29,7 @@ export const UserAvatar = styled(Avatar)(({ theme }: ThemeType) => ({
     backgroundColor: theme.palette.secondary.main,
     width: '100%',
     height: '100%',
-    fontSize: typography.typographyUtil.pxToRem(18),
+    textAlign: 'center',
 
     '&:hover': {
         backgroundColor: theme.palette.primary.main,

@@ -1,9 +1,8 @@
-import { useState } from 'react';
-
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import AddIcon from '@mui/icons-material/Add';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import { Box as MuiBox } from '@mui/material';
 
 import logo from '@assets/images/logo.webp';
 import { ActionDialog } from '@components/ActionDialog/ActionDialog.component';
@@ -31,14 +30,18 @@ import {
     Root,
     SearchWrapper,
 } from './Header.styles';
-import Button from '@components/Button/Button.component';
+import { useState } from 'react';
+import { Button } from '@components/Button/Button.component';
 
 const Header = () => {
     const dispatch = useAppDispatch();
     const feedback = useAppSelector((state) => state.feedback);
     const navigate = useNavigate();
 
-    const [dialogOpen, setDialogOpen] = useState(false);
+    const [searchParams, setSearchParams] = useSearchParams();
+    const [_dialogOpen, setDialogOpen] = useState(false);
+
+    const keyword = searchParams.get('restaurant') ?? '';
 
     /**
      * TODO: Will be changed in further branches
@@ -58,7 +61,7 @@ const Header = () => {
      * TODO: Will be changed in further branches
      */
     const handleAddRestaurant = () => {
-        void navigate(ROUTES.AUTH.LOGIN);
+        void navigate(ROUTES.RESTAURANTS.ADD_RESTAURANT);
     };
 
     /**
@@ -66,8 +69,8 @@ const Header = () => {
      */
     const onSubmit = () => {
         dispatch(logout());
-        setDialogOpen(false);
         void navigate(ROUTES.AUTH.LOGIN);
+        dispatch(closeDialog());
         dispatch(
             showToast({
                 type: TOAST_TYPES.SUCCESS,
@@ -130,7 +133,15 @@ const Header = () => {
                 </LogoWrapper>
 
                 <SearchWrapper>
-                    <SearchBar placeholder="Restaurant name" />
+                    <SearchBar
+                        placeholder="Restaurant name"
+                        value={keyword}
+                        onChange={(value) => {
+                            setSearchParams(
+                                value.trim() ? { restaurant: value } : {},
+                            );
+                        }}
+                    />
                 </SearchWrapper>
 
                 <RightSection>
@@ -153,13 +164,32 @@ const Header = () => {
                         ))}
                     </ActionWrapper>
                     {isLoggedIn && (
-                        <UserProfile handleLogout={handleLogoutClick} />
+                        <MuiBox
+                            tabIndex={0}
+                            onKeyDown={(
+                                e: React.KeyboardEvent<HTMLDivElement>,
+                            ) => {
+                                if (e.key === 'Enter' || e.key === ' ') {
+                                    e.preventDefault();
+                                    const profileButton =
+                                        e.currentTarget.querySelector(
+                                            '[role="button"], button',
+                                        ) as HTMLElement | null;
+
+                                    if (profileButton) {
+                                        (profileButton as HTMLElement).click();
+                                    }
+                                }
+                            }}
+                        >
+                            <UserProfile handleLogout={handleLogoutClick} />
+                        </MuiBox>
                     )}
                 </RightSection>
             </Container>
 
             <ActionDialog
-                open={dialogOpen}
+                open={feedback.open}
                 title={feedback.title}
                 description={feedback.description}
                 type={feedback.type}

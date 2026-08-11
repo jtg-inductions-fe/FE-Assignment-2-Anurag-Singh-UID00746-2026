@@ -11,7 +11,6 @@ import {
 } from '@mui/material';
 
 import { TOAST_TYPES, USER_ROLE } from '@components/constants';
-import RoleCard from '@components/FeatureCard/RoleCard.component';
 import { InputField } from '@components/InputField/InputField.component';
 import { SignupCredential } from '@features/auth/auth.types';
 import { signup } from '@features/auth/authThunk';
@@ -25,7 +24,8 @@ import { signupSchema } from '@validations/auth.validation';
 
 import { ROLECARD } from './rolecard';
 import { ClickableLink, Wrapper } from './Signup.styles';
-import Button from '@components/Button/Button.component';
+import RoleCard from '@components/FeatureCard/RoleCard.component';
+import { Button } from '@components/Button/Button.component';
 
 const Signup = () => {
     const {

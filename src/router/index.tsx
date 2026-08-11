@@ -8,9 +8,14 @@ import Home from '@containers/home/Home.container';
 import Login from '@containers/login/Login.container';
 import Signup from '@containers/signup/Signup.container';
 
-import ProtectedRoute from './ProtectedRoute';
 import PublicRoute from './PublicRoute';
 import { ROUTES, ROUTES_SEGMENTS } from './routes';
+import AddRestaurant from '@containers/addRestaurant/addRestaurant';
+import EditRestaurant from '@containers/editRestaurant/editRestaurant';
+import Restaurant from '@containers/Restaurant/Restaurant';
+import RoleGuard from './RoleGuard/RoleGuard';
+import ProtectedRoute from './ProtectedRoute/ProtectedRoute';
+import { USER_ROLE } from '@components/constants';
 
 export const router = createBrowserRouter([
     {
@@ -36,11 +41,42 @@ export const router = createBrowserRouter([
                         path: ROUTES_SEGMENTS.AUTH.SIGNUP,
                         element: <Signup />,
                     },
+                    {
+                        path: ROUTES_SEGMENTS.RESTAURANTS.RESTAURANT_DETAILS,
+                        element: <Restaurant />,
+                    },
                 ],
             },
 
             {
                 element: <ProtectedRoute />,
+
+                children: [
+                    {
+                        element: <RoleGuard allowedRoles={[USER_ROLE.OWNER]} />,
+
+                        children: [
+                            {
+                                path: ROUTES_SEGMENTS.RESTAURANTS
+                                    .ADD_RESTAURANT,
+                                element: <AddRestaurant />,
+                            },
+
+                            {
+                                path: ROUTES_SEGMENTS.RESTAURANTS
+                                    .EDIT_RESTAURANT,
+                                element: <EditRestaurant />,
+                            },
+                        ],
+                    },
+                    {
+                        element: (
+                            <RoleGuard allowedRoles={[USER_ROLE.CUSTOMER]} />
+                        ),
+
+                        children: [],
+                    },
+                ],
             },
 
             {

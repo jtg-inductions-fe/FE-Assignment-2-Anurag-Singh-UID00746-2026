@@ -22,7 +22,7 @@ import { theme } from '@theme/index';
 import { loginSchema } from '@validations/auth.validation';
 
 import { CenteredContainer, ClickableLink } from './Login.styles';
-import Button from '@components/Button/Button.component';
+import { Button } from '@components/Button/Button.component';
 
 const Login = () => {
     const {

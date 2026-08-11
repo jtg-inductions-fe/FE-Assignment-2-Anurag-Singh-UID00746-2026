@@ -1,6 +1,6 @@
 import { createTheme } from '@mui/material/styles';
 
-import { SCALING_FACTOR } from '@constant';
+import { SCALING_FACTOR } from '@constant/theme';
 
 /* Customized foundation themes */
 import { breakpoints, mixins, palette, typography } from './foundations';
@@ -27,6 +27,7 @@ let theme = createTheme({
 theme = createTheme(theme, {
     typography: {
         ...typography.typographyStyle(theme),
+        ...typography.typographyUtil,
     },
 });
 

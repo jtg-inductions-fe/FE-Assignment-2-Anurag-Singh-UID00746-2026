@@ -5,5 +5,5 @@ import { ImageProps } from './ImageBox.types';
 export const Image = styled('img')<ImageProps>(() => ({
     maxWidth: '100%',
     maxHeight: '100%',
-    objectFit: 'contain',
+    objectFit: 'cover',
 }));

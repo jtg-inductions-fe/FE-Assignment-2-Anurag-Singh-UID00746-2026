@@ -56,7 +56,7 @@ export const IconContainer = styled(Box, {
         borderRadius: '50%',
         backgroundColor: bgColor,
         color: baseColor,
-        MuiBoxShadow: `
+        boxShadow: `
             0 1px 2px rgba(0, 0, 0, 0.02), 
             inset 0 1px 1px ${alpha('#ffffff', 0.8)}
         `,
@@ -79,10 +79,6 @@ export const StyledDialogTitle = styled(DialogTitle)(
         padding: 0,
         fontSize: theme.typography.h6.fontSize,
         fontWeight: theme.typography.fontWeightMedium,
-        background: 'linear-gradient(180deg, #1a1c1e 10%, #5c636a 100%)',
-        WebkitBackgroundClip: 'text',
-        WebkitTextFillColor: 'transparent',
-        backgroundClip: 'text',
         lineHeight: 1.2,
         letterSpacing: '0.05em',
         textTransform: 'uppercase',
