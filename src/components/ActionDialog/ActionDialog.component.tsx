@@ -33,16 +33,6 @@ export const ActionDialog = ({
         confirmText ||
         (type === ACTION_DIALOG_TYPES.ALERT ? 'Continue' : 'Confirm');
 
-    // const cancelColor =
-    //     cancelButtonColor ??
-    //     cancelButtonProps?.color ??
-    //     (type === ACTION_DIALOG_TYPES.ALERT ? 'primary' : 'error');
-
-    // const confirmColor =
-    //     confirmButtonColor ??
-    //     confirmButtonProps?.color ??
-    //     (type === ACTION_DIALOG_TYPES.ALERT ? 'error' : 'primary');
-
     const renderIcon = () => {
         if (icon) return icon;
         return type === ACTION_DIALOG_TYPES.ALERT ? (
