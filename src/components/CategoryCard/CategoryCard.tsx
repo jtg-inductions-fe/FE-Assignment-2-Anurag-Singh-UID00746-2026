@@ -1,5 +1,5 @@
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
-import { Typography } from '@mui/material';
+import { Typography as MuiTypography } from '@mui/material';
 import {
     ContentWrapper,
     LogoWrapper,
@@ -8,7 +8,7 @@ import {
     StyledCard,
 } from './CategoryCard.styles';
 import { CategoryCardProps } from './Category.types';
-import { MyImage } from '@components/ImageBox/ImageBox.styles';
+import { Image } from '@components/ImageBox/ImageBox.styles';
 
 const CategoryCard = ({
     image,
@@ -17,23 +17,23 @@ const CategoryCard = ({
     selected = false,
     onClick,
 }: CategoryCardProps) => (
-    <StyledCard selected={selected}>
+    <StyledCard selected={selected} aria-pressed={selected}>
         <MyCardActionArea onClick={onClick}>
             <MyBadge selected={selected}>
                 {selected && <CheckRoundedIcon />}
             </MyBadge>
 
             <LogoWrapper>
-                <MyImage src={image} />
+                <Image src={image} />
             </LogoWrapper>
 
             <ContentWrapper>
-                <Typography mt={3} variant="h6">
+                <MuiTypography mt={3} variant="h6">
                     {title.toUpperCase()}
-                </Typography>
-                <Typography mt={3} variant="subtitle2">
+                </MuiTypography>
+                <MuiTypography mt={3} variant="subtitle2">
                     {subtitle}
-                </Typography>
+                </MuiTypography>
             </ContentWrapper>
         </MyCardActionArea>
     </StyledCard>

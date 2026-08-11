@@ -11,7 +11,12 @@ import {
 } from '@components/constants';
 import { Restaurant } from '../../types/restaurant.types';
 import { RestaurantCard } from '@components/RestaurantCard/RestaurantCard';
-import { Box, Grid2 as Grid, ToggleButton, Typography } from '@mui/material';
+import {
+    Box as MuiBox,
+    Grid2 as MuiGrid,
+    ToggleButton as MuiToggleButton,
+    Typography as MuiTypography,
+} from '@mui/material';
 import { theme } from '@theme/index';
 import { useState } from 'react';
 import { deleteRestaurant } from '@features/restaurant/restaurantSlice';
@@ -116,7 +121,7 @@ const Home = () => {
     };
 
     return (
-        <Box
+        <MuiBox
             padding={{ xs: theme.spacing(4), sm: theme.spacing(4, 0) }}
             marginBottom={8}
         >
@@ -125,26 +130,26 @@ const Home = () => {
                 value={category}
                 exclusive
                 onChange={handleChange}
-                aria-label="Platform"
+                aria-label="Restaurant category"
             >
-                <ToggleButton value={FOOD_CATEGORY.BOTH}>
-                    <Typography variant="body1" color="primary" mt={0.5}>
+                <MuiToggleButton value={FOOD_CATEGORY.BOTH}>
+                    <MuiTypography variant="body1" color="primary" mt={0.5}>
                         Both
-                    </Typography>
-                </ToggleButton>
-                <ToggleButton value={FOOD_CATEGORY.VEG} color="success">
-                    <Typography variant="body1" color="success" mt={0.5}>
+                    </MuiTypography>
+                </MuiToggleButton>
+                <MuiToggleButton value={FOOD_CATEGORY.VEG} color="success">
+                    <MuiTypography variant="body1" color="success" mt={0.5}>
                         Veg
-                    </Typography>
-                </ToggleButton>
-                <ToggleButton value={FOOD_CATEGORY.NON_VEG} color="error">
-                    <Typography variant="body1" color="error" mt={0.5}>
+                    </MuiTypography>
+                </MuiToggleButton>
+                <MuiToggleButton value={FOOD_CATEGORY.NON_VEG} color="error">
+                    <MuiTypography variant="body1" color="error" mt={0.5}>
                         Non Veg
-                    </Typography>
-                </ToggleButton>
+                    </MuiTypography>
+                </MuiToggleButton>
             </MultiToggle>
 
-            <Grid container spacing={10}>
+            <MuiGrid container spacing={10}>
                 {filteredVisibleRestaurants.length === 0 ? (
                     <ExceptionState
                         type={EXCEPTION_STATE_TYPES.EMPTY}
@@ -155,7 +160,7 @@ const Home = () => {
                     />
                 ) : (
                     filteredVisibleRestaurants.map((restaurant) => (
-                        <Grid
+                        <MuiGrid
                             key={restaurant.id}
                             size={{ xs: 12, sm: 6, md: 4 }}
                         >
@@ -169,10 +174,10 @@ const Home = () => {
                                 canEdit={canEdit}
                                 canDelete={canDelete}
                             />
-                        </Grid>
+                        </MuiGrid>
                     ))
                 )}
-            </Grid>
+            </MuiGrid>
 
             <ActionDialog
                 open={feedback.open && Boolean(restaurantToDelete)}
@@ -181,10 +186,12 @@ const Home = () => {
                 type={feedback.type}
                 confirmText={feedback.confirmText}
                 cancelText={feedback.cancelText}
+                cancelButtonConfig={{ color: 'primary', variant: 'outlined' }}
+                confirmButtonConfig={{ color: 'error', variant: 'contained' }}
                 onClose={handleCloseDialog}
                 onConfirm={handleConfirmDelete}
             />
-        </Box>
+        </MuiBox>
     );
 };
 

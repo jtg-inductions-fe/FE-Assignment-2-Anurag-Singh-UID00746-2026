@@ -4,5 +4,3 @@ import { ButtonProps } from './Button.types';
 export const Button = ({ ...props }: ButtonProps) => (
     <StyledButton {...props} />
 );
-
-export default Button;

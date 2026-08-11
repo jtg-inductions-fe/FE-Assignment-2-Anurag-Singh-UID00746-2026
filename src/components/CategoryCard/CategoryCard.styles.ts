@@ -1,3 +1,4 @@
+import { ThemeType } from '@components/types';
 import { alpha, Box, Card, CardActionArea, styled, Theme } from '@mui/material';
 
 export const StyledCard = styled(Card, {
@@ -17,7 +18,7 @@ export const StyledCard = styled(Card, {
 );
 
 export const MyCardActionArea = styled(CardActionArea)(
-    ({ theme }: { theme: Theme }) => ({
+    ({ theme }: ThemeType) => ({
         padding: theme.spacing(4, 3),
         textAlign: 'center',
 
@@ -55,7 +56,7 @@ export const MyBadge = styled(Box, {
     }),
 );
 
-export const LogoWrapper = styled(Box)(({ theme }: { theme: Theme }) => ({
+export const LogoWrapper = styled(Box)(({ theme }: ThemeType) => ({
     borderRadius: '50%',
     padding: theme.spacing(4),
 }));

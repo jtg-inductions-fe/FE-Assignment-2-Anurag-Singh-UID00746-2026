@@ -5,8 +5,6 @@ import {
     Divider as MuiDivider,
     Typography as MuiTypography,
 } from '@mui/material';
-
-import MyButton from '@components/Button/Button.component';
 import { useAppSelector } from '@store/hooks';
 
 import {
@@ -17,6 +15,7 @@ import {
     UserProfileMenu,
 } from './UserProfile.styles';
 import { USER_ROLE } from '@components/constants';
+import { Button } from '@components/Button/Button.component';
 
 const UserProfile = ({ handleLogout }: { handleLogout: () => void }) => {
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
@@ -96,7 +95,7 @@ const UserProfile = ({ handleLogout }: { handleLogout: () => void }) => {
                 </UserMenuItem>
                 <MuiDivider />
                 <UserMenuItem onClick={handleCloseUserMenu}>
-                    <MyButton
+                    <Button
                         ref={logoutButtonRef}
                         variant="text"
                         color="error"
@@ -106,7 +105,7 @@ const UserProfile = ({ handleLogout }: { handleLogout: () => void }) => {
                         onKeyDown={handleLogoutKeyDown}
                     >
                         Logout
-                    </MyButton>
+                    </Button>
                 </UserMenuItem>
             </UserProfileMenu>
         </UserProfileBox>

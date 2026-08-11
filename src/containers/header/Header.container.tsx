@@ -2,7 +2,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import AddIcon from '@mui/icons-material/Add';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
-import { Box, Link } from '@mui/material';
+import { Box as MuiBox } from '@mui/material';
 
 import logo from '@assets/images/logo.webp';
 import { ActionDialog } from '@components/ActionDialog/ActionDialog.component';
@@ -30,7 +30,8 @@ import {
     Root,
     SearchWrapper,
 } from './Header.styles';
-import Button from '@components/Button/Button.component';
+import { useState } from 'react';
+import { Button } from '@components/Button/Button.component';
 
 const Header = () => {
     const dispatch = useAppDispatch();
@@ -38,6 +39,7 @@ const Header = () => {
     const navigate = useNavigate();
 
     const [searchParams, setSearchParams] = useSearchParams();
+    const [_dialogOpen, setDialogOpen] = useState(false);
 
     const keyword = searchParams.get('restaurant') ?? '';
 
@@ -82,6 +84,7 @@ const Header = () => {
      * Opens a feedback modal for confirmation
      */
     const handleLogoutClick: () => void = () => {
+        setDialogOpen(true);
         dispatch(
             openDialog({
                 title: 'LOG OUT ?',
@@ -161,7 +164,7 @@ const Header = () => {
                         ))}
                     </ActionWrapper>
                     {isLoggedIn && (
-                        <Box
+                        <MuiBox
                             tabIndex={0}
                             onKeyDown={(
                                 e: React.KeyboardEvent<HTMLDivElement>,
@@ -174,13 +177,13 @@ const Header = () => {
                                         ) as HTMLElement | null;
 
                                     if (profileButton) {
-                                        profileButton.click();
+                                        (profileButton as HTMLElement).click();
                                     }
                                 }
                             }}
                         >
                             <UserProfile handleLogout={handleLogoutClick} />
-                        </Box>
+                        </MuiBox>
                     )}
                 </RightSection>
             </Container>

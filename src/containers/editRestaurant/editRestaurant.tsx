@@ -3,10 +3,14 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import { StorefrontOutlined } from '@mui/icons-material';
-import { alpha, Box, MenuItem, Stack, Typography } from '@mui/material';
+import {
+    alpha,
+    Box as MuiBox,
+    MenuItem as MuiMenuItem,
+    Stack as MuiStack,
+    Typography as MuiTypography,
+} from '@mui/material';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-
-import MyButton from '@components/Button/Button';
 import {
     ACTION_DIALOG_TYPES,
     TOAST_TYPES,
@@ -21,8 +25,6 @@ import { DAYS, DEFAULT_DAYS, FOOD_CATEGORY, FoodCategory } from '@constant';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { restaurantSchema } from '@validations/restaurant.validation';
 import { ROUTES } from '@router/routes';
-
-import { Restaurant } from '../../types/restaurant.types';
 import {
     ActionContainer,
     FooterContainer,
@@ -42,6 +44,8 @@ import { EditRestaurantFormValues } from './editRestaurant.types';
 import { normalizeTimeValue } from '@utils/getNormalizedTime';
 import { ActionDialog } from '@components/ActionDialog/ActionDialog.component';
 import { InputField } from '@components/InputField/InputField.component';
+import { Button } from '@components/Button/Button.component';
+import { Restaurant } from '../../types/restaurant.types';
 
 const editRestaurantSchema = restaurantSchema.omit(['imageUrl']);
 
@@ -201,37 +205,37 @@ const EditRestaurant = () => {
 
     return (
         <Root>
-            <Box
+            <MuiBox
                 component="form"
                 onSubmit={(event: ChangeEvent<HTMLFormElement>) =>
                     void handleSubmit(onSubmitForm)(event)
                 }
                 width="100%"
             >
-                <MyButton
+                <Button
                     variant="outlined"
                     startIcon={<ArrowBackIosNewIcon />}
                     onClick={() => void navigate(ROUTES.ROOT)}
                 >
                     Back
-                </MyButton>
+                </Button>
                 <HeadingWrapper>
-                    <Typography variant="h3">EDIT RESTAURANT</Typography>
-                    <Typography
+                    <MuiTypography variant="h3">EDIT RESTAURANT</MuiTypography>
+                    <MuiTypography
                         variant="subtitle1"
                         color={alpha(theme.palette.text.secondary, 0.6)}
                     >
                         Update the restaurant details below and save the
                         changes.
-                    </Typography>
+                    </MuiTypography>
                 </HeadingWrapper>
                 <FormContainer>
                     <FormGrid>
                         <MetaContainer>
-                            <Stack spacing={2} width="100%">
-                                <Typography variant="body1">
+                            <MuiStack spacing={2} width="100%">
+                                <MuiTypography variant="body1">
                                     Image URL
-                                </Typography>
+                                </MuiTypography>
                                 <Controller
                                     name="imageUrl"
                                     control={control}
@@ -247,11 +251,11 @@ const EditRestaurant = () => {
                                         />
                                     )}
                                 />
-                            </Stack>
-                            <Stack spacing={2} width="100%">
-                                <Typography variant="body1">
+                            </MuiStack>
+                            <MuiStack spacing={2} width="100%">
+                                <MuiTypography variant="body1">
                                     Restaurant name
-                                </Typography>
+                                </MuiTypography>
                                 <Controller
                                     name="name"
                                     control={control}
@@ -265,13 +269,13 @@ const EditRestaurant = () => {
                                         />
                                     )}
                                 />
-                            </Stack>
+                            </MuiStack>
                         </MetaContainer>
-                        <Box width="100%">
-                            <Stack spacing={2}>
-                                <Typography variant="body1">
+                        <MuiBox width="100%">
+                            <MuiStack spacing={2}>
+                                <MuiTypography variant="body1">
                                     Restaurant description
-                                </Typography>
+                                </MuiTypography>
                                 <Controller
                                     name="description"
                                     control={control}
@@ -289,14 +293,14 @@ const EditRestaurant = () => {
                                         />
                                     )}
                                 />
-                            </Stack>
-                        </Box>
+                            </MuiStack>
+                        </MuiBox>
                         <FormGrid>
                             <MetaContainer>
-                                <Stack spacing={2} width="100%">
-                                    <Typography variant="body1">
+                                <MuiStack spacing={2} width="100%">
+                                    <MuiTypography variant="body1">
                                         Address
-                                    </Typography>
+                                    </MuiTypography>
                                     <Controller
                                         name="address"
                                         control={control}
@@ -312,11 +316,11 @@ const EditRestaurant = () => {
                                             />
                                         )}
                                     />
-                                </Stack>
-                                <Stack spacing={2} width="100%">
-                                    <Typography variant="body1">
+                                </MuiStack>
+                                <MuiStack spacing={2} width="100%">
+                                    <MuiTypography variant="body1">
                                         Contact number
-                                    </Typography>
+                                    </MuiTypography>
                                     <Controller
                                         name="contactNumber"
                                         control={control}
@@ -333,14 +337,14 @@ const EditRestaurant = () => {
                                             />
                                         )}
                                     />
-                                </Stack>
+                                </MuiStack>
                             </MetaContainer>
                             <RangeContainer>
                                 <SelectFormControl>
-                                    <Stack spacing={2} width="100%">
-                                        <Typography variant="body1">
+                                    <MuiStack spacing={2} width="100%">
+                                        <MuiTypography variant="body1">
                                             Food category
-                                        </Typography>
+                                        </MuiTypography>
                                         <Controller
                                             name="category"
                                             control={control}
@@ -357,37 +361,37 @@ const EditRestaurant = () => {
                                                     fullWidth
                                                     error={!!errors.category}
                                                 >
-                                                    <MenuItem
+                                                    <MuiMenuItem
                                                         value={
                                                             FOOD_CATEGORY.BOTH
                                                         }
                                                     >
                                                         BOTH
-                                                    </MenuItem>
-                                                    <MenuItem
+                                                    </MuiMenuItem>
+                                                    <MuiMenuItem
                                                         value={
                                                             FOOD_CATEGORY.VEG
                                                         }
                                                     >
                                                         VEG
-                                                    </MenuItem>
-                                                    <MenuItem
+                                                    </MuiMenuItem>
+                                                    <MuiMenuItem
                                                         value={
                                                             FOOD_CATEGORY.NON_VEG
                                                         }
                                                     >
                                                         NON VEG
-                                                    </MenuItem>
+                                                    </MuiMenuItem>
                                                 </MySelect>
                                             )}
                                         />
-                                    </Stack>
+                                    </MuiStack>
                                 </SelectFormControl>
                                 <TimeRangeContainer>
-                                    <Stack spacing={2} width="100%">
-                                        <Typography variant="body1">
+                                    <MuiStack spacing={2} width="100%">
+                                        <MuiTypography variant="body1">
                                             Opening time
-                                        </Typography>
+                                        </MuiTypography>
                                         <Controller
                                             name="openingTime"
                                             control={control}
@@ -404,11 +408,11 @@ const EditRestaurant = () => {
                                                 />
                                             )}
                                         />
-                                    </Stack>
-                                    <Stack spacing={2} width="100%">
-                                        <Typography variant="body1">
+                                    </MuiStack>
+                                    <MuiStack spacing={2} width="100%">
+                                        <MuiTypography variant="body1">
                                             Closing time
-                                        </Typography>
+                                        </MuiTypography>
                                         <Controller
                                             name="closingTime"
                                             control={control}
@@ -425,15 +429,15 @@ const EditRestaurant = () => {
                                                 />
                                             )}
                                         />
-                                    </Stack>
+                                    </MuiStack>
                                 </TimeRangeContainer>
                             </RangeContainer>
                         </FormGrid>
                         <FormGrid>
-                            <Stack spacing={2} width="100%">
-                                <Typography variant="body1">
+                            <MuiStack spacing={2} width="100%">
+                                <MuiTypography variant="body1">
                                     Operating days
-                                </Typography>
+                                </MuiTypography>
                                 <OperatingDaysContainer>
                                     {DAYS.map((day) => (
                                         <OperatingDayChip
@@ -450,39 +454,39 @@ const EditRestaurant = () => {
                                     ))}
                                 </OperatingDaysContainer>
                                 {errors.operatingDays && (
-                                    <Typography
+                                    <MuiTypography
                                         color="error.main"
                                         variant="caption"
                                     >
                                         {errors.operatingDays.message}
-                                    </Typography>
+                                    </MuiTypography>
                                 )}
-                            </Stack>
+                            </MuiStack>
                         </FormGrid>
                     </FormGrid>
                 </FormContainer>
                 <FooterContainer>
                     <ActionContainer>
-                        <MyButton
+                        <Button
                             type="button"
                             variant="outlined"
                             color="error"
                             onClick={() => reset()}
                         >
                             Reset
-                        </MyButton>
+                        </Button>
 
-                        <MyButton
+                        <Button
                             type="submit"
                             variant="contained"
                             startIcon={<StorefrontOutlined />}
                             loading={loading || isSubmitting}
                         >
                             {!loading && !isSubmitting && 'Save changes'}
-                        </MyButton>
+                        </Button>
                     </ActionContainer>
                 </FooterContainer>
-            </Box>
+            </MuiBox>
             <ActionDialog
                 open={feedback.open && Boolean(pendingFormData)}
                 title={feedback.title}
@@ -490,6 +494,8 @@ const EditRestaurant = () => {
                 type={feedback.type}
                 confirmText={feedback.confirmText}
                 cancelText={feedback.cancelText}
+                cancelButtonConfig={{ color: 'primary', variant: 'outlined' }}
+                confirmButtonConfig={{ color: 'error', variant: 'contained' }}
                 onClose={handleCancelSubmit}
                 onConfirm={onSubmit}
             />

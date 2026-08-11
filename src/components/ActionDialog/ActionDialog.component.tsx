@@ -1,5 +1,4 @@
 import { Divider as MuiDivider } from '@mui/material';
-import Button from '@components/Button/Button.component';
 import CheckIcon from '@mui/icons-material/Check';
 import PrivacyTipOutlinedIcon from '@mui/icons-material/PrivacyTipOutlined';
 
@@ -15,6 +14,7 @@ import {
 } from './ActionDialog.styles';
 import { ActionDialogProps } from './ActionDialog.types';
 import { ACTION_DIALOG_TYPES } from '@components/constants';
+import { Button } from '@components/Button/Button.component';
 
 export const ActionDialog = ({
     open,

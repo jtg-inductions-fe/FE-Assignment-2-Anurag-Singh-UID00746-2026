@@ -1,6 +1,6 @@
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import { alpha, Typography } from '@mui/material';
+import { alpha, Typography as MuiTypography } from '@mui/material';
 import {
     ActionContainer,
     ClosedBadge,
@@ -64,6 +64,7 @@ export const RestaurantCard = ({
                                 onEdit(restaurant);
                             }}
                             onKeyDown={handleIconButtonKeyDown}
+                            aria-label={`Edit ${restaurant.name}`}
                         >
                             <EditOutlinedIcon />
                         </StyledIconButton>
@@ -77,6 +78,7 @@ export const RestaurantCard = ({
                                 onDelete(restaurant);
                             }}
                             onKeyDown={handleIconButtonKeyDown}
+                            aria-label={`Delete ${restaurant.name}`}
                         >
                             <DeleteOutlineOutlinedIcon />
                         </StyledIconButton>
@@ -102,28 +104,28 @@ export const RestaurantCard = ({
                                     color="primary"
                                 />
                             </IconWrapper>
-                            <Typography
+                            <MuiTypography
                                 variant="subtitle1"
                                 color={alpha(theme.palette.common.white, 0.9)}
                             >
                                 CLOSED FOR TODAY
-                            </Typography>
+                            </MuiTypography>
                         </OverlayContent>
                     </Overlay>
                 )}
             </ImageContainer>
 
             <StyledCardContent>
-                <InfoContainer maxWidth={{ tablet: 500 }}>
+                <InfoContainer maxWidth={{ sm: 500 }}>
                     <HeaderBox>
-                        <Typography
+                        <MuiTypography
                             variant="h5"
                             whiteSpace="nowrap"
                             textOverflow="ellipsis"
                             overflow="hidden"
                         >
                             {restaurant.name}
-                        </Typography>
+                        </MuiTypography>
                         {restaurant.category === FOOD_CATEGORY.VEG && (
                             <Badge label="Veg" size="medium" color="success" />
                         )}
@@ -137,7 +139,7 @@ export const RestaurantCard = ({
                         )}
                     </HeaderBox>
 
-                    <Typography
+                    <MuiTypography
                         variant="subtitle2"
                         color="primary"
                         whiteSpace="nowrap"
@@ -145,11 +147,11 @@ export const RestaurantCard = ({
                         overflow="hidden"
                     >
                         {restaurant.description}
-                    </Typography>
+                    </MuiTypography>
                 </InfoContainer>
 
                 <MetaContainer>
-                    <Typography
+                    <MuiTypography
                         maxWidth={400}
                         variant="caption"
                         color="common.black"
@@ -158,7 +160,7 @@ export const RestaurantCard = ({
                         overflow="hidden"
                     >
                         {restaurant.address}
-                    </Typography>
+                    </MuiTypography>
                 </MetaContainer>
             </StyledCardContent>
         </StyledCard>

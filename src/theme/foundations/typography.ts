@@ -5,7 +5,6 @@ import type {
 } from '@mui/material/styles/createTypography';
 
 import { HTML_FONT_SIZE } from '@constant';
-
 import { FONT_WEIGHTS } from './constants';
 
 /* Custom px to rem function */
@@ -29,62 +28,62 @@ const typographyStyle = (theme: Theme): TypographyOptions => ({
 
     fontWeightLight: FONT_WEIGHTS.LIGHT,
     fontWeightRegular: FONT_WEIGHTS.REGULAR,
-    fontWeightMedium: FONT_WEIGHTS.MEDIUM,
+    fontWeightBold: FONT_WEIGHTS.MEDIUM,
 
     h1: {
-        fontSize: typography.typographyUtil.pxToRem(40),
-        fontWeight: theme.typography.fontWeightMedium,
-        lineHeight: typography.typographyUtil.pxToRem(45),
+        fontSize: typographyUtil.pxToRem(40),
+        fontWeight: theme.typography.fontWeightBold,
+        lineHeight: typographyUtil.pxToRem(45),
         color: theme.palette.common.black,
 
         [theme.breakpoints.up('sm')]: {
-            fontSize: typography.typographyUtil.pxToRem(64),
-            lineHeight: typography.typographyUtil.pxToRem(62.5),
+            fontSize: typographyUtil.pxToRem(64),
+            lineHeight: typographyUtil.pxToRem(62.5),
         },
     },
 
     h3: {
-        fontSize: typography.typographyUtil.pxToRem(30),
+        fontSize: typographyUtil.pxToRem(27),
         fontWeight: theme.typography.fontWeightBold,
-        lineHeight: typography.typographyUtil.pxToRem(45),
-        letterSpacing: typography.typographyUtil.pxToRem(1),
-        color: theme.palette.text.primary,
+        lineHeight: typographyUtil.pxToRem(45),
+        letterSpacing: typographyUtil.pxToRem(1),
 
         [theme.breakpoints.up('sm')]: {
-            fontSize: typography.typographyUtil.pxToRem(40),
-            lineHeight: typography.typographyUtil.pxToRem(62.5),
+            fontSize: typographyUtil.pxToRem(35),
+            lineHeight: typographyUtil.pxToRem(55),
         },
     },
 
     subtitle1: {
-        fontSize: typography.typographyUtil.pxToRem(14),
-        lineHeight: typography.typographyUtil.pxToRem(15),
+        fontSize: typographyUtil.pxToRem(14),
+        lineHeight: typographyUtil.pxToRem(23),
         color: theme.palette.text.secondary,
-        letterSpacing: typography.typographyUtil.pxToRem(0.5),
+        letterSpacing: typographyUtil.pxToRem(0.5),
 
         [theme.breakpoints.up('sm')]: {
-            fontSize: typography.typographyUtil.pxToRem(16),
-            lineHeight: typography.typographyUtil.pxToRem(20),
+            fontSize: typographyUtil.pxToRem(16),
+            lineHeight: typographyUtil.pxToRem(25),
         },
     },
 
     body1: {
-        fontSize: typography.typographyUtil.pxToRem(12),
-        lineHeight: typography.typographyUtil.pxToRem(15),
+        fontSize: typographyUtil.pxToRem(14),
+        fontWeight: theme.typography.fontWeightLight,
+        lineHeight: typographyUtil.pxToRem(20),
+        letterSpacing: typographyUtil.pxToRem(1),
 
         [theme.breakpoints.up('sm')]: {
-            fontSize: typography.typographyUtil.pxToRem(14),
-            lineHeight: typography.typographyUtil.pxToRem(20),
+            lineHeight: typographyUtil.pxToRem(20),
         },
     },
 
     caption: {
-        fontSize: typography.typographyUtil.pxToRem(10),
-        lineHeight: typography.typographyUtil.pxToRem(15),
+        fontSize: typographyUtil.pxToRem(10),
+        lineHeight: typographyUtil.pxToRem(15),
 
         [theme.breakpoints.up('sm')]: {
-            fontSize: typography.typographyUtil.pxToRem(12),
-            lineHeight: typography.typographyUtil.pxToRem(20),
+            fontSize: typographyUtil.pxToRem(12),
+            lineHeight: typographyUtil.pxToRem(20),
         },
     },
 });
