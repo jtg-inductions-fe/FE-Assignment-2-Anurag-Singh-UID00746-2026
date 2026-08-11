@@ -6,6 +6,8 @@ import type {
 
 import { HTML_FONT_SIZE } from '@constant';
 
+import { FONT_WEIGHTS } from './constants';
+
 /* Custom px to rem function */
 const typographyUtil: TypographyUtils = {
     /**
@@ -25,71 +27,66 @@ const typographyStyle = (theme: Theme): TypographyOptions => ({
     fontFamily: 'Inter',
     htmlFontSize: HTML_FONT_SIZE,
 
-    fontWeightLight: 400,
-    fontWeightRegular: 500,
-    fontWeightMedium: 600,
-    fontWeightBold: 700,
+    fontWeightLight: FONT_WEIGHTS.LIGHT,
+    fontWeightRegular: FONT_WEIGHTS.REGULAR,
+    fontWeightMedium: FONT_WEIGHTS.MEDIUM,
 
     h1: {
-        fontSize: typographyUtil.pxToRem(40),
-        fontWeight: theme.typography.fontWeightBold,
-        lineHeight: typographyUtil.pxToRem(45),
+        fontSize: theme.typography.pxToRem(40),
+        fontWeight: theme.typography.fontWeightMedium,
+        lineHeight: theme.typography.pxToRem(45),
         color: theme.palette.common.black,
 
-        [theme.breakpoints.up('tablet')]: {
-            fontSize: typographyUtil.pxToRem(64),
-            lineHeight: typographyUtil.pxToRem(62.5),
+        [theme.breakpoints.up('sm')]: {
+            fontSize: theme.typography.pxToRem(64),
+            lineHeight: theme.typography.pxToRem(62.5),
         },
     },
 
     h3: {
-        fontSize: typographyUtil.pxToRem(27),
-        fontWeight: theme.typography.fontWeightBold,
-        lineHeight: typographyUtil.pxToRem(45),
-        letterSpacing: typographyUtil.pxToRem(1),
-        background: 'linear-gradient(180deg, #2b2d42 0%, #4a4e69 100%)',
-        WebkitBackgroundClip: 'text',
-        WebkitTextFillColor: 'transparent',
-        backgroundClip: 'text',
-        whiteSpace: 'no-wrap',
+        fontSize: theme.typography.pxToRem(30),
+        fontWeight: theme.typography.fontWeightMedium,
+        lineHeight: theme.typography.pxToRem(45),
+        letterSpacing: theme.typography.pxToRem(1),
+        color: theme.palette.text.primary,
 
-        [theme.breakpoints.up('tablet')]: {
-            fontSize: typographyUtil.pxToRem(35),
-            lineHeight: typographyUtil.pxToRem(55),
+        [theme.breakpoints.up('sm')]: {
+            fontSize: theme.typography.pxToRem(40),
+            lineHeight: theme.typography.pxToRem(62.5),
         },
     },
 
     subtitle1: {
-        fontSize: typographyUtil.pxToRem(14),
-        lineHeight: typographyUtil.pxToRem(23),
+        fontSize: theme.typography.pxToRem(14),
+        lineHeight: theme.typography.pxToRem(15),
         color: theme.palette.text.secondary,
-        letterSpacing: typographyUtil.pxToRem(0.5),
+        letterSpacing: theme.typography.pxToRem(0.5),
 
-        [theme.breakpoints.up('tablet')]: {
-            fontSize: typographyUtil.pxToRem(16),
-            lineHeight: typographyUtil.pxToRem(25),
+        [theme.breakpoints.up('sm')]: {
+            fontSize: theme.typography.pxToRem(16),
+            lineHeight: theme.typography.pxToRem(20),
         },
     },
 
     body1: {
-        fontSize: typographyUtil.pxToRem(14),
+        fontSize: theme.typography.pxToRem(12),
         fontWeight: theme.typography.fontWeightLight,
-        lineHeight: typographyUtil.pxToRem(20),
-        letterSpacing: typographyUtil.pxToRem(1),
+        lineHeight: theme.typography.pxToRem(15),
 
-        [theme.breakpoints.up('tablet')]: {
-            lineHeight: typographyUtil.pxToRem(20),
+        [theme.breakpoints.up('sm')]: {
+            fontSize: theme.typography.pxToRem(14),
+            lineHeight: theme.typography.pxToRem(20),
         },
     },
 
     caption: {
-        fontSize: typographyUtil.pxToRem(10),
+        fontSize: theme.typography.pxToRem(10),
         fontWeight: theme.typography.fontWeightLight,
-        lineHeight: typographyUtil.pxToRem(15),
+        lineHeight: theme.typography.pxToRem(15),
 
-        [theme.breakpoints.up('tablet')]: {
-            fontSize: typographyUtil.pxToRem(12),
-            lineHeight: typographyUtil.pxToRem(20),
+        [theme.breakpoints.up('sm')]: {
+            fontSize: theme.typography.pxToRem(12),
+            lineHeight: theme.typography.pxToRem(20),
         },
     },
 });

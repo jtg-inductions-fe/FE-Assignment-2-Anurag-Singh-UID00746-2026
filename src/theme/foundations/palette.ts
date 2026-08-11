@@ -48,7 +48,6 @@ export const palette: PaletteOptions = {
     divider: COLORS.DIVIDER,
 
     background: {
-        default: COLORS.BACKGROUND.DEFAULT,
         paper: COLORS.BACKGROUND.PAPER,
     },
 };

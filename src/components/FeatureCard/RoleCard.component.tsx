@@ -1,5 +1,5 @@
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
-import { Typography } from '@mui/material';
+import { Typography as MuiTypography } from '@mui/material';
 
 import {
     Illustration,
@@ -17,7 +17,7 @@ const FeatureCard = ({
     onClick,
 }: RoleCardProps) => (
     <StyledCard selected={selected}>
-        <MyCardActionArea onClick={onClick}>
+        <MyCardActionArea onClick={onClick} aria-pressed={selected}>
             <MyBadge selected={selected}>
                 {selected && <CheckRoundedIcon />}
             </MyBadge>
@@ -25,9 +25,9 @@ const FeatureCard = ({
                 <Illustration className="role-image" src={image} alt={title} />
             </ImgBox>
 
-            <Typography mt={3} variant="h6">
+            <MuiTypography mt={3} variant="h6">
                 {title.toUpperCase()}
-            </Typography>
+            </MuiTypography>
         </MyCardActionArea>
     </StyledCard>
 );

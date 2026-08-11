@@ -1,3 +1,4 @@
+import { ThemeType } from '@components/types';
 import { alpha, Box, Card, CardActionArea, styled } from '@mui/material';
 
 import { typography } from '@theme/foundations';
@@ -16,20 +17,22 @@ export const StyledCard = styled(Card, {
     width: '100%',
 }));
 
-export const MyCardActionArea = styled(CardActionArea)(({ theme }) => ({
-    padding: theme.spacing(4, 3),
-    textAlign: 'center',
+export const MyCardActionArea = styled(CardActionArea)(
+    ({ theme }: ThemeType) => ({
+        padding: theme.spacing(4, 3),
+        textAlign: 'center',
 
-    '&:hover .role-image': {
-        transform: 'scale(1.06)',
-    },
-}));
+        '&:hover .role-image': {
+            transform: 'scale(1.06)',
+        },
+    }),
+);
 
-export const ImgBox = styled(Box)(({ theme }) => ({
+export const ImgBox = styled(Box)(({ theme }: ThemeType) => ({
     height: typography.typographyUtil.pxToRem(120),
     width: '100%',
 
-    [theme.breakpoints.up('tablet')]: {
+    [theme.breakpoints.up('sm')]: {
         height: typography.typographyUtil.pxToRem(150),
         width: '95%',
     },

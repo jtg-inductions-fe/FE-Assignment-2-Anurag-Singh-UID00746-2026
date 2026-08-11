@@ -1,13 +1,20 @@
 import { createBrowserRouter } from 'react-router-dom';
 
-import ErrorPage from '@containers/exception/ErrorPage';
-import NotFoundPage from '@containers/exception/NotFoundPage';
-import Home from '@containers/home';
-import Login from '@containers/login';
-import Signup from '@containers/signup';
 import RootLayout from '@layouts/RootLayout';
 
-import ProtectedRoute from './ProtectedRoute/ProtectedRoute';
+import ErrorPage from '@containers/exception/Error.container';
+import NotFoundPage from '@containers/exception/NotFound.container';
+import Home from '@containers/home/Home.container';
+import Login from '@containers/login/Login.container';
+import Signup from '@containers/signup/Signup.container';
+
+import ErrorPage from '@containers/exception/Error.container';
+import NotFoundPage from '@containers/exception/NotFound.container';
+import Home from '@containers/home/Home.container';
+import Login from '@containers/login/Login.container';
+import Signup from '@containers/signup/Signup.container';
+
+import ProtectedRoute from './ProtectedRoute';
 import PublicRoute from './PublicRoute';
 import { ROUTES, ROUTES_SEGMENTS } from './routes';
 import AddRestaurant from '@containers/addRestaurant/addRestaurant';

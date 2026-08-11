@@ -1,5 +1,3 @@
-import CheckIcon from '@mui/icons-material/Check';
-import PrivacyTipOutlinedIcon from '@mui/icons-material/PrivacyTipOutlined';
 import {
     Box,
     Dialog,
@@ -11,8 +9,9 @@ import {
 import { alpha, styled } from '@mui/material/styles';
 
 import { ACTION_DIALOG_TYPES, DialogType } from '@components/constants';
+import { ThemeType } from '@components/types';
 
-export const StyledDialog = styled(Dialog)(({ theme }) => ({
+export const StyledDialog = styled(Dialog)(({ theme }: ThemeType) => ({
     '& .MuiPaper-root': {
         borderRadius: theme.shape.borderRadius * 2,
         padding: 0,
@@ -22,13 +21,13 @@ export const StyledDialog = styled(Dialog)(({ theme }) => ({
         boxShadow:
             '0 10px 30px -10px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02)',
 
-        [theme.breakpoints.up('tablet')]: {
+        [theme.breakpoints.up('sm')]: {
             maxWidth: theme.spacing(130),
         },
     },
 }));
 
-export const ContentContainer = styled(Box)(({ theme }) => ({
+export const ContentContainer = styled(Box)(({ theme }: ThemeType) => ({
     padding: theme.spacing(6, 4),
     display: 'flex',
     gap: theme.spacing(4),
@@ -52,48 +51,50 @@ export const IconContainer = styled(Box, {
         alignItems: 'center',
         justifyContent: 'center',
         flexShrink: 0,
-        width: theme.spacing(12),
-        height: theme.spacing(12),
+        width: theme.spacing(14),
+        height: theme.spacing(14),
         borderRadius: '50%',
         backgroundColor: bgColor,
         color: baseColor,
-        boxShadow: `
+        MuiBoxShadow: `
             0 1px 2px rgba(0, 0, 0, 0.02), 
             inset 0 1px 1px ${alpha('#ffffff', 0.8)}
         `,
 
-        [theme.breakpoints.up('tablet')]: {
+        [theme.breakpoints.up('sm')]: {
             display: 'flex',
         },
     };
 });
 
-export const TextContainer = styled(Box)(({ theme }) => ({
+export const TextContainer = styled(Box)(({ theme }: ThemeType) => ({
     display: 'flex',
     flexDirection: 'column',
     gap: theme.spacing(1),
     flex: 1,
 }));
 
-export const StyledDialogTitle = styled(DialogTitle)(({ theme }) => ({
-    padding: 0,
-    fontSize: theme.typography.h6.fontSize,
-    fontWeight: theme.typography.fontWeightMedium,
-    background: 'linear-gradient(180deg, #1a1c1e 10%, #5c636a 100%)',
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent',
-    backgroundClip: 'text',
-    lineHeight: 1.2,
-    letterSpacing: '0.05em',
-    textTransform: 'uppercase',
-}));
+export const StyledDialogTitle = styled(DialogTitle)(
+    ({ theme }: ThemeType) => ({
+        padding: 0,
+        fontSize: theme.typography.h6.fontSize,
+        fontWeight: theme.typography.fontWeightMedium,
+        background: 'linear-gradient(180deg, #1a1c1e 10%, #5c636a 100%)',
+        WebkitBackgroundClip: 'text',
+        WebkitTextFillColor: 'transparent',
+        backgroundClip: 'text',
+        lineHeight: 1.2,
+        letterSpacing: '0.05em',
+        textTransform: 'uppercase',
+    }),
+);
 
 export const StyledDialogContent = styled(DialogContent)({
     padding: 0,
 });
 
 export const StyledDialogContentText = styled(DialogContentText)(
-    ({ theme }) => ({
+    ({ theme }: ThemeType) => ({
         fontSize: theme.typography.body2.fontSize,
         color: theme.palette.text.secondary,
         lineHeight: 1.5,
@@ -102,17 +103,11 @@ export const StyledDialogContentText = styled(DialogContentText)(
     }),
 );
 
-export const StyledDialogActions = styled(DialogActions)(({ theme }) => ({
-    backgroundColor: alpha(theme.palette.action.disabledBackground, 0.05),
-    padding: theme.spacing(3, 3),
-    justifyContent: 'flex-end',
-    gap: theme.spacing(1.5),
-}));
-
-export const StyledPrivacyIcon = styled(PrivacyTipOutlinedIcon)({
-    fontSize: 30,
-});
-
-export const StyledCheckIcon = styled(CheckIcon)({
-    fontSize: 30,
-});
+export const StyledDialogActions = styled(DialogActions)(
+    ({ theme }: ThemeType) => ({
+        backgroundColor: alpha(theme.palette.action.disabledBackground, 0.05),
+        padding: theme.spacing(3, 3),
+        justifyContent: 'flex-end',
+        gap: theme.spacing(1.5),
+    }),
+);

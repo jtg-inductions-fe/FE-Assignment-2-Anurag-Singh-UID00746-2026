@@ -1,23 +1,20 @@
-import { useEffect, useRef } from 'react';
-
-import { Divider } from '@mui/material';
-
-import MyButton from '@components/Button/Button';
+import { Divider as MuiDivider } from '@mui/material';
+import Button from '@components/Button/Button.component';
+import CheckIcon from '@mui/icons-material/Check';
+import PrivacyTipOutlinedIcon from '@mui/icons-material/PrivacyTipOutlined';
 
 import {
     ContentContainer,
     IconContainer,
-    StyledCheckIcon,
     StyledDialog,
     StyledDialogActions,
     StyledDialogContent,
     StyledDialogContentText,
     StyledDialogTitle,
-    StyledPrivacyIcon,
     TextContainer,
 } from './ActionDialog.styles';
 import { ActionDialogProps } from './ActionDialog.types';
-import { ACTION_DIALOG_TYPES } from '../constants';
+import { ACTION_DIALOG_TYPES } from '@components/constants';
 
 export const ActionDialog = ({
     open,
@@ -27,6 +24,8 @@ export const ActionDialog = ({
     cancelText = 'Cancel',
     confirmText,
     icon,
+    cancelButtonConfig,
+    confirmButtonConfig,
     onClose,
     onConfirm,
 }: ActionDialogProps) => {
@@ -77,9 +76,9 @@ export const ActionDialog = ({
     const renderIcon = () => {
         if (icon) return icon;
         return type === ACTION_DIALOG_TYPES.ALERT ? (
-            <StyledPrivacyIcon />
+            <PrivacyTipOutlinedIcon fontSize="large" />
         ) : (
-            <StyledCheckIcon />
+            <CheckIcon fontSize="large" />
         );
     };
 
@@ -100,31 +99,19 @@ export const ActionDialog = ({
                     </StyledDialogContent>
                 </TextContainer>
             </ContentContainer>
-            <Divider />
+            <MuiDivider />
             <StyledDialogActions>
-                <MyButton
-                    ref={cancelButtonRef}
-                    onClick={onClose}
-                    variant="outlined"
-                    disableRipple
-                    color={
-                        type === ACTION_DIALOG_TYPES.ALERT ? 'primary' : 'error'
-                    }
-                >
+                <Button {...cancelButtonConfig} onClick={onClose} disableRipple>
                     {cancelText}
-                </MyButton>
-                <MyButton
-                    ref={confirmButtonRef}
+                </Button>
+                <Button
+                    {...confirmButtonConfig}
                     onClick={onConfirm}
                     disableElevation
                     disableRipple
-                    variant="contained"
-                    color={
-                        type === ACTION_DIALOG_TYPES.ALERT ? 'error' : 'primary'
-                    }
                 >
                     {finalConfirmText}
-                </MyButton>
+                </Button>
             </StyledDialogActions>
         </StyledDialog>
     );

@@ -1,8 +1,9 @@
+import { ThemeType } from '@components/types';
 import { alpha, InputBase, styled } from '@mui/material';
 
 import { typography } from '@theme/foundations';
 
-export const Search = styled('div')(({ theme }) => ({
+export const Search = styled('div')(({ theme }: ThemeType) => ({
     position: 'relative',
     border: `2px solid ${theme.palette.secondary.light}`,
     borderRadius: typography.typographyUtil.pxToRem(10),
@@ -18,14 +19,13 @@ export const Search = styled('div')(({ theme }) => ({
         borderColor: theme.palette.secondary.main,
     },
 
-    [theme.breakpoints.up('tablet')]: {
-        maxWidth: typography.typographyUtil.pxToRem(700),
+    [theme.breakpoints.up('sm')]: {
         marginLeft: theme.spacing(3),
         width: 'auto',
     },
 }));
 
-export const SearchIconWrapper = styled('div')(({ theme }) => ({
+export const SearchIconWrapper = styled('div')(({ theme }: ThemeType) => ({
     padding: theme.spacing(0, 1),
     height: '100%',
     position: 'absolute',
@@ -35,7 +35,7 @@ export const SearchIconWrapper = styled('div')(({ theme }) => ({
     justifyContent: 'end',
 }));
 
-export const StyledInputBase = styled(InputBase)(({ theme }) => ({
+export const StyledInputBase = styled(InputBase)(({ theme }: ThemeType) => ({
     color: 'inherit',
     fontSize: typography.typographyUtil.pxToRem(15),
 
@@ -44,7 +44,7 @@ export const StyledInputBase = styled(InputBase)(({ theme }) => ({
         paddingLeft: `calc(1em + ${theme.spacing(5)})`,
         transition: theme.transitions.create('width'),
         width: '100%',
-        [theme.breakpoints.up('tablet')]: {
+        [theme.breakpoints.up('sm')]: {
             width: '20ch',
         },
     },

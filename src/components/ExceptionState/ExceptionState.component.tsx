@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { ArrowBack } from '@mui/icons-material';
 import RefreshIcon from '@mui/icons-material/Refresh';
-import { Typography } from '@mui/material';
+import { Typography as MuiTypography } from '@mui/material';
 
 import EmptyStateImage from '@assets/images/empty-state.webp';
 import ErrorStateImage from '@assets/images/error-state.webp';
@@ -22,12 +22,13 @@ const ExceptionState = ({
     type = EXCEPTION_STATE_TYPES.ERROR,
     title,
     description,
+    onRetry,
     ...boxProps
 }: ExceptionStateProps) => {
     const navigate = useNavigate();
 
     const handleFixedRetry = () => {
-        window.location.reload();
+        onRetry?.();
     };
 
     const handleBack = async () => {
@@ -37,7 +38,7 @@ const ExceptionState = ({
     return (
         <StyledContainer {...boxProps}>
             <StyledImage
-                alt="Empty state"
+                alt="Empty state image"
                 src={
                     type === EXCEPTION_STATE_TYPES.ERROR
                         ? ErrorStateImage
@@ -72,9 +73,9 @@ const ExceptionState = ({
                     <StyledDivider orientation="vertical" type={type} />
                 )}
 
-                <Typography variant="body1">
+                <MuiTypography variant="body1">
                     {type === EXCEPTION_STATE_TYPES.ERROR ? 'Retry' : 'Back'}
-                </Typography>
+                </MuiTypography>
             </StyledButton>
         </StyledContainer>
     );

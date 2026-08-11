@@ -3,11 +3,14 @@ import { ChangeEvent } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { alpha, Box, Stack, Typography } from '@mui/material';
-
-import MyButton from '@components/Button/Button';
+import {
+    alpha,
+    Box as MuiBox,
+    Stack as MuiStack,
+    Typography as MuiTypography,
+} from '@mui/material';
 import { TOAST_TYPES } from '@components/constants';
-import { MyInputField } from '@components/InputField/InputField';
+import { InputField } from '@components/InputField/InputField.component';
 import { LoginCredential } from '@features/auth/auth.types';
 import { login } from '@features/auth/authThunk';
 import { showToast } from '@features/toast/toastSlice';
@@ -18,7 +21,8 @@ import { typography } from '@theme/foundations';
 import { theme } from '@theme/index';
 import { loginSchema } from '@validations/auth.validation';
 
-import { CenteredContainer, ClickableLink } from './login.styles';
+import { CenteredContainer, ClickableLink } from './Login.styles';
+import Button from '@components/Button/Button.component';
 
 const Login = () => {
     const {
@@ -37,6 +41,9 @@ const Login = () => {
     const navigate = useNavigate();
     const { isLoading } = useAppSelector((state) => state.auth);
 
+    /**
+     * Checks user's credential by calling the action and navigates the user to home route
+     */
     const onSubmit = async (data: LoginCredential) => {
         try {
             await dispatch(login(data)).unwrap();
@@ -60,8 +67,8 @@ const Login = () => {
     };
 
     return (
-        <CenteredContainer maxWidth="tablet" disableGutters>
-            <Box
+        <CenteredContainer maxWidth="sm" disableGutters>
+            <MuiBox
                 component="form"
                 onSubmit={(e: ChangeEvent<HTMLInputElement>) =>
                     void handleSubmit(onSubmit)(e)
@@ -70,29 +77,29 @@ const Login = () => {
                 maxWidth={typography.typographyUtil.pxToRem(500)}
                 paddingInline={7}
             >
-                <Stack spacing={10}>
-                    <Stack>
-                        <Typography variant="h3" textAlign="center">
+                <MuiStack spacing={10}>
+                    <MuiStack>
+                        <MuiTypography variant="h3" textAlign="center">
                             WELCOME BACK
-                        </Typography>
+                        </MuiTypography>
 
-                        <Typography
+                        <MuiTypography
                             variant="body1"
                             color={alpha(theme.palette.text.secondary, 0.7)}
                             textAlign="center"
                         >
                             Your delicious meal is just a login away
-                        </Typography>
-                    </Stack>
+                        </MuiTypography>
+                    </MuiStack>
 
-                    <Stack spacing={8}>
-                        <Stack spacing={2}>
-                            <Typography variant="body1">Email</Typography>
+                    <MuiStack spacing={8}>
+                        <MuiStack spacing={2}>
+                            <MuiTypography variant="body1">Email</MuiTypography>
                             <Controller
                                 name="email"
                                 control={control}
                                 render={({ field }) => (
-                                    <MyInputField
+                                    <InputField
                                         {...field}
                                         placeholder="Enter your email"
                                         fullWidth
@@ -101,15 +108,17 @@ const Login = () => {
                                     />
                                 )}
                             />
-                        </Stack>
+                        </MuiStack>
 
-                        <Stack spacing={2}>
-                            <Typography variant="body1">Password</Typography>
+                        <MuiStack spacing={2}>
+                            <MuiTypography variant="body1">
+                                Password
+                            </MuiTypography>
                             <Controller
                                 name="password"
                                 control={control}
                                 render={({ field }) => (
-                                    <MyInputField
+                                    <InputField
                                         {...field}
                                         type="password"
                                         placeholder="Enter your password"
@@ -119,20 +128,20 @@ const Login = () => {
                                     />
                                 )}
                             />
-                        </Stack>
-                    </Stack>
+                        </MuiStack>
+                    </MuiStack>
 
-                    <Stack spacing={8}>
-                        <MyButton
+                    <MuiStack spacing={8}>
+                        <Button
                             type="submit"
                             variant="contained"
                             loading={isLoading}
                             fullWidth
                         >
                             {!isLoading && 'login'}
-                        </MyButton>
+                        </Button>
 
-                        <Typography variant="body2" textAlign="center">
+                        <MuiTypography variant="body2" textAlign="center">
                             Don&apos;t have an account ?
                             <ClickableLink
                                 component={Link}
@@ -142,10 +151,10 @@ const Login = () => {
                             >
                                 Sign Up
                             </ClickableLink>
-                        </Typography>
-                    </Stack>
-                </Stack>
-            </Box>
+                        </MuiTypography>
+                    </MuiStack>
+                </MuiStack>
+            </MuiBox>
         </CenteredContainer>
     );
 };
