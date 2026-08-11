@@ -1,9 +1,22 @@
 import type { Theme } from '@mui/material/styles';
-import type { TypographyOptions } from '@mui/material/styles/createTypography';
+import type {
+    TypographyOptions,
+    TypographyUtils,
+} from '@mui/material/styles/createTypography';
 
 import { HTML_FONT_SIZE } from '@constant';
 
 import { FONT_WEIGHTS } from './constants';
+
+/* Custom px to rem function */
+const typographyUtil: TypographyUtils = {
+    /**
+     * Converts a pixel value to rem units.
+     * @param px - The pixel value to convert.
+     * @returns The equivalent value in rem units as a string.
+     */
+    pxToRem: (px: number) => `${px / HTML_FONT_SIZE}` + 'rem',
+};
 
 /**
  * Creates a typography block with various styles
@@ -78,4 +91,4 @@ const typographyStyle = (theme: Theme): TypographyOptions => ({
     },
 });
 
-export const typography = { typographyStyle };
+export const typography = { typographyStyle, typographyUtil };

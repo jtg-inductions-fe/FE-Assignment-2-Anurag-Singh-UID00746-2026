@@ -3,9 +3,19 @@
         "paths": {
             "@assets/*": ["./src/assets/*"],
             "@constant": ["./src/constant/index"],
-            "@theme": ["./src/theme/index"],
-            "@pages/*": ["./src/pages/*"],
-            "@layouts/*": ["./src/layouts/*"]
+            "@components/*": ["./src/components/*"],
+            "@config/*": ["./src/config/*"],
+            "@containers/*": ["./src/containers/*"],
+            "@features/*": ["./src/features/*"],
+            "@layouts/*": ["./src/layouts/*"],
+            "@mock/*": ["./src/mock/*"],
+            "@router/*": ["./src/router/*"],
+            "@hooks/*": ["./src/hooks/*"],
+            "@services/*": ["./src/services/*"],
+            "@store/*": ["./src/store/*"],
+            "@theme/*": ["./src/theme/*"],
+            "@types/*": ["./src/types/*"],
+            "@validations/*": ["./src/validations/*"]
         }
     }
 }

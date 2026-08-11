@@ -1,12 +1,15 @@
 import { createBrowserRouter } from 'react-router-dom';
 
 import RootLayout from '@layouts/RootLayout';
-import ErrorPage from '@pages/error/ErrorPage';
-import NotFoundPage from '@pages/error/NotFoundPage';
-import Home from '@pages/home';
-import Login from '@pages/login';
-import Signup from '@pages/signup';
 
+import ErrorPage from '@containers/exception/Error.container';
+import NotFoundPage from '@containers/exception/NotFound.container';
+import Home from '@containers/home/Home.container';
+import Login from '@containers/login/Login.container';
+import Signup from '@containers/signup/Signup.container';
+
+import ProtectedRoute from './ProtectedRoute';
+import PublicRoute from './PublicRoute';
 import { ROUTES, ROUTES_SEGMENTS } from './routes';
 
 export const router = createBrowserRouter([
@@ -22,13 +25,22 @@ export const router = createBrowserRouter([
             },
 
             {
-                path: ROUTES_SEGMENTS.AUTH.LOGIN,
-                element: <Login />,
+                element: <PublicRoute />,
+
+                children: [
+                    {
+                        path: ROUTES_SEGMENTS.AUTH.LOGIN,
+                        element: <Login />,
+                    },
+                    {
+                        path: ROUTES_SEGMENTS.AUTH.SIGNUP,
+                        element: <Signup />,
+                    },
+                ],
             },
 
             {
-                path: ROUTES_SEGMENTS.AUTH.SIGNUP,
-                element: <Signup />,
+                element: <ProtectedRoute />,
             },
 
             {

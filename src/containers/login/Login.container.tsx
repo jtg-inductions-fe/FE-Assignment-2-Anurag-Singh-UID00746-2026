@@ -1,0 +1,162 @@
+import { ChangeEvent } from 'react';
+
+import { Controller, useForm } from 'react-hook-form';
+import { Link, useNavigate } from 'react-router-dom';
+
+import {
+    alpha,
+    Box as MuiBox,
+    Stack as MuiStack,
+    Typography as MuiTypography,
+} from '@mui/material';
+import { TOAST_TYPES } from '@components/constants';
+import { InputField } from '@components/InputField/InputField.component';
+import { LoginCredential } from '@features/auth/auth.types';
+import { login } from '@features/auth/authThunk';
+import { showToast } from '@features/toast/toastSlice';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { ROUTES } from '@router/routes';
+import { useAppDispatch, useAppSelector } from '@store/hooks';
+import { typography } from '@theme/foundations';
+import { theme } from '@theme/index';
+import { loginSchema } from '@validations/auth.validation';
+
+import { CenteredContainer, ClickableLink } from './Login.styles';
+import Button from '@components/Button/Button.component';
+
+const Login = () => {
+    const {
+        control,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<LoginCredential>({
+        resolver: yupResolver(loginSchema),
+        defaultValues: {
+            email: '',
+            password: '',
+        },
+    });
+
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+    const { isLoading } = useAppSelector((state) => state.auth);
+
+    /**
+     * Checks user's credential by calling the action and navigates the user to home route
+     */
+    const onSubmit = async (data: LoginCredential) => {
+        try {
+            await dispatch(login(data)).unwrap();
+            dispatch(
+                showToast({
+                    type: TOAST_TYPES.SUCCESS,
+                    title: 'Success',
+                    message: 'Login successful !!',
+                }),
+            );
+            await navigate(ROUTES.ROOT);
+        } catch (error) {
+            dispatch(
+                showToast({
+                    type: TOAST_TYPES.ERROR,
+                    title: 'Login Failed',
+                    message: error as string,
+                }),
+            );
+        }
+    };
+
+    return (
+        <CenteredContainer maxWidth="sm" disableGutters>
+            <MuiBox
+                component="form"
+                onSubmit={(e: ChangeEvent<HTMLInputElement>) =>
+                    void handleSubmit(onSubmit)(e)
+                }
+                width="100%"
+                maxWidth={typography.typographyUtil.pxToRem(500)}
+                paddingInline={7}
+            >
+                <MuiStack spacing={10}>
+                    <MuiStack>
+                        <MuiTypography variant="h3" textAlign="center">
+                            WELCOME BACK
+                        </MuiTypography>
+
+                        <MuiTypography
+                            variant="body1"
+                            color={alpha(theme.palette.text.secondary, 0.7)}
+                            textAlign="center"
+                        >
+                            Your delicious meal is just a login away
+                        </MuiTypography>
+                    </MuiStack>
+
+                    <MuiStack spacing={8}>
+                        <MuiStack spacing={2}>
+                            <MuiTypography variant="body1">Email</MuiTypography>
+                            <Controller
+                                name="email"
+                                control={control}
+                                render={({ field }) => (
+                                    <InputField
+                                        {...field}
+                                        placeholder="Enter your email"
+                                        fullWidth
+                                        error={!!errors.email}
+                                        helperText={errors.email?.message}
+                                    />
+                                )}
+                            />
+                        </MuiStack>
+
+                        <MuiStack spacing={2}>
+                            <MuiTypography variant="body1">
+                                Password
+                            </MuiTypography>
+                            <Controller
+                                name="password"
+                                control={control}
+                                render={({ field }) => (
+                                    <InputField
+                                        {...field}
+                                        type="password"
+                                        placeholder="Enter your password"
+                                        fullWidth
+                                        error={!!errors.password}
+                                        helperText={errors.password?.message}
+                                    />
+                                )}
+                            />
+                        </MuiStack>
+                    </MuiStack>
+
+                    <MuiStack spacing={8}>
+                        <Button
+                            type="submit"
+                            variant="contained"
+                            loading={isLoading}
+                            fullWidth
+                        >
+                            {!isLoading && 'login'}
+                        </Button>
+
+                        <MuiTypography variant="body2" textAlign="center">
+                            Don&apos;t have an account ?
+                            <ClickableLink
+                                component={Link}
+                                to="/signup"
+                                color="primary"
+                                fontWeight="inherit"
+                            >
+                                Sign Up
+                            </ClickableLink>
+                        </MuiTypography>
+                    </MuiStack>
+                </MuiStack>
+            </MuiBox>
+        </CenteredContainer>
+    );
+};
+
+export default Login;
