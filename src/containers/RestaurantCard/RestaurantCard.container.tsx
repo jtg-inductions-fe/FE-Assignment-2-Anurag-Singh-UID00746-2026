@@ -3,8 +3,6 @@ import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import HttpsOutlinedIcon from '@mui/icons-material/HttpsOutlined';
 import { alpha, Typography } from '@mui/material';
 
-import Badge from '@components/Badge/Badge';
-import { MyImage } from '@components/ImageBox/ImageBox.styles';
 import { FOOD_CATEGORY } from '@constant';
 import { theme } from '@theme/index';
 
@@ -23,6 +21,8 @@ import {
     StyledIconButton,
 } from './RestaurantCard.styles';
 import { RestaurantCardProps } from './restaurantCard.types';
+import { Image } from '@components/ImageBox';
+import { Badge } from '@components/Badge';
 
 export const RestaurantCard = ({
     restaurant,
@@ -89,7 +89,7 @@ export const RestaurantCard = ({
             {!isOpen && <ClosedBadge label="closed" size="medium" />}
 
             <ImageContainer>
-                <MyImage
+                <Image
                     src={restaurant.image}
                     alt={restaurant.name}
                     height={250}

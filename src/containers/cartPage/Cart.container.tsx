@@ -7,7 +7,6 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { Divider, Typography } from '@mui/material';
 
 import { ActionDialog } from '@components/ActionDialog/ActionDialog';
-import QuantitySelector from '@components/QuantitySelector/QuantitySelector.component';
 import {
     selectCartItemCount,
     selectCartItemsByRestaurant,
@@ -45,15 +44,16 @@ import {
     RestaurantHeader,
     RestaurantItems,
 } from './Cart.styles';
-import MyButton from '@components/Button/Button';
 import { theme } from '@theme/index';
 import { ROUTES } from '@router/routes';
 import { showToast } from '@features/toast/toastSlice';
 import { TOAST_TYPES } from '@components/constants';
-import ExceptionState from '@components/ExceptionState/ExceptionState';
 import { Order } from '@types';
 import { createOrderThunk } from '@features/orders/orderThunk';
 import { generateOrderId } from '@utils/getCustomOrderId';
+import { ExceptionState } from '@components/ExceptionState';
+import { Button } from '@components/Button';
+import { QuantitySelector } from '@components/QuantitySelector';
 
 const Cart = () => {
     const dispatch = useAppDispatch();
@@ -200,13 +200,13 @@ const Cart = () => {
                 <React.Fragment>
                     <Header>
                         <HeaderContent>
-                            <MyButton
+                            <Button
                                 variant="outlined"
                                 startIcon={<ArrowBackIosNewIcon />}
                                 onClick={handleBack}
                             >
                                 Back
-                            </MyButton>
+                            </Button>
                         </HeaderContent>
                     </Header>
 
@@ -356,23 +356,23 @@ const Cart = () => {
                     </Main>
 
                     <ActionContainer>
-                        <MyButton
+                        <Button
                             variant="contained"
                             onClick={handlePlaceOrder}
                             loading={placingOrder}
                             disabled={placingOrder}
                         >
                             Place Order
-                        </MyButton>
+                        </Button>
                         {itemCount > 0 && (
-                            <MyButton
+                            <Button
                                 variant="contained"
                                 color="error"
                                 startIcon={<DeleteOutlineIcon />}
                                 onClick={handleClearCart}
                             >
                                 Clear Cart
-                            </MyButton>
+                            </Button>
                         )}
                     </ActionContainer>
                 </React.Fragment>

@@ -2,10 +2,6 @@ import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { Box, Typography } from '@mui/material';
 
-import Badge from '@components/Badge/Badge';
-import MyButton from '@components/Button/Button';
-import { MyImage } from '@components/ImageBox/ImageBox.styles';
-
 import {
     ActionIcon,
     ActionWrapper,
@@ -19,6 +15,9 @@ import {
 } from './MenuItemCard.styles';
 import { MenuItemCardProps } from './MenuItemCard.types';
 import { USER_ROLE } from '../../types/user.types';
+import { Image } from '@components/ImageBox';
+import { Badge } from '@components/Badge';
+import { Button } from '@components/Button';
 
 const MenuItemCard = ({
     menuItem,
@@ -28,7 +27,7 @@ const MenuItemCard = ({
     onAddToCart,
 }: MenuItemCardProps) => (
     <StyledCard elevation={0}>
-        <MyImage
+        <Image
             src={menuItem.image}
             alt={menuItem.name}
             sx={{
@@ -79,9 +78,9 @@ const MenuItemCard = ({
                         />
                     ) : (
                         role === USER_ROLE.CUSTOMER && (
-                            <MyButton variant="contained" onClick={onAddToCart}>
+                            <Button variant="contained" onClick={onAddToCart}>
                                 Add Item
-                            </MyButton>
+                            </Button>
                         )
                     )}
                 </ActionWrapper>

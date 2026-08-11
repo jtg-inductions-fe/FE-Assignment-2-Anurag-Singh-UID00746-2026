@@ -8,10 +8,8 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { alpha, Box, MenuItem, Stack, Typography } from '@mui/material';
 
 import { ActionDialog } from '@components/ActionDialog/ActionDialog';
-import { MySelect } from '@components/BasicSelect/BasicSelect.component';
-import MyButton from '@components/Button/Button';
 import { ACTION_DIALOG_TYPES, TOAST_TYPES } from '@components/constants';
-import { MyInputField } from '@components/InputField/InputField.component';
+import { InputField } from '@components/InputField/InputField.component';
 import { DAYS, DEFAULT_DAYS, FOOD_CATEGORY, FoodCategory } from '@constant';
 import { closeDialog, openDialog } from '@features/feedback/feedbackSlice';
 import { updateRestaurantThunk } from '@features/restaurant/restaurantThunk';
@@ -40,6 +38,8 @@ import {
     SelectFormControl,
     TimeRangeContainer,
 } from '@containers/addRestaurant/AddRestaurant.styles';
+import { Button } from '@components/Button';
+import { Select } from '@components/BasicSelect';
 
 const editRestaurantSchema = restaurantSchema.omit(['imageUrl']);
 
@@ -221,13 +221,13 @@ const EditRestaurant = () => {
                 }
                 width="100%"
             >
-                <MyButton
+                <Button
                     variant="outlined"
                     startIcon={<ArrowBackIosNewIcon />}
                     onClick={() => void navigate(ROUTES.ROOT)}
                 >
                     Back
-                </MyButton>
+                </Button>
                 <HeadingWrapper>
                     <Typography variant="h3">EDIT RESTAURANT</Typography>
                     <Typography
@@ -249,7 +249,7 @@ const EditRestaurant = () => {
                                     name="imageUrl"
                                     control={control}
                                     render={({ field }) => (
-                                        <MyInputField
+                                        <InputField
                                             {...field}
                                             placeholder="Paste your URL here"
                                             fullWidth
@@ -269,7 +269,7 @@ const EditRestaurant = () => {
                                     name="name"
                                     control={control}
                                     render={({ field }) => (
-                                        <MyInputField
+                                        <InputField
                                             {...field}
                                             placeholder="Enter your restaurant name"
                                             fullWidth
@@ -289,7 +289,7 @@ const EditRestaurant = () => {
                                     name="description"
                                     control={control}
                                     render={({ field }) => (
-                                        <MyInputField
+                                        <InputField
                                             {...field}
                                             placeholder="Enter your restaurant description"
                                             fullWidth
@@ -314,7 +314,7 @@ const EditRestaurant = () => {
                                         name="address"
                                         control={control}
                                         render={({ field }) => (
-                                            <MyInputField
+                                            <InputField
                                                 {...field}
                                                 placeholder="Enter address of your restaurant"
                                                 fullWidth
@@ -334,7 +334,7 @@ const EditRestaurant = () => {
                                         name="contactNumber"
                                         control={control}
                                         render={({ field }) => (
-                                            <MyInputField
+                                            <InputField
                                                 {...field}
                                                 placeholder="Enter contact number"
                                                 fullWidth
@@ -358,7 +358,7 @@ const EditRestaurant = () => {
                                             name="category"
                                             control={control}
                                             render={({ field }) => (
-                                                <MySelect
+                                                <Select
                                                     {...field}
                                                     value={field.value}
                                                     onChange={(event) =>
@@ -391,7 +391,7 @@ const EditRestaurant = () => {
                                                     >
                                                         NON VEG
                                                     </MenuItem>
-                                                </MySelect>
+                                                </Select>
                                             )}
                                         />
                                     </Stack>
@@ -405,7 +405,7 @@ const EditRestaurant = () => {
                                             name="openingTime"
                                             control={control}
                                             render={({ field }) => (
-                                                <MyInputField
+                                                <InputField
                                                     {...field}
                                                     type="time"
                                                     fullWidth
@@ -426,7 +426,7 @@ const EditRestaurant = () => {
                                             name="closingTime"
                                             control={control}
                                             render={({ field }) => (
-                                                <MyInputField
+                                                <InputField
                                                     {...field}
                                                     type="time"
                                                     fullWidth
@@ -476,23 +476,23 @@ const EditRestaurant = () => {
                 </FormContainer>
                 <FooterContainer>
                     <ActionContainer>
-                        <MyButton
+                        <Button
                             type="button"
                             variant="outlined"
                             color="error"
                             onClick={() => reset()}
                         >
                             Reset
-                        </MyButton>
+                        </Button>
 
-                        <MyButton
+                        <Button
                             type="submit"
                             variant="contained"
                             startIcon={<StorefrontOutlined />}
                             loading={loading || isSubmitting}
                         >
                             {!loading && !isSubmitting && 'Save changes'}
-                        </MyButton>
+                        </Button>
                     </ActionContainer>
                 </FooterContainer>
             </Box>

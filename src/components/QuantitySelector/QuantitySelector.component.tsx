@@ -1,16 +1,15 @@
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 
-import MyButton from '@components/Button/Button';
-
 import {
     ActionButton,
     Container,
     QuantityDisplay,
 } from './QuantitySelector.styles';
 import { QuantitySelectorProps } from './QuantitySelector.types';
+import { Button } from '@components/Button';
 
-const QuantitySelector = ({
+export const QuantitySelector = ({
     quantity,
     onIncrement,
     onDecrement,
@@ -18,14 +17,14 @@ const QuantitySelector = ({
 }: QuantitySelectorProps) => {
     if (quantity === 0) {
         return (
-            <MyButton
+            <Button
                 variant="contained"
                 onClick={onIncrement}
                 disabled={disabled}
                 startIcon={<AddIcon />}
             >
                 Add
-            </MyButton>
+            </Button>
         );
     }
 
@@ -43,5 +42,3 @@ const QuantitySelector = ({
         </Container>
     );
 };
-
-export default QuantitySelector;

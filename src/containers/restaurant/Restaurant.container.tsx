@@ -8,13 +8,11 @@ import PhoneIcon from '@mui/icons-material/Phone';
 import { alpha, Box, Grid2, Link, Stack, Typography } from '@mui/material';
 
 import { ActionDialog } from '@components/ActionDialog/ActionDialog';
-import MyButton from '@components/Button/Button';
 import {
     ACTION_DIALOG_TYPES,
     EXCEPTION_STATE_TYPES,
     TOAST_TYPES,
 } from '@components/constants';
-import ExceptionState from '@components/ExceptionState/ExceptionState';
 import MenuItemCard from '@containers/MenuItemCard/MenuItemCard.container';
 import { Permission } from '@config/permissions';
 import { rolePermissions } from '@config/rolePermissions';
@@ -36,6 +34,8 @@ import {
 } from './Restaurant.styles';
 import { MenuItem } from '@types';
 import { USER_ROLE } from '../../types/user.types';
+import { ExceptionState } from '@components/ExceptionState';
+import { Button } from '@components/Button';
 
 const Restaurant = () => {
     const navigate = useNavigate();
@@ -186,13 +186,13 @@ const Restaurant = () => {
             padding={{ mobile: theme.spacing(5), tablet: theme.spacing(4, 0) }}
             marginBottom={8}
         >
-            <MyButton
+            <Button
                 variant="outlined"
                 startIcon={<ArrowBackIosNewIcon />}
                 onClick={() => void navigate(ROUTES.ROOT)}
             >
                 Back
-            </MyButton>
+            </Button>
             <HeaderWrapper>
                 <HeaderContent>
                     <Typography variant="h3">
@@ -236,13 +236,13 @@ const Restaurant = () => {
                 </ContactWrapper>
             </HeaderWrapper>
             {permissions.includes(Permission.ADD_MENU_ITEM) && (
-                <MyButton
+                <Button
                     variant="contained"
                     startIcon={<AddIcon />}
                     onClick={handleAddMenuItem}
                 >
                     Add Item
-                </MyButton>
+                </Button>
             )}
             <Grid2 container spacing={8} mt={8}>
                 {menuItems.map((item) => (

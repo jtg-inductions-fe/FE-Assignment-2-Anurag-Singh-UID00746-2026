@@ -6,11 +6,7 @@ import { Box, Link } from '@mui/material';
 
 import logo from '@assets/images/logo.webp';
 import { ActionDialog } from '@components/ActionDialog/ActionDialog';
-import MyButton from '@components/Button/Button';
 import { ACTION_DIALOG_TYPES, TOAST_TYPES } from '@components/constants';
-import { MyImage } from '@components/ImageBox/ImageBox.styles';
-import SearchBar from '@components/SearchBar/SearchBar.component';
-import UserProfile from '@components/UserProfile/UserProfile';
 import { HEADER_ACTION } from '@config/headerActions';
 import { rolePermissions } from '@config/rolePermissions';
 import { logout } from '@features/auth/authSlice';
@@ -28,6 +24,10 @@ import {
     SearchWrapper,
 } from './Header.styles';
 import { USER_ROLE } from '../../types/user.types';
+import { Image } from '@components/ImageBox';
+import { SearchBar } from '@components/SearchBar';
+import { Button } from '@components/Button';
+import { UserProfile } from '@components/UserProfile';
 
 const Header = () => {
     const dispatch = useAppDispatch();
@@ -126,7 +126,7 @@ const Header = () => {
             <Container>
                 <Link href={ROUTES.ROOT}>
                     <LogoWrapper>
-                        <MyImage src={logo} alt="Bitego" />
+                        <Image src={logo} alt="Bitego" />
                     </LogoWrapper>
                 </Link>
 
@@ -141,7 +141,7 @@ const Header = () => {
                 <RightSection>
                     <ActionWrapper>
                         {actions.map((action) => (
-                            <MyButton
+                            <Button
                                 key={action.id}
                                 variant="contained"
                                 startIcon={
@@ -154,7 +154,7 @@ const Header = () => {
                                 onClick={action.onClick}
                             >
                                 {action.label}
-                            </MyButton>
+                            </Button>
                         ))}
                     </ActionWrapper>
                     {isLoggedIn && (

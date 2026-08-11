@@ -2,8 +2,6 @@ import { useEffect, useRef } from 'react';
 
 import { Divider } from '@mui/material';
 
-import MyButton from '@components/Button/Button';
-
 import {
     ContentContainer,
     IconContainer,
@@ -18,6 +16,7 @@ import {
 } from './ActionDialog.styles';
 import { ActionDialogProps } from './ActionDialog.types';
 import { ACTION_DIALOG_TYPES } from '@components/constants';
+import { Button } from '@components/Button';
 
 export const ActionDialog = ({
     open,
@@ -102,7 +101,7 @@ export const ActionDialog = ({
             </ContentContainer>
             <Divider />
             <StyledDialogActions>
-                <MyButton
+                <Button
                     ref={cancelButtonRef}
                     onClick={onClose}
                     variant="outlined"
@@ -112,8 +111,8 @@ export const ActionDialog = ({
                     }
                 >
                     {cancelText}
-                </MyButton>
-                <MyButton
+                </Button>
+                <Button
                     ref={confirmButtonRef}
                     onClick={onConfirm}
                     disableElevation
@@ -124,7 +123,7 @@ export const ActionDialog = ({
                     }
                 >
                     {finalConfirmText}
-                </MyButton>
+                </Button>
             </StyledDialogActions>
         </StyledDialog>
     );

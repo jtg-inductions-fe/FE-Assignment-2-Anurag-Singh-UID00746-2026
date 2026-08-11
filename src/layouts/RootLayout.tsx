@@ -1,11 +1,10 @@
 import { Outlet } from 'react-router-dom';
 
 import { Box } from '@mui/material';
-
-import Toast from '@components/Toast/Toast';
 import Header from '@containers/header/Header';
 import { hideToast } from '@features/toast/toastSlice';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
+import { Toast } from '@components/Toast';
 
 const RootLayout = () => {
     const dispatch = useAppDispatch();

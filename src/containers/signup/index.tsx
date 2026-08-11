@@ -4,11 +4,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { alpha, Box, Stack, Typography } from '@mui/material';
-
-import MyButton from '@components/Button/Button';
 import { TOAST_TYPES } from '@components/constants';
-import FeatureCard from '@components/FeatureCard/RoleCard';
-import { MyInputField } from '@components/InputField/InputField.component';
 import { SignupCredential } from '@features/auth/auth.types';
 import { signup } from '@features/auth/authThunk';
 import { showToast } from '@features/toast/toastSlice';
@@ -22,6 +18,9 @@ import { signupSchema } from '@validations/auth.validation';
 import { ROLECARD } from './rolecard';
 import { ClickableLink, Wrapper } from './signup.styles';
 import { USER_ROLE } from '../../types/user.types';
+import { FeatureCard } from '@components/FeatureCard';
+import { InputField } from '@components/InputField';
+import { Button } from '@components/Button';
 
 const Signup = () => {
     const {
@@ -137,7 +136,7 @@ const Signup = () => {
                                 name="fullName"
                                 control={control}
                                 render={({ field }) => (
-                                    <MyInputField
+                                    <InputField
                                         {...field}
                                         placeholder="Enter your full name"
                                         fullWidth
@@ -154,7 +153,7 @@ const Signup = () => {
                                 name="email"
                                 control={control}
                                 render={({ field }) => (
-                                    <MyInputField
+                                    <InputField
                                         {...field}
                                         placeholder="Enter your email"
                                         fullWidth
@@ -171,7 +170,7 @@ const Signup = () => {
                                 name="password"
                                 control={control}
                                 render={({ field }) => (
-                                    <MyInputField
+                                    <InputField
                                         {...field}
                                         type="password"
                                         placeholder="Enter your password"
@@ -191,7 +190,7 @@ const Signup = () => {
                                 name="confirmPassword"
                                 control={control}
                                 render={({ field }) => (
-                                    <MyInputField
+                                    <InputField
                                         {...field}
                                         type="password"
                                         placeholder="Confirm your password"
@@ -207,14 +206,14 @@ const Signup = () => {
                     </Stack>
 
                     <Stack spacing={6}>
-                        <MyButton
+                        <Button
                             type="submit"
                             loading={isSubmitting}
                             variant="contained"
                             fullWidth
                         >
                             {!isSubmitting && 'Create Account'}
-                        </MyButton>
+                        </Button>
 
                         <Typography variant="body2" textAlign="center">
                             Already have an account ?

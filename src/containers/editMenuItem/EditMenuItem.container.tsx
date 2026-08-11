@@ -8,15 +8,11 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { alpha, Box, MenuItem, Stack, Typography } from '@mui/material';
 
 import { ActionDialog } from '@components/ActionDialog/ActionDialog';
-import { MySelect } from '@components/BasicSelect/BasicSelect.component';
-import MyButton from '@components/Button/Button';
 import {
     ACTION_DIALOG_TYPES,
     EXCEPTION_STATE_TYPES,
     TOAST_TYPES,
 } from '@components/constants';
-import ExceptionState from '@components/ExceptionState/ExceptionState';
-import { MyInputField } from '@components/InputField/InputField.component';
 import { FOOD_CATEGORY } from '@constant';
 import { closeDialog, openDialog } from '@features/feedback/feedbackSlice';
 import { updateMenuItemThunk } from '@features/restaurant/restaurantThunk';
@@ -43,6 +39,10 @@ import {
     SelectFormControl,
 } from './EditMenuItem.styles';
 import { MenuItem as MenuItemType } from '@types';
+import { ExceptionState } from '@components/ExceptionState';
+import { Button } from '@components/Button';
+import { InputField } from '@components/InputField';
+import { Select } from '@components/BasicSelect';
 
 const EditMenuItem = () => {
     const {
@@ -200,7 +200,7 @@ const EditMenuItem = () => {
                 onSubmit={handleSubmit(onSubmitForm)}
                 width="100%"
             >
-                <MyButton
+                <Button
                     variant="outlined"
                     startIcon={<ArrowBackIosNewIcon />}
                     onClick={() =>
@@ -213,7 +213,7 @@ const EditMenuItem = () => {
                     }
                 >
                     Back
-                </MyButton>
+                </Button>
                 <HeadingWrapper>
                     <Typography variant="h3">EDIT MENU ITEM</Typography>
                     <Typography
@@ -234,7 +234,7 @@ const EditMenuItem = () => {
                                     name="image"
                                     control={control}
                                     render={({ field }) => (
-                                        <MyInputField
+                                        <InputField
                                             {...field}
                                             placeholder="Paste your URL here"
                                             fullWidth
@@ -252,7 +252,7 @@ const EditMenuItem = () => {
                                     name="name"
                                     control={control}
                                     render={({ field }) => (
-                                        <MyInputField
+                                        <InputField
                                             {...field}
                                             placeholder="Enter your item name"
                                             fullWidth
@@ -272,7 +272,7 @@ const EditMenuItem = () => {
                                     name="description"
                                     control={control}
                                     render={({ field }) => (
-                                        <MyInputField
+                                        <InputField
                                             {...field}
                                             placeholder="Enter your item description"
                                             fullWidth
@@ -297,7 +297,7 @@ const EditMenuItem = () => {
                                         name="price"
                                         control={control}
                                         render={({ field }) => (
-                                            <MyInputField
+                                            <InputField
                                                 {...field}
                                                 type="number"
                                                 placeholder="Enter price of your item"
@@ -318,7 +318,7 @@ const EditMenuItem = () => {
                                         name="stock"
                                         control={control}
                                         render={({ field }) => (
-                                            <MyInputField
+                                            <InputField
                                                 {...field}
                                                 type="number"
                                                 placeholder="Enter available quantity"
@@ -342,7 +342,7 @@ const EditMenuItem = () => {
                                             name="isVeg"
                                             control={control}
                                             render={({ field }) => (
-                                                <MySelect
+                                                <Select
                                                     value={
                                                         field.value
                                                             ? FOOD_CATEGORY.VEG
@@ -373,7 +373,7 @@ const EditMenuItem = () => {
                                                     >
                                                         NON VEG
                                                     </MenuItem>
-                                                </MySelect>
+                                                </Select>
                                             )}
                                         />
                                         {errors.isVeg && (
@@ -392,23 +392,23 @@ const EditMenuItem = () => {
                 </FormContainer>
                 <FooterContainer>
                     <ActionContainer>
-                        <MyButton
+                        <Button
                             type="button"
                             variant="outlined"
                             color="error"
                             onClick={() => reset()}
                         >
                             Reset
-                        </MyButton>
+                        </Button>
 
-                        <MyButton
+                        <Button
                             type="submit"
                             variant="contained"
                             startIcon={<StorefrontOutlined />}
                             loading={isSubmitting}
                         >
                             {!isSubmitting && 'Save changes'}
-                        </MyButton>
+                        </Button>
                     </ActionContainer>
                 </FooterContainer>
             </Box>

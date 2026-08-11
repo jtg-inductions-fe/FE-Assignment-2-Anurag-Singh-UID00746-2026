@@ -4,10 +4,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { alpha, Box, Stack, Typography } from '@mui/material';
-
-import MyButton from '@components/Button/Button';
 import { TOAST_TYPES } from '@components/constants';
-import { MyInputField } from '@components/InputField/InputField.component';
 import { LoginCredential } from '@features/auth/auth.types';
 import { login } from '@features/auth/authThunk';
 import { showToast } from '@features/toast/toastSlice';
@@ -19,6 +16,8 @@ import { theme } from '@theme/index';
 import { loginSchema } from '@validations/auth.validation';
 
 import { CenteredContainer, ClickableLink } from './login.styles';
+import { InputField } from '@components/InputField';
+import { Button } from '@components/Button';
 
 const Login = () => {
     const {
@@ -97,7 +96,7 @@ const Login = () => {
                                 name="email"
                                 control={control}
                                 render={({ field }) => (
-                                    <MyInputField
+                                    <InputField
                                         {...field}
                                         placeholder="Enter your email"
                                         fullWidth
@@ -114,7 +113,7 @@ const Login = () => {
                                 name="password"
                                 control={control}
                                 render={({ field }) => (
-                                    <MyInputField
+                                    <InputField
                                         {...field}
                                         type="password"
                                         placeholder="Enter your password"
@@ -128,14 +127,14 @@ const Login = () => {
                     </Stack>
 
                     <Stack spacing={8}>
-                        <MyButton
+                        <Button
                             type="submit"
                             variant="contained"
                             loading={isLoading}
                             fullWidth
                         >
                             {!isLoading && 'login'}
-                        </MyButton>
+                        </Button>
 
                         <Typography variant="body2" textAlign="center">
                             Don&apos;t have an account ?

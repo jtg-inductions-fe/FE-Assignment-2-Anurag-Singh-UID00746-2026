@@ -9,8 +9,6 @@ import {
     ACTION_DIALOG_TYPES,
     EXCEPTION_STATE_TYPES,
 } from '@components/constants';
-import ExceptionState from '@components/ExceptionState/ExceptionState';
-import MultiToggle from '@components/MultiToggle/MultiToggle.component';
 import { RestaurantCard } from '@containers/RestaurantCard/RestaurantCard.container';
 import { DISCOVERY_ACTION } from '@config/discoveryActions';
 import { Permission } from '@config/permissions';
@@ -26,6 +24,8 @@ import { getVisibleRestaurants } from '@utils/getVisibleRestaurants';
 
 import { Restaurant } from '@types';
 import { USER_ROLE } from '../../types/user.types';
+import { ToggleButtonGroup } from '@components/MultiToggle';
+import { ExceptionState } from '@components/ExceptionState';
 
 const Home = () => {
     const navigate = useNavigate();
@@ -152,7 +152,7 @@ const Home = () => {
             padding={{ mobile: theme.spacing(4), tablet: theme.spacing(4, 0) }}
             marginBottom={8}
         >
-            <MultiToggle
+            <ToggleButtonGroup
                 color="primary"
                 value={category}
                 exclusive
@@ -174,7 +174,7 @@ const Home = () => {
                         Non Veg
                     </Typography>
                 </ToggleButton>
-            </MultiToggle>
+            </ToggleButtonGroup>
 
             <Grid container spacing={10}>
                 {filteredVisibleRestaurants.length === 0 ? (

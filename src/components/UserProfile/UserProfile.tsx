@@ -2,8 +2,6 @@ import { useEffect, useRef, useState } from 'react';
 
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Divider, Typography } from '@mui/material';
-
-import MyButton from '@components/Button/Button';
 import { useAppSelector } from '@store/hooks';
 
 import {
@@ -15,8 +13,9 @@ import {
 } from './UserProfile.styles';
 import { USER_ROLE } from '../../types/user.types';
 import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
+import { Button } from '@components/Button';
 
-const UserProfile = ({
+export const UserProfile = ({
     handleLogout,
     handleOrders,
 }: {
@@ -100,7 +99,7 @@ const UserProfile = ({
                 <UserMenuItem onClick={handleCloseUserMenu}></UserMenuItem>
                 <Divider />
                 <UserMenuItem onClick={handleCloseUserMenu}>
-                    <MyButton
+                    <Button
                         ref={ordersButtonRef}
                         variant="text"
                         color="common.black"
@@ -110,11 +109,11 @@ const UserProfile = ({
                         onKeyDown={handleLogoutKeyDown}
                     >
                         MY ORDERS
-                    </MyButton>
+                    </Button>
                 </UserMenuItem>
                 <Divider />
                 <UserMenuItem onClick={handleCloseUserMenu}>
-                    <MyButton
+                    <Button
                         ref={logoutButtonRef}
                         variant="text"
                         color="error"
@@ -124,11 +123,9 @@ const UserProfile = ({
                         onKeyDown={handleLogoutKeyDown}
                     >
                         Logout
-                    </MyButton>
+                    </Button>
                 </UserMenuItem>
             </UserProfileMenu>
         </UserProfileBox>
     );
 };
-
-export default UserProfile;

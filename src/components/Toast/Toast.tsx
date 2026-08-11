@@ -16,7 +16,7 @@ export const Transition = (props: SlideProps) => (
     <Slide {...props} direction="left" />
 );
 
-const Toast = ({
+export const Toast = ({
     open,
     type,
     title,
@@ -51,5 +51,3 @@ const Toast = ({
         </Snackbar>
     );
 };
-
-export default Toast;
