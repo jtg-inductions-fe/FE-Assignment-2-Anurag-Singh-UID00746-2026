@@ -3,6 +3,9 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { Order, OrderStatus } from '@types';
 import { orderService } from '@services/order.service';
 
+/**
+ * Sends a request to the backend to save a new order.
+ */
 export const createOrderThunk = createAsyncThunk<
     Order,
     Order,
@@ -17,6 +20,9 @@ export const createOrderThunk = createAsyncThunk<
     }
 });
 
+/**
+ * Sends a request to the backend to change the status of an existing order.
+ */
 export const updateOrderStatusThunk = createAsyncThunk<
     Order,
     {

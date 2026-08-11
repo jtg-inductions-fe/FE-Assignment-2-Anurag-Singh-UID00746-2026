@@ -7,6 +7,10 @@ import { useAppDispatch } from '@store/hooks';
 
 import { useDebounce } from './useDebounce';
 
+/**
+ * A hook that reads the search query from the URL and automatically
+ * fetches matching restaurants from the backend after the user stops typing.
+ */
 export const useSearchRestaurants = () => {
     const dispatch = useAppDispatch();
     const [searchParams] = useSearchParams();

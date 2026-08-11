@@ -43,7 +43,7 @@ import {
     Root,
     SelectFormControl,
 } from './AddMenuItem.styles';
-import { MenuItem as MenuItemType } from '../../types/menuItem.types';
+import { MenuItem as MenuItemType } from '@types';
 
 const AddMenuItem = () => {
     const {
@@ -88,6 +88,10 @@ const AddMenuItem = () => {
         );
     }
 
+    /**
+     * Saves the form data and opens the confirmation dialog box.
+     * @param data - The filled-out menu item form data.
+     */
     const onSubmitForm = (data: MenuItemFormData) => {
         setPendingFormData(data);
         dispatch(
@@ -101,6 +105,10 @@ const AddMenuItem = () => {
         );
     };
 
+    /**
+     * Submits the menu item to the backend after the user clicks confirm.
+     * On success, shows a notification and takes the user back to the restaurant page.
+     */
     const handleConfirmSubmit = async () => {
         if (!pendingFormData) return;
 
@@ -146,6 +154,9 @@ const AddMenuItem = () => {
         }
     };
 
+    /**
+     * Closes the confirmation dialog and clears the saved form data.
+     */
     const handleCancelSubmit = () => {
         dispatch(closeDialog());
         setPendingFormData(null);

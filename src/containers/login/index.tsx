@@ -37,6 +37,11 @@ const Login = () => {
     const navigate = useNavigate();
     const { isLoading } = useAppSelector((state) => state.auth);
 
+    /**
+     * Submits the user login credentials to the backend.
+     * On success, shows a notification and redirects the user to the home page.
+     * @param data - The user's login email and password credentials.
+     */
     const onSubmit = async (data: LoginCredential) => {
         try {
             await dispatch(login(data)).unwrap();

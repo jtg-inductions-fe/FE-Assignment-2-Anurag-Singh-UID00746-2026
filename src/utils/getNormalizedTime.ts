@@ -1,3 +1,8 @@
+/**
+ * Converts a 12 hour AM/PM time string into a standard 24 hour time format.
+ * @param time - The raw time string input.
+ * @returns A formatted 24 hour time string, or an empty string if input is missing.
+ */
 export const normalizeTimeValue = (time: string) => {
     if (!time) {
         return '';

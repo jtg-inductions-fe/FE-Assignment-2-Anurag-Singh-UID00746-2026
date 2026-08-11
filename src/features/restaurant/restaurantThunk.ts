@@ -9,6 +9,9 @@ import {
 } from './restaurant.types';
 import { Restaurant } from '@types';
 
+/**
+ * Gets a list of restaurants from the backend using optional search filters.
+ */
 export const fetchRestaurantsThunk = createAsyncThunk(
     'restaurant/fetchRestaurants',
     async (params: FetchRestaurantsParams) => {
@@ -18,6 +21,9 @@ export const fetchRestaurantsThunk = createAsyncThunk(
     },
 );
 
+/**
+ * Sends a request to the backend to create a new restaurant profile.
+ */
 export const addRestaurantThunk = createAsyncThunk<
     Restaurant,
     Restaurant,
@@ -33,6 +39,9 @@ export const addRestaurantThunk = createAsyncThunk<
     },
 );
 
+/**
+ * Sends a request to the backend to update an existing restaurant profile.
+ */
 export const updateRestaurantThunk = createAsyncThunk<
     Restaurant,
     Restaurant,
@@ -48,6 +57,9 @@ export const updateRestaurantThunk = createAsyncThunk<
     },
 );
 
+/**
+ * Adds a new food item to a restaurant menu list in the database.
+ */
 export const addMenuItemThunk = createAsyncThunk(
     'restaurant/addMenuItem',
     async (params: AddMenuItemParams, { rejectWithValue }) => {
@@ -59,6 +71,9 @@ export const addMenuItemThunk = createAsyncThunk(
     },
 );
 
+/**
+ * Updates the details of an existing food item on a restaurant menu.
+ */
 export const updateMenuItemThunk = createAsyncThunk(
     'restaurant/updateMenuItem',
     async (params: UpdateMenuItemParams, { rejectWithValue }) => {
@@ -70,6 +85,9 @@ export const updateMenuItemThunk = createAsyncThunk(
     },
 );
 
+/**
+ * Removes a food item from a restaurant menu profile.
+ */
 export const deleteMenuItemThunk = createAsyncThunk(
     'restaurant/deleteMenuItem',
     async (params: DeleteMenuItemParams, { rejectWithValue }) => {

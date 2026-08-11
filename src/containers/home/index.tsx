@@ -43,6 +43,9 @@ const Home = () => {
 
     const userRole = user?.role;
 
+    /**
+     * Closes the delete confirmation dialog and clears the selected restaurant state.
+     */
     const handleCloseDialog = () => {
         dispatch(closeDialog());
         setRestaurantToDelete(undefined);
@@ -57,14 +60,26 @@ const Home = () => {
         permissions.includes(action.permission),
     );
 
+    /**
+     * Navigates the user to the details page of the selected restaurant.
+     * @param restaurant - The restaurant object to view.
+     */
     const openRestaurant = (restaurant: Restaurant) => {
         void navigate(`/restaurants/${restaurant.id}`);
     };
 
+    /**
+     * Navigates the user to the edit form page for the selected restaurant.
+     * @param restaurant - The restaurant object to edit.
+     */
     const handleEditRestaurant = (restaurant: Restaurant) => {
         void navigate(`/restaurants/${restaurant.id}/edit`);
     };
 
+    /**
+     * Saves the target restaurant for deletion and opens the confirmation popup.
+     * @param restaurant - The restaurant object selected for deletion.
+     */
     const handleDeleteRestaurant = (restaurant: Restaurant) => {
         setRestaurantToDelete(restaurant);
         dispatch(
@@ -79,6 +94,9 @@ const Home = () => {
         );
     };
 
+    /**
+     * Triggers the deletion action for the saved restaurant and closes the popup.
+     */
     const handleConfirmDelete = () => {
         if (restaurantToDelete) {
             dispatch(deleteRestaurant(restaurantToDelete.id));
@@ -88,6 +106,10 @@ const Home = () => {
 
     const [category, setCategory] = useState<string>(FOOD_CATEGORY.BOTH);
 
+    /**
+     * Filters restaurants by selected food category and sorts them
+     * so that restaurants open today appear first.
+     */
     const filteredVisibleRestaurants = visibleRestaurants
         .filter((restaurant) => {
             if (category === FOOD_CATEGORY.BOTH) {
@@ -112,6 +134,12 @@ const Home = () => {
             return Number(isBOpen) - Number(isAOpen);
         });
 
+    /**
+     * Updates the active food category filter state when a user clicks a tab or toggle.
+     * Defaults back to 'BOTH' if the selection is cleared.
+     * @param _event - The mouse click event context.
+     * @param newCategory - The newly chosen category string value.
+     */
     const handleChange = (
         _event: React.MouseEvent<HTMLElement>,
         newCategory: string,

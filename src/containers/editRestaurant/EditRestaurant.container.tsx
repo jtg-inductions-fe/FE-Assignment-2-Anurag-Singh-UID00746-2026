@@ -39,7 +39,7 @@ import {
     Root,
     SelectFormControl,
     TimeRangeContainer,
-} from '../addRestaurant/AddRestaurant.styles';
+} from '@containers/addRestaurant/AddRestaurant.styles';
 
 const editRestaurantSchema = restaurantSchema.omit(['imageUrl']);
 
@@ -104,6 +104,10 @@ const EditRestaurant = () => {
 
     const operatingDays = watch('operatingDays');
 
+    /**
+     * Saves the modified form data and opens the confirmation popup.
+     * @param data - The edited restaurant form values.
+     */
     const onSubmitForm = (data: EditRestaurantFormValues) => {
         setPendingFormData(data);
         dispatch(
@@ -117,6 +121,10 @@ const EditRestaurant = () => {
         );
     };
 
+    /**
+     * Adds or removes a day from the operational calendar schedule list.
+     * @param day - The string name of the target day.
+     */
     const handleDayToggle = (day: string) => {
         const nextOperatingDays = operatingDays.includes(day)
             ? operatingDays.filter((value) => value !== day)
@@ -128,6 +136,10 @@ const EditRestaurant = () => {
         });
     };
 
+    /**
+     * Submits the updated restaurant configurations to the backend after user approval.
+     * On success, clears the form inputs and redirects back to the home route.
+     */
     const onSubmit = async () => {
         if (!pendingFormData) return;
 
@@ -192,6 +204,9 @@ const EditRestaurant = () => {
         }
     };
 
+    /**
+     * Closes the save changes confirmation popup and drops the transient cache.
+     */
     const handleCancelSubmit = () => {
         dispatch(closeDialog());
         setPendingFormData(null);

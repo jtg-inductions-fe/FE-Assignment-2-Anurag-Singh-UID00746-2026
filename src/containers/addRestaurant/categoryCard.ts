@@ -1,5 +1,6 @@
 import { FOOD_CATEGORY } from '@constant';
 
+/** List of available food category card configurations for display cards. */
 export const CATEGORY_CARD = [
     {
         value: FOOD_CATEGORY.VEG,

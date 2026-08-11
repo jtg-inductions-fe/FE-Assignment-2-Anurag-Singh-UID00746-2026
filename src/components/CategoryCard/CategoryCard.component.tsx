@@ -9,9 +9,9 @@ import {
     MyCardActionArea,
     StyledCard,
 } from './CategoryCard.styles';
-import { MyImage } from '@components/ImageBox/ImageBox.styles';
+import { Image } from '@components/ImageBox';
 
-const CategoryCard = ({
+export const CategoryCard = ({
     image,
     title,
     subtitle,
@@ -25,7 +25,7 @@ const CategoryCard = ({
             </MyBadge>
 
             <LogoWrapper>
-                <MyImage src={image} />
+                <Image src={image} />
             </LogoWrapper>
 
             <ContentWrapper>
@@ -39,5 +39,3 @@ const CategoryCard = ({
         </MyCardActionArea>
     </StyledCard>
 );
-
-export default CategoryCard;

@@ -80,6 +80,11 @@ const Restaurant = () => {
         );
     }
 
+    /**
+     * Adds a chosen menu item to the cart state with its selected quantity value.
+     * Triggers a success toast alert message and resets the local selection counter to zero.
+     * @param item - The selected menu item object payload to inject.
+     */
     const handleAddToCart = (item: MenuItem) => {
         dispatch(
             addToCart({
@@ -102,6 +107,9 @@ const Restaurant = () => {
         }));
     };
 
+    /**
+     * Dispatches the asynchronous backend network deletion operation hook for the cached targeted menu item.
+     */
     const handleConfirmDelete = () => {
         if (itemtToDelete) {
             dispatch(
@@ -115,6 +123,10 @@ const Restaurant = () => {
         handleCloseDialog();
     };
 
+    /**
+     * Navigates the application dashboard layout screen directly to the item edit workspace panel form.
+     * @param item - The menu item targeted for property adjustment modifications.
+     */
     const handleEditMenuItem = (item: MenuItem) => {
         void navigate(
             ROUTES.MENU_ITEMS.EDIT_MENU_ITEM.replace(
@@ -124,17 +136,27 @@ const Restaurant = () => {
         );
     };
 
+    /**
+     * Redirects the viewport window view straight into the restaurant menu creation input portal form.
+     */
     const handleAddMenuItem = () => {
         void navigate(
             ROUTES.MENU_ITEMS.ADD_MENU_ITEM.replace(':id', restaurant.id),
         );
     };
 
+    /**
+     * Closes the interactive overlay popup modal layout panel and clears the transient target delete state cache.
+     */
     const handleCloseDialog = () => {
         dispatch(closeDialog());
         setItemToDelete(undefined);
     };
 
+    /**
+     * Stashes the target menu item data into local context state memory and invokes the confirmation modal popup display overlay.
+     * @param item - The selected item object profile slated for full deletion removal.
+     */
     const handleDeleteItem = (item: MenuItem) => {
         setItemToDelete(item);
         dispatch(
@@ -148,6 +170,10 @@ const Restaurant = () => {
         );
     };
 
+    /**
+     * Generates a sorted clone array from the primary restaurant dataset catalog context tree list.
+     * Positions all available in stock options up front while moving completely depleted items to the bottom layer.
+     */
     const menuItems = [...restaurant.menuItems].sort((a, b) => {
         const isAInStock = a.stock > 0;
         const isBInStock = b.stock > 0;

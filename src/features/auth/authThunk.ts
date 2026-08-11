@@ -4,6 +4,10 @@ import { authService } from '@services/auth.service';
 import { LoginCredential, SignupCredential } from './auth.types';
 import { User } from '@types';
 
+/**
+ * Asynchronous action that handles logging a user into the application.
+ * Calls the authentication service API and handles catch errors if the credentials fail.
+ */
 export const login = createAsyncThunk<
     User,
     LoginCredential,
@@ -16,6 +20,10 @@ export const login = createAsyncThunk<
     }
 });
 
+/**
+ * Asynchronous action that registers a new user profile inside the database.
+ * Sends registration inputs to the authentication service and catches data conflicts.
+ */
 export const signup = createAsyncThunk<
     User,
     SignupCredential,

@@ -51,7 +51,7 @@ import { ROUTES } from '@router/routes';
 import { showToast } from '@features/toast/toastSlice';
 import { TOAST_TYPES } from '@components/constants';
 import ExceptionState from '@components/ExceptionState/ExceptionState';
-import { Order } from '../../types/order.types';
+import { Order } from '@types';
 import { createOrderThunk } from '@features/orders/orderThunk';
 import { generateOrderId } from '@utils/getCustomOrderId';
 
@@ -78,18 +78,32 @@ const Cart = () => {
 
     const [placingOrder, setPlacingOrder] = useState(false);
 
+    /**
+     * Navigates the user back to the home page screen.
+     */
     const handleBack = () => {
         navigate(ROUTES.ROOT);
     };
 
+    /**
+     * Increases the quantity of a specific item in the cart by one.
+     * @param itemId - The unique identifier of the target cart item.
+     */
     const handleIncrease = (itemId: string) => {
         dispatch(increaseQuantity(itemId));
     };
 
+    /**
+     * Decreases the quantity of a specific item in the cart by one.
+     * @param itemId - The unique identifier of the target cart item.
+     */
     const handleDecrease = (itemId: string) => {
         dispatch(decreaseQuantity(itemId));
     };
 
+    /**
+     * Opens a confirmation alert box asking the user if they want to empty their cart.
+     */
     const handleClearCart = () => {
         setPendingClear(true);
         dispatch(
@@ -104,6 +118,9 @@ const Cart = () => {
         );
     };
 
+    /**
+     * Empties all items from the cart and shows a success banner alert.
+     */
     const handleConfirmClear = () => {
         dispatch(closeDialog());
         dispatch(clearCart());
@@ -117,11 +134,18 @@ const Cart = () => {
         );
     };
 
+    /**
+     * Closes the clear cart pop-up box without removing any items.
+     */
     const handleCancelClear = () => {
         dispatch(closeDialog());
         setPendingClear(false);
     };
 
+    /**
+     * Creates and sends a new order payload to the database backend.
+     * Clears the active cart state and redirects the user to the orders listing dashboard.
+     */
     const handlePlaceOrder = async () => {
         if (!customerId || cartItems.length === 0) {
             return;

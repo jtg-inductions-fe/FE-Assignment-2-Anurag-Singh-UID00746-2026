@@ -49,10 +49,8 @@ import type { Order, OrderStatus } from '@types';
 import { rolePermissions } from '@config/rolePermissions';
 import { USER_ROLE } from '../../types/user.types';
 import { Permission } from '@config/permissions';
-import MyButton from '@components/Button/Button';
 import { ROUTES } from '@router/routes';
 import { theme } from '@theme/index';
-import Badge from '@components/Badge/Badge';
 import { formatOrderDateTime } from '@utils/getFormattedDateTime';
 import {
     CustomerOrderPanelProps,
@@ -60,12 +58,14 @@ import {
     OwnerOrderPanelProps,
     rejectionFormData,
 } from './order.types';
-import ExceptionState from '@components/ExceptionState/ExceptionState';
-import { MyInputField } from '@components/InputField/InputField.component';
 import { Controller, useForm } from 'react-hook-form';
 import { rejectionSchema } from './order.validation';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { orderStatusSteps } from './order.constants';
+import { ExceptionState } from '@components/ExceptionState';
+import { Button } from '@components/Button';
+import { InputField } from '@components/InputField';
+import { Badge } from '@components/Badge';
 
 const OrdersPage = () => {
     const navigate = useNavigate();
@@ -91,12 +91,24 @@ const OrdersPage = () => {
         );
     }
 
+    /**
+     * Toggles the accordion view of an order card to show or hide its inner item details.
+     * Collapses the card if it is already open.
+     * @param orderId - The unique identifier of the target order.
+     */
     const handleToggleOrder = (orderId: string) => {
         setExpandedOrderId((currentId) =>
             currentId === orderId ? null : orderId,
         );
     };
 
+    /**
+     * Submits an async request to update an order's milestone tracker state in the backend database.
+     * Triggers a toast notification banner indicating success or custom catch errors.
+     * @param order - The complete target order data model object.
+     * @param status - The new workflow status step to assign.
+     * @param reason - An optional feedback message explaining why an order was rejected.
+     */
     const handleStatusChange = async (
         order: Order,
         status: OrderStatus,
@@ -136,13 +148,13 @@ const OrdersPage = () => {
         <Container
             padding={{ mobile: theme.spacing(5), tablet: theme.spacing(4, 0) }}
         >
-            <MyButton
+            <Button
                 variant="outlined"
                 startIcon={<ArrowBackIosNewIcon />}
                 onClick={() => void navigate(ROUTES.ROOT)}
             >
                 Back
-            </MyButton>
+            </Button>
             <Header>
                 <HeaderContent>
                     <Typography variant="h3">
@@ -442,6 +454,11 @@ const OwnerOrderPanel = ({ order, onStatusChange }: OwnerOrderPanelProps) => {
         },
     });
 
+    /**
+     * Submits the text explanation for rejecting an order.
+     * Clears the input field state, resets the form validation engine, and closes the popup.
+     * @param data - The form data containing the rejection reason string text.
+     */
     const onRejectSubmit = (data: rejectionFormData) => {
         const trimmedReason = data.reason.trim();
 
@@ -469,20 +486,20 @@ const OwnerOrderPanel = ({ order, onStatusChange }: OwnerOrderPanelProps) => {
             <Actions>
                 {order.status === 'Pending' && (
                     <React.Fragment>
-                        <MyButton
+                        <Button
                             variant="contained"
                             onClick={() => onStatusChange(order, 'Accepted')}
                         >
                             Accept
-                        </MyButton>
+                        </Button>
 
-                        <MyButton
+                        <Button
                             variant="outlined"
                             color="error"
                             onClick={handleOpen}
                         >
                             Reject
-                        </MyButton>
+                        </Button>
                         <RejectionModal
                             open={open}
                             onClose={handleClose}
@@ -500,7 +517,7 @@ const OwnerOrderPanel = ({ order, onStatusChange }: OwnerOrderPanelProps) => {
                                     name="reason"
                                     control={control}
                                     render={({ field }) => (
-                                        <MyInputField
+                                        <InputField
                                             {...field}
                                             type="text"
                                             rows={5}
@@ -524,21 +541,21 @@ const OwnerOrderPanel = ({ order, onStatusChange }: OwnerOrderPanelProps) => {
                                     )}
                                 />
                                 <ActionButtons>
-                                    <MyButton
+                                    <Button
                                         variant="outlined"
                                         color="primary"
                                         type="button"
                                         onClick={handleClose}
                                     >
                                         Cancel
-                                    </MyButton>
-                                    <MyButton
+                                    </Button>
+                                    <Button
                                         variant="contained"
                                         color="error"
                                         type="submit"
                                     >
                                         Reject
-                                    </MyButton>
+                                    </Button>
                                 </ActionButtons>
                             </ModalSurface>
                         </RejectionModal>
@@ -546,32 +563,32 @@ const OwnerOrderPanel = ({ order, onStatusChange }: OwnerOrderPanelProps) => {
                 )}
 
                 {order.status === 'Accepted' && (
-                    <MyButton
+                    <Button
                         variant="contained"
                         onClick={() => onStatusChange(order, 'Preparing')}
                     >
                         Start Preparing
-                    </MyButton>
+                    </Button>
                 )}
 
                 {order.status === 'Preparing' && (
-                    <MyButton
+                    <Button
                         variant="contained"
                         onClick={() =>
                             onStatusChange(order, 'Out for Delivery')
                         }
                     >
                         Out for Delivery
-                    </MyButton>
+                    </Button>
                 )}
 
                 {order.status === 'Out for Delivery' && (
-                    <MyButton
+                    <Button
                         variant="contained"
                         onClick={() => onStatusChange(order, 'Delivered')}
                     >
                         Mark Delivered
-                    </MyButton>
+                    </Button>
                 )}
 
                 {order.status === 'Rejected' && (

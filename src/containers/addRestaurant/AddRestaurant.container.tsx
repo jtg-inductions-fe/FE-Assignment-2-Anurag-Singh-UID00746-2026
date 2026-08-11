@@ -74,6 +74,11 @@ const AddRestaurant = () => {
 
     const operatingDays = watch('operatingDays');
 
+    /**
+     * Adds or removes a day from the active operational days list.
+     * Updates the form validation state dynamically.
+     * @param day - The string name of the target day.
+     */
     const handleDayToggle = (day: string) => {
         const nextOperatingDays = operatingDays.includes(day)
             ? operatingDays.filter((value) => value !== day)
@@ -85,6 +90,10 @@ const AddRestaurant = () => {
         });
     };
 
+    /**
+     * Saves the restaurant form data and opens the confirmation popup.
+     * @param data - The filled-out restaurant form data.
+     */
     const onSubmitForm = (data: AddRestaurantFormValues) => {
         setPendingFormData(data);
         dispatch(
@@ -98,6 +107,10 @@ const AddRestaurant = () => {
         );
     };
 
+    /**
+     * Creates a new restaurant item after the user clicks confirm.
+     * On success, clears the form data and redirects the user to the home page.
+     */
     const handleConfirmSubmit = async () => {
         if (!pendingFormData) return;
 
@@ -152,6 +165,9 @@ const AddRestaurant = () => {
         }
     };
 
+    /**
+     * Closes the confirmation popup box and deletes the temporary form data.
+     */
     const handleCancelSubmit = () => {
         dispatch(closeDialog());
         setPendingFormData(null);

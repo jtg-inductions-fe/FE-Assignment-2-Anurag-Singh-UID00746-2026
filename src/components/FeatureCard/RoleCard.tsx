@@ -10,7 +10,7 @@ import {
 } from './RoleCard.styles';
 import { RoleCardProps } from './Rolecard.types';
 
-const FeatureCard = ({
+export const FeatureCard = ({
     image,
     title,
     selected = false,
@@ -31,5 +31,3 @@ const FeatureCard = ({
         </MyCardActionArea>
     </StyledCard>
 );
-
-export default FeatureCard;

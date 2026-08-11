@@ -42,7 +42,7 @@ import {
     Root,
     SelectFormControl,
 } from './EditMenuItem.styles';
-import { MenuItem as MenuItemType } from '../../types/menuItem.types';
+import { MenuItem as MenuItemType } from '@types';
 
 const EditMenuItem = () => {
     const {
@@ -119,6 +119,10 @@ const EditMenuItem = () => {
         );
     }
 
+    /**
+     * Saves the edited form data and opens the update confirmation dialog.
+     * @param data - The modified menu item form values.
+     */
     const onSubmitForm = (data: MenuItemFormData) => {
         setPendingFormData(data);
         dispatch(
@@ -132,6 +136,10 @@ const EditMenuItem = () => {
         );
     };
 
+    /**
+     * Sends the updated menu item details to the backend after confirmation.
+     * On success, shows a banner alert and redirects to the restaurant details page.
+     */
     const handleConfirmSubmit = async () => {
         if (!pendingFormData) return;
 
@@ -177,6 +185,9 @@ const EditMenuItem = () => {
         }
     };
 
+    /**
+     * Closes the confirmation dialog and clears the pending form data.
+     */
     const handleCancelSubmit = () => {
         dispatch(closeDialog());
         setPendingFormData(null);

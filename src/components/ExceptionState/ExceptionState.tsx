@@ -18,7 +18,7 @@ import {
 import { ExceptionStateProps } from './ExceptionState.types';
 import { EXCEPTION_STATE_TYPES } from '@components/constants';
 
-const ExceptionState = ({
+export const ExceptionState = ({
     type = EXCEPTION_STATE_TYPES.ERROR,
     title,
     description,
@@ -79,5 +79,3 @@ const ExceptionState = ({
         </StyledContainer>
     );
 };
-
-export default ExceptionState;

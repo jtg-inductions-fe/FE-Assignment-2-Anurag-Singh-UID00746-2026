@@ -7,7 +7,7 @@ import { StyledTextField } from './InputField.styles';
 import { InputProps } from './InputField.types';
 import { INPUT_TYPES } from '@components/constants';
 
-export const MyInputField = ({ type, ...restProps }: InputProps) => {
+export const InputField = ({ type, ...restProps }: InputProps) => {
     const [showPassword, setShowPassword] = useState(false);
 
     const getInputType = () => {

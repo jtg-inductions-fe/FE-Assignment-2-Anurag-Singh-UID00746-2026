@@ -1,5 +1,6 @@
 import { Permission } from './permissions';
 
+/** Static list of available discovery actions with required guard permissions. */
 export const DISCOVERY_ACTION = [
     {
         id: 'login',

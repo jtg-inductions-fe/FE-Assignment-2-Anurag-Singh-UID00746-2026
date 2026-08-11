@@ -1,3 +1,8 @@
+/**
+ * Changes an ISO date string into a clean, easy to read text format.
+ * @param dateInput - The raw date string from the database.
+ * @returns A formatted string, or an empty string if input is missing.
+ */
 export const formatOrderDateTime = (dateInput: string) => {
     if (!dateInput) return '';
 

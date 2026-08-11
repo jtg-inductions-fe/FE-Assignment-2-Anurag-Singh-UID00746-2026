@@ -1,3 +1,6 @@
+/**
+ * Absolute path links used to navigate across the entire app.
+ */
 export const ROUTES = {
     ROOT: '/',
 
@@ -21,6 +24,9 @@ export const ROUTES = {
     ORDERS: '/orders',
 } as const;
 
+/**
+ * Relative URL string segments used to build layout navigation trees.
+ */
 export const ROUTES_SEGMENTS = {
     AUTH: {
         LOGIN: 'login',
