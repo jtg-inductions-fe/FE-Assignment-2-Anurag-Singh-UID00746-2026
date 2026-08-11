@@ -2,31 +2,30 @@ import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import { Typography as MuiTypography } from '@mui/material';
 
 import {
-    Illustration,
     ImgBox,
-    MyBadge,
+    CheckBox,
     MyCardActionArea,
     StyledCard,
 } from './RoleCard.styles';
 import { RoleCardProps } from './Rolecard.types';
+import { Image } from '@components/ImageBox/ImageBox.styles';
 
-const FeatureCard = ({
-    image,
-    title,
-    selected = false,
-    onClick,
-}: RoleCardProps) => (
-    <StyledCard selected={selected}>
-        <MyCardActionArea onClick={onClick} aria-pressed={selected}>
-            <MyBadge selected={selected}>
-                {selected && <CheckRoundedIcon />}
-            </MyBadge>
+const FeatureCard = (props: RoleCardProps) => (
+    <StyledCard selected={props.selected}>
+        <MyCardActionArea onClick={props.onClick} aria-pressed={props.selected}>
+            <CheckBox selected={props.selected}>
+                {props.selected && <CheckRoundedIcon />}
+            </CheckBox>
             <ImgBox height={130}>
-                <Illustration className="role-image" src={image} alt={title} />
+                <Image
+                    className="role-image"
+                    src={props.image}
+                    alt={props.title}
+                />
             </ImgBox>
 
             <MuiTypography mt={3} variant="h6">
-                {title.toUpperCase()}
+                {props.title.toUpperCase()}
             </MuiTypography>
         </MyCardActionArea>
     </StyledCard>

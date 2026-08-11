@@ -1,15 +1,8 @@
 import { ThemeType } from '@components/types';
-import {
-    alpha,
-    Box,
-    Container,
-    FormControl,
-    styled,
-    Theme,
-} from '@mui/material';
+import { alpha, Box, FormControl, styled, Theme } from '@mui/material';
 import { typography } from '@theme/foundations';
 
-export const Root = styled(Container)(({ theme }: ThemeType) => ({
+export const Root = styled(Box)(({ theme }: ThemeType) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'flex-start',
@@ -56,7 +49,7 @@ export const MetaContainer = styled(Box)(({ theme }: ThemeType) => ({
 }));
 
 export const SelectFormControl = styled(FormControl)(() => ({
-    margin: 2,
+    margin: typography.typographyUtil.pxToRem(2),
     width: '100%',
 }));
 
@@ -92,8 +85,8 @@ export const OperatingDayChip = styled(Box, {
 })<{
     selected: boolean;
 }>(({ theme, selected }: { theme: Theme; selected?: boolean }) => ({
-    minWidth: 72,
-    height: 48,
+    minWidth: typography.typographyUtil.pxToRem(72),
+    height: typography.typographyUtil.pxToRem(48),
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',

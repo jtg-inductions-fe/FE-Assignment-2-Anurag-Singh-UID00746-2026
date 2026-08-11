@@ -17,7 +17,12 @@ import { showToast } from '@features/toast/toastSlice';
 import { addRestaurantThunk } from '@features/restaurant/restaurantThunk';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { theme } from '@theme/index';
-import { DAYS, DEFAULT_DAYS, FOOD_CATEGORY, FoodCategory } from '@constant';
+import {
+    DAYS,
+    DEFAULT_DAYS,
+    FOOD_CATEGORY,
+    FoodCategory,
+} from '@constant/index';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { restaurantSchema } from '@validations/restaurant.validation';
 import { ROUTES } from '@router/routes';
@@ -456,8 +461,8 @@ const AddRestaurant = () => {
                 type={feedback.type}
                 confirmText={feedback.confirmText}
                 cancelText={feedback.cancelText}
-                cancelButtonConfig={{ color: 'primary', variant: 'outlined' }}
-                confirmButtonConfig={{ color: 'error', variant: 'contained' }}
+                cancelButtonConfig={{ color: 'error', variant: 'outlined' }}
+                confirmButtonConfig={{ color: 'primary', variant: 'contained' }}
                 onClose={handleCancelSubmit}
                 onConfirm={handleConfirmSubmit}
             />

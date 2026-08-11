@@ -22,7 +22,7 @@ import { useState } from 'react';
 import { deleteRestaurant } from '@features/restaurant/restaurantSlice';
 import { isOpenToday } from '@utils/getOpenRestaurants';
 import MultiToggle from '@components/MultiToggle/MultiToggle';
-import { FOOD_CATEGORY } from '@constant';
+import { FOOD_CATEGORY } from '@constant/index';
 import { Permission } from '@config/permissions';
 import { useSearchRestaurants } from '@hooks/useSearchRestaurants';
 import { ActionDialog } from '@components/ActionDialog/ActionDialog.component';
@@ -162,7 +162,7 @@ const Home = () => {
                     filteredVisibleRestaurants.map((restaurant) => (
                         <MuiGrid
                             key={restaurant.id}
-                            size={{ xs: 12, sm: 6, md: 4 }}
+                            size={{ xs: 12, md: 6, lg: 4 }}
                         >
                             <RestaurantCard
                                 restaurant={restaurant}

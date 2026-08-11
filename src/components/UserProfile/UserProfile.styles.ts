@@ -16,8 +16,8 @@ export const UserProfileMenu = styled(Menu)(({ theme }: ThemeType) => ({
 }));
 
 export const UserIconButton = styled(Avatar)(() => ({
-    height: 46,
-    width: 46,
+    height: typography.typographyUtil.pxToRem(46),
+    width: typography.typographyUtil.pxToRem(46),
 
     boxShadow:
         'inset 0px -4px 0px rgba(0, 0, 0, 0.2), 0px 4px 10px rgba(0, 0, 0, 0.15)',

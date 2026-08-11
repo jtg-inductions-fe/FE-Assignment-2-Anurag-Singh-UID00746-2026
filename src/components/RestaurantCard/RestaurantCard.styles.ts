@@ -1,4 +1,5 @@
 import { ThemeType } from '@components/types';
+import { Z_INDEX } from '@constant/theme';
 import { Box, Card, CardContent, Chip, IconButton } from '@mui/material';
 import { alpha, styled } from '@mui/material/styles';
 import { typography } from '@theme/foundations';
@@ -53,7 +54,7 @@ export const ActionContainer = styled(Box)(({ theme }: ThemeType) => ({
     right: theme.spacing(2),
     display: 'flex',
     gap: theme.spacing(2),
-    zIndex: 1000,
+    zIndex: Z_INDEX,
 }));
 
 export const StyledIconButton = styled(IconButton)(({ theme }: ThemeType) => ({
@@ -88,7 +89,7 @@ export const ClosedBadge = styled(Chip)(({ theme }: ThemeType) => ({
     paddingBottom: theme.spacing(0.5),
     top: theme.spacing(3),
     left: theme.spacing(3),
-    zIndex: 1000,
+    zIndex: Z_INDEX,
 }));
 
 export const ImageContainer = styled(Box)(() => ({

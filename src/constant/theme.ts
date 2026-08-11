@@ -62,3 +62,9 @@ export const HTML_FONT_SIZE = 10;
  * @constant
  */
 export const SCALING_FACTOR = 4;
+
+/**
+ * Z index for stacking level.
+ * @constant
+ */
+export const Z_INDEX = 1000;

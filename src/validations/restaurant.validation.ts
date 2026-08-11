@@ -1,4 +1,3 @@
-import { AddRestaurantFormValues } from '@containers/addRestaurant/addRestaurant.types';
 import * as yup from 'yup';
 import { messages } from './constants';
 
@@ -21,7 +20,7 @@ export const restaurantSchema = yup.object({
         .required(messages.REQUIRED)
         .max(250, 'Description cannot exceed 250 characters'),
 
-    address: yup.string().trim().required('Address is required'),
+    address: yup.string().trim().required(messages.REQUIRED),
 
     contactNumber: yup
         .string()
@@ -39,8 +38,7 @@ export const restaurantSchema = yup.object({
             'closing-time',
             'Closing time must be after opening time',
             function (value) {
-                const parentData = this.parent as AddRestaurantFormValues;
-                const openingTime = parentData.openingTime;
+                const openingTime = this.parent.openingTime;
 
                 if (!openingTime || !value) {
                     return true;
