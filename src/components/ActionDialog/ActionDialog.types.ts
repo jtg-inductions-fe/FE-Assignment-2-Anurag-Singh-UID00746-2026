@@ -1,4 +1,4 @@
-import type { ButtonProps as MuiButtonProps } from '@mui/material';
+import type { ButtonProps, ButtonProps as MuiButtonProps } from '@mui/material';
 import { ReactNode } from 'react';
 
 import { ACTION_DIALOG_TYPES } from '../constants';
@@ -33,17 +33,11 @@ export interface ActionDialogProps {
     /** Optional custom icon element to render inside the layout */
     icon?: ReactNode;
 
-    /** Optional override for the cancel button color */
-    cancelButtonColor?: ActionDialogButtonColor;
+    /** Optional config for the cancel button */
+    cancelButtonConfig?: ButtonProps;
 
-    /** Optional override for the confirm button color */
-    confirmButtonColor?: ActionDialogButtonColor;
-
-    /** Optional additional props for the cancel button */
-    cancelButtonProps?: Partial<MuiButtonProps>;
-
-    /** Optional additional props for the confirm button */
-    confirmButtonProps?: Partial<MuiButtonProps>;
+    /** Optional config for the confirm button */
+    confirmButtonConfig?: ButtonProps;
 
     /** Callback function triggered when the dialog is dismissed or closed */
     onClose: () => void;

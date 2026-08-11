@@ -2,8 +2,9 @@ import { Box, Button, Divider, Typography } from '@mui/material';
 import { alpha, styled } from '@mui/material/styles';
 
 import { EXCEPTION_STATE_TYPES } from '@components/constants';
+import { ThemeType } from '@components/types';
 
-export const StyledContainer = styled(Box)(({ theme }) => ({
+export const StyledContainer = styled(Box)(({ theme }: ThemeType) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -14,7 +15,7 @@ export const StyledContainer = styled(Box)(({ theme }) => ({
     padding: theme.spacing(6, 3),
 }));
 
-export const StyledImage = styled('img')(({ theme }) => ({
+export const StyledImage = styled('img')(({ theme }: ThemeType) => ({
     width: '100%',
     maxWidth: theme.spacing(60),
     objectFit: 'contain',
@@ -23,7 +24,7 @@ export const StyledImage = styled('img')(({ theme }) => ({
     marginBottom: theme.spacing(4),
 }));
 
-export const StyledTitle = styled(Typography)(({ theme }) => ({
+export const StyledTitle = styled(Typography)(({ theme }: ThemeType) => ({
     fontWeight: theme.typography.fontWeightRegular,
     marginBottom: theme.spacing(2),
     letterSpacing: theme.spacing(0.3),
@@ -33,13 +34,13 @@ export const StyledTitle = styled(Typography)(({ theme }) => ({
     backgroundClip: 'text',
 }));
 
-export const StyledDescription = styled(Typography)(({ theme }) => ({
+export const StyledDescription = styled(Typography)(({ theme }: ThemeType) => ({
     maxWidth: theme.spacing(90),
     color: alpha(theme.palette.text.secondary, 0.5),
     marginBottom: theme.spacing(4),
 }));
 
-export const StyledButton = styled(Button)(({ theme }) => ({
+export const StyledButton = styled(Button)(({ theme }: ThemeType) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',

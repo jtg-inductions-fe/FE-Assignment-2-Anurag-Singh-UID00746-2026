@@ -1,8 +1,9 @@
+import { ThemeType } from '@components/types';
 import { alpha, styled, TextField } from '@mui/material';
 
 import { typography } from '@theme/foundations';
 
-export const StyledTextField = styled(TextField)(({ theme }) => ({
+export const StyledTextField = styled(TextField)(({ theme }: ThemeType) => ({
     width: '100%',
 
     '& .MuiOutlinedInput-root': {

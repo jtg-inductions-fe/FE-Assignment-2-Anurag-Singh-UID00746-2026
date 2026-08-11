@@ -1,8 +1,9 @@
-import { Box, Stack, styled, Theme } from '@mui/material';
+import { ThemeType } from '@components/types';
+import { Box, Stack, styled } from '@mui/material';
 
 import { typography } from '@theme/foundations';
 
-export const Root = styled(Box)(({ theme }: { theme: Theme }) => ({
+export const Root = styled(Box)(({ theme }: ThemeType) => ({
     width: '100%',
     padding: theme.spacing(4, 5),
     borderBottom: `1px solid ${theme.palette.divider}`,
@@ -13,7 +14,7 @@ export const Root = styled(Box)(({ theme }: { theme: Theme }) => ({
     },
 }));
 
-export const Container = styled(Box)(({ theme }: { theme: Theme }) => ({
+export const Container = styled(Box)(({ theme }: ThemeType) => ({
     display: 'grid',
     gridTemplateColumns: '1fr auto',
     gridTemplateAreas: `
@@ -31,7 +32,7 @@ export const Container = styled(Box)(({ theme }: { theme: Theme }) => ({
     },
 }));
 
-export const LogoWrapper = styled(Box)(({ theme }: { theme: Theme }) => ({
+export const LogoWrapper = styled(Box)(({ theme }: ThemeType) => ({
     gridArea: 'logo',
     display: 'flex',
     alignItems: 'center',
@@ -50,7 +51,7 @@ export const SearchWrapper = styled(Box)({
     minWidth: 0,
 });
 
-export const RightSection = styled(Stack)(({ theme }: { theme: Theme }) => ({
+export const RightSection = styled(Stack)(({ theme }: ThemeType) => ({
     gridArea: 'right',
     flexDirection: 'row',
     alignItems: 'center',

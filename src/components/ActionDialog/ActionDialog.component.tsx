@@ -14,7 +14,7 @@ import {
     TextContainer,
 } from './ActionDialog.styles';
 import { ActionDialogProps } from './ActionDialog.types';
-import { ACTION_DIALOG_TYPES } from '../constants';
+import { ACTION_DIALOG_TYPES } from '@components/constants';
 
 export const ActionDialog = ({
     open,
@@ -24,10 +24,8 @@ export const ActionDialog = ({
     cancelText = 'Cancel',
     confirmText,
     icon,
-    cancelButtonColor,
-    confirmButtonColor,
-    cancelButtonProps,
-    confirmButtonProps,
+    cancelButtonConfig,
+    confirmButtonConfig,
     onClose,
     onConfirm,
 }: ActionDialogProps) => {
@@ -35,15 +33,15 @@ export const ActionDialog = ({
         confirmText ||
         (type === ACTION_DIALOG_TYPES.ALERT ? 'Continue' : 'Confirm');
 
-    const cancelColor =
-        cancelButtonColor ??
-        cancelButtonProps?.color ??
-        (type === ACTION_DIALOG_TYPES.ALERT ? 'primary' : 'error');
+    // const cancelColor =
+    //     cancelButtonColor ??
+    //     cancelButtonProps?.color ??
+    //     (type === ACTION_DIALOG_TYPES.ALERT ? 'primary' : 'error');
 
-    const confirmColor =
-        confirmButtonColor ??
-        confirmButtonProps?.color ??
-        (type === ACTION_DIALOG_TYPES.ALERT ? 'error' : 'primary');
+    // const confirmColor =
+    //     confirmButtonColor ??
+    //     confirmButtonProps?.color ??
+    //     (type === ACTION_DIALOG_TYPES.ALERT ? 'error' : 'primary');
 
     const renderIcon = () => {
         if (icon) return icon;
@@ -69,22 +67,14 @@ export const ActionDialog = ({
             </ContentContainer>
             <MuiDivider />
             <StyledDialogActions>
-                <Button
-                    {...cancelButtonProps}
-                    onClick={onClose}
-                    variant={cancelButtonProps?.variant ?? 'outlined'}
-                    disableRipple
-                    color={cancelColor}
-                >
+                <Button {...cancelButtonConfig} onClick={onClose} disableRipple>
                     {cancelText}
                 </Button>
                 <Button
-                    {...confirmButtonProps}
+                    {...confirmButtonConfig}
                     onClick={onConfirm}
                     disableElevation
                     disableRipple
-                    variant={confirmButtonProps?.variant ?? 'contained'}
-                    color={confirmColor}
                 >
                     {finalConfirmText}
                 </Button>

@@ -1,7 +1,8 @@
+import { ThemeType } from '@components/types';
 import { Box, LinearProgress, Typography } from '@mui/material';
 import { alpha, styled } from '@mui/material/styles';
 
-export const StyledToast = styled(Box)(({ theme }) => ({
+export const StyledToast = styled(Box)(({ theme }: ThemeType) => ({
     position: 'relative',
     overflow: 'hidden',
     display: 'flex',
@@ -20,39 +21,39 @@ export const StyledToast = styled(Box)(({ theme }) => ({
     gap: theme.spacing(2.5),
 }));
 
-export const StyledToastImage = styled('img')(({ theme }) => ({
+export const StyledToastImage = styled('img')(({ theme }: ThemeType) => ({
     width: theme.spacing(15),
     height: theme.spacing(15),
     flexShrink: 0,
     objectFit: 'contain',
 }));
 
-export const StyledAtoms = styled('img')(({ theme }) => ({
+export const StyledAtoms = styled('img')(({ theme }: ThemeType) => ({
     width: theme.spacing(14),
     pointerEvents: 'none',
     userSelect: 'none',
     margin: theme.spacing(0, 1),
 }));
 
-export const StyledContent = styled(Box)(({ theme }) => ({
+export const StyledContent = styled(Box)(({ theme }: ThemeType) => ({
     flex: 1,
     display: 'flex',
     flexDirection: 'column',
     gap: theme.spacing(1),
 
-    [theme.breakpoints.up('tablet')]: {
+    [theme.breakpoints.up('sm')]: {
         gap: theme.spacing(0),
     },
 }));
 
-export const StyledTitle = styled(Typography)(({ theme }) => ({
+export const StyledTitle = styled(Typography)(({ theme }: ThemeType) => ({
     fontWeight: theme.typography.fontWeightBold,
     color: theme.palette.text.primary,
     marginBottom: theme.spacing(0.5),
     letterSpacing: theme.spacing(0.2),
 }));
 
-export const StyledMessage = styled(Typography)(({ theme }) => ({
+export const StyledMessage = styled(Typography)(({ theme }: ThemeType) => ({
     color: alpha(theme.palette.text.secondary, 0.8),
 }));
 

@@ -5,13 +5,13 @@ import {
     DialogContent,
     DialogContentText,
     DialogTitle,
-    Theme,
 } from '@mui/material';
 import { alpha, styled } from '@mui/material/styles';
 
 import { ACTION_DIALOG_TYPES, DialogType } from '@components/constants';
+import { ThemeType } from '@components/types';
 
-export const StyledDialog = styled(Dialog)(({ theme }: { theme: Theme }) => ({
+export const StyledDialog = styled(Dialog)(({ theme }: ThemeType) => ({
     '& .MuiPaper-root': {
         borderRadius: theme.shape.borderRadius * 2,
         padding: 0,
@@ -27,7 +27,7 @@ export const StyledDialog = styled(Dialog)(({ theme }: { theme: Theme }) => ({
     },
 }));
 
-export const ContentContainer = styled(Box)(({ theme }: { theme: Theme }) => ({
+export const ContentContainer = styled(Box)(({ theme }: ThemeType) => ({
     padding: theme.spacing(6, 4),
     display: 'flex',
     gap: theme.spacing(4),
@@ -67,7 +67,7 @@ export const IconContainer = styled(Box, {
     };
 });
 
-export const TextContainer = styled(Box)(({ theme }: { theme: Theme }) => ({
+export const TextContainer = styled(Box)(({ theme }: ThemeType) => ({
     display: 'flex',
     flexDirection: 'column',
     gap: theme.spacing(1),
@@ -75,7 +75,7 @@ export const TextContainer = styled(Box)(({ theme }: { theme: Theme }) => ({
 }));
 
 export const StyledDialogTitle = styled(DialogTitle)(
-    ({ theme }: { theme: Theme }) => ({
+    ({ theme }: ThemeType) => ({
         padding: 0,
         fontSize: theme.typography.h6.fontSize,
         fontWeight: theme.typography.fontWeightMedium,
@@ -94,7 +94,7 @@ export const StyledDialogContent = styled(DialogContent)({
 });
 
 export const StyledDialogContentText = styled(DialogContentText)(
-    ({ theme }: { theme: Theme }) => ({
+    ({ theme }: ThemeType) => ({
         fontSize: theme.typography.body2.fontSize,
         color: theme.palette.text.secondary,
         lineHeight: 1.5,
@@ -104,7 +104,7 @@ export const StyledDialogContentText = styled(DialogContentText)(
 );
 
 export const StyledDialogActions = styled(DialogActions)(
-    ({ theme }: { theme: Theme }) => ({
+    ({ theme }: ThemeType) => ({
         backgroundColor: alpha(theme.palette.action.disabledBackground, 0.05),
         padding: theme.spacing(3, 3),
         justifyContent: 'flex-end',

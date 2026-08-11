@@ -164,6 +164,8 @@ const Header = () => {
                 description={feedback.description}
                 type={feedback.type}
                 confirmText={feedback.confirmText}
+                cancelButtonConfig={{ color: 'primary', variant: 'outlined' }}
+                confirmButtonConfig={{ color: 'error', variant: 'contained' }}
                 cancelText={feedback.cancelText}
                 onClose={handleCloseDialog}
                 onConfirm={onSubmit}
