@@ -1,13 +1,16 @@
 import { useState } from 'react';
 
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { IconButton, InputAdornment } from '@mui/material';
+import {
+    IconButton as MuiIconButton,
+    InputAdornment as MuiInputAdornment,
+} from '@mui/material';
 
 import { StyledTextField } from './InputField.styles';
 import { InputProps } from './InputField.types';
 import { INPUT_TYPES } from '../constants';
 
-export const MyInputField = ({ type, ...restProps }: InputProps) => {
+export const InputField = ({ type, ...restProps }: InputProps) => {
     const [showPassword, setShowPassword] = useState(false);
 
     const getInputType = () => {
@@ -23,15 +26,15 @@ export const MyInputField = ({ type, ...restProps }: InputProps) => {
 
         if (type === INPUT_TYPES.PASSWORD) {
             adornments.endAdornment = (
-                <InputAdornment position="end">
-                    <IconButton
+                <MuiInputAdornment position="end">
+                    <MuiIconButton
                         onClick={() => setShowPassword(!showPassword)}
                         edge="end"
                         aria-label="toggle password visibility"
                     >
                         {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                </InputAdornment>
+                    </MuiIconButton>
+                </MuiInputAdornment>
             );
         }
 
@@ -40,14 +43,14 @@ export const MyInputField = ({ type, ...restProps }: InputProps) => {
 
     return (
         <StyledTextField
-            {...restProps}
-            type={getInputType()}
-            variant="outlined"
             slotProps={{
                 input: {
                     ...getInputAdornments(),
                 },
             }}
+            {...restProps}
+            type={getInputType()}
+            variant="outlined"
         />
     );
 };

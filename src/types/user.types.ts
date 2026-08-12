@@ -1,8 +1,4 @@
-export const USER_ROLE = {
-    GUEST: 'guest',
-    CUSTOMER: 'customer',
-    OWNER: 'owner',
-} as const;
+import { USER_ROLE } from '@components/constants';
 
 export type UserRole = (typeof USER_ROLE)[keyof typeof USER_ROLE];
 

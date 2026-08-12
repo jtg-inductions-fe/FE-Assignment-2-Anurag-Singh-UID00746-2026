@@ -1,7 +1,6 @@
 import Customer from '@assets/images/customer.webp';
 import RestaurantPartner from '@assets/images/restaurant-partner.webp';
-
-import { USER_ROLE } from '../../types/user.types';
+import { USER_ROLE } from '@components/constants';
 
 export const ROLECARD = [
     {

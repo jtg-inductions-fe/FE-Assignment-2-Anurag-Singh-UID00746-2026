@@ -1,14 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import { login, signup } from './authThunk';
-import { User } from '../../types/user.types';
-
-interface AuthState {
-    user: User | null;
-    isLoggedIn: boolean;
-    isLoading: boolean;
-    error: string | null;
-}
+import { AuthState } from './auth.types';
 
 const initialState: AuthState = {
     user: null,

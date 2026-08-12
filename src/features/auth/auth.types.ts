@@ -1,4 +1,4 @@
-import { UserRole } from '../../types/user.types';
+import { User, UserRole } from '../../types/user.types';
 
 export interface LoginCredential {
     email: string;
@@ -12,3 +12,10 @@ export interface SignupCredential {
     confirmPassword: string;
     role?: UserRole;
 }
+
+export type AuthState = {
+    user: User | null;
+    isLoggedIn: boolean;
+    isLoading: boolean;
+    error: string | null;
+};

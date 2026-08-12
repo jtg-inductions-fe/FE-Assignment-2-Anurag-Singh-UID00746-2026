@@ -3,12 +3,12 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Search, SearchIconWrapper, StyledInputBase } from './SearchBar.styles';
 import type { SearchBarProps } from './SearchBar.types';
 
-const SearchBar = ({ placeholder, value, onChange }: SearchBarProps) => (
+const SearchBar = (props: SearchBarProps) => (
     <Search>
         <StyledInputBase
-            placeholder={placeholder}
-            value={value}
-            onChange={(e) => onChange(e.target.value)}
+            placeholder={props.placeholder}
+            value={props.value}
+            onChange={(e) => props.onChange(e.target.value)}
             inputProps={{ 'aria-label': 'search' }}
         />
         <SearchIconWrapper>

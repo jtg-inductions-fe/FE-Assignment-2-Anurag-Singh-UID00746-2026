@@ -3,12 +3,15 @@ import { ChangeEvent } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { alpha, Box, Stack, Typography } from '@mui/material';
+import {
+    alpha,
+    Box as MuiBox,
+    Stack as MuiStack,
+    Typography as MuiTypography,
+} from '@mui/material';
 
-import MyButton from '@components/Button/Button';
-import { TOAST_TYPES } from '@components/constants';
-import FeatureCard from '@components/FeatureCard/RoleCard';
-import { MyInputField } from '@components/InputField/InputField';
+import { TOAST_TYPES, USER_ROLE } from '@components/constants';
+import { InputField } from '@components/InputField/InputField.component';
 import { SignupCredential } from '@features/auth/auth.types';
 import { signup } from '@features/auth/authThunk';
 import { showToast } from '@features/toast/toastSlice';
@@ -20,8 +23,9 @@ import { theme } from '@theme/index';
 import { signupSchema } from '@validations/auth.validation';
 
 import { ROLECARD } from './rolecard';
-import { ClickableLink, Wrapper } from './signup.styles';
-import { USER_ROLE } from '../../types/user.types';
+import { ClickableLink, Wrapper } from './Signup.styles';
+import RoleCard from '@components/FeatureCard/RoleCard.component';
+import { Button } from '@components/Button/Button.component';
 
 const Signup = () => {
     const {
@@ -42,6 +46,9 @@ const Signup = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
+    /**
+     * Creates a new user by calling the action and navigates the user to login route
+     */
     const onSubmit = async (data: SignupCredential) => {
         try {
             await dispatch(signup(data)).unwrap();
@@ -66,7 +73,7 @@ const Signup = () => {
 
     return (
         <Wrapper>
-            <Box
+            <MuiBox
                 component="form"
                 onSubmit={(event: ChangeEvent<HTMLInputElement>) =>
                     void handleSubmit(onSubmit)(event)
@@ -76,36 +83,36 @@ const Signup = () => {
                 paddingInline={4}
                 mt={10}
             >
-                <Stack spacing={10}>
-                    <Stack spacing={1.5}>
-                        <Typography variant="h3" textAlign="center">
+                <MuiStack spacing={10}>
+                    <MuiStack spacing={1.5}>
+                        <MuiTypography variant="h3" textAlign="center">
                             CREATE AN ACCOUNT
-                        </Typography>
+                        </MuiTypography>
 
-                        <Typography
+                        <MuiTypography
                             variant="body1"
                             color={alpha(theme.palette.text.secondary, 0.7)}
                             textAlign="center"
                         >
                             Join us today and be a part of a delicious journey
                             that brings people and food together
-                        </Typography>
-                    </Stack>
+                        </MuiTypography>
+                    </MuiStack>
 
-                    <Stack spacing={2.5}>
-                        <Typography
+                    <MuiStack spacing={2.5}>
+                        <MuiTypography
                             variant="subtitle1"
                             color="common.black"
                             pl={2}
                         >
                             Want to join as
-                        </Typography>
+                        </MuiTypography>
 
                         <Controller
                             name="role"
                             control={control}
                             render={({ field }) => (
-                                <Box
+                                <MuiBox
                                     width="100%"
                                     display="flex"
                                     justifyContent="space-between"
@@ -113,7 +120,7 @@ const Signup = () => {
                                     gap={3}
                                 >
                                     {ROLECARD.map((item) => (
-                                        <FeatureCard
+                                        <RoleCard
                                             key={item.value}
                                             image={item.image}
                                             title={item.title}
@@ -125,19 +132,21 @@ const Signup = () => {
                                             }
                                         />
                                     ))}
-                                </Box>
+                                </MuiBox>
                             )}
                         />
-                    </Stack>
+                    </MuiStack>
 
-                    <Stack spacing={6}>
-                        <Stack spacing={2}>
-                            <Typography variant="body1">Full Name</Typography>
+                    <MuiStack spacing={6}>
+                        <MuiStack spacing={2}>
+                            <MuiTypography variant="body1">
+                                Full Name
+                            </MuiTypography>
                             <Controller
                                 name="fullName"
                                 control={control}
                                 render={({ field }) => (
-                                    <MyInputField
+                                    <InputField
                                         {...field}
                                         placeholder="Enter your full name"
                                         fullWidth
@@ -146,15 +155,15 @@ const Signup = () => {
                                     />
                                 )}
                             />
-                        </Stack>
+                        </MuiStack>
 
-                        <Stack spacing={2}>
-                            <Typography variant="body1">Email</Typography>
+                        <MuiStack spacing={2}>
+                            <MuiTypography variant="body1">Email</MuiTypography>
                             <Controller
                                 name="email"
                                 control={control}
                                 render={({ field }) => (
-                                    <MyInputField
+                                    <InputField
                                         {...field}
                                         placeholder="Enter your email"
                                         fullWidth
@@ -163,15 +172,17 @@ const Signup = () => {
                                     />
                                 )}
                             />
-                        </Stack>
+                        </MuiStack>
 
-                        <Stack spacing={2}>
-                            <Typography variant="body1">Password</Typography>
+                        <MuiStack spacing={2}>
+                            <MuiTypography variant="body1">
+                                Password
+                            </MuiTypography>
                             <Controller
                                 name="password"
                                 control={control}
                                 render={({ field }) => (
-                                    <MyInputField
+                                    <InputField
                                         {...field}
                                         type="password"
                                         placeholder="Enter your password"
@@ -181,17 +192,17 @@ const Signup = () => {
                                     />
                                 )}
                             />
-                        </Stack>
+                        </MuiStack>
 
-                        <Stack spacing={2}>
-                            <Typography variant="body1">
+                        <MuiStack spacing={2}>
+                            <MuiTypography variant="body1">
                                 Confirm Password
-                            </Typography>
+                            </MuiTypography>
                             <Controller
                                 name="confirmPassword"
                                 control={control}
                                 render={({ field }) => (
-                                    <MyInputField
+                                    <InputField
                                         {...field}
                                         type="password"
                                         placeholder="Confirm your password"
@@ -203,20 +214,20 @@ const Signup = () => {
                                     />
                                 )}
                             />
-                        </Stack>
-                    </Stack>
+                        </MuiStack>
+                    </MuiStack>
 
-                    <Stack spacing={6}>
-                        <MyButton
+                    <MuiStack spacing={6}>
+                        <Button
                             type="submit"
                             loading={isSubmitting}
                             variant="contained"
                             fullWidth
                         >
                             {!isSubmitting && 'Create Account'}
-                        </MyButton>
+                        </Button>
 
-                        <Typography variant="body2" textAlign="center">
+                        <MuiTypography variant="body2" textAlign="center">
                             Already have an account ?
                             <ClickableLink
                                 component={Link}
@@ -226,10 +237,10 @@ const Signup = () => {
                             >
                                 Sign In
                             </ClickableLink>
-                        </Typography>
-                    </Stack>
-                </Stack>
-            </Box>
+                        </MuiTypography>
+                    </MuiStack>
+                </MuiStack>
+            </MuiBox>
         </Wrapper>
     );
 };

@@ -1,4 +1,4 @@
-import { FOOD_CATEGORY } from '@constant';
+import { FOOD_CATEGORY } from '@constant/index';
 import { Restaurant } from '../types/restaurant.types';
 
 export const restaurants: Restaurant[] = [
@@ -117,7 +117,7 @@ export const restaurants: Restaurant[] = [
         name: 'California Burrito',
         description: 'Mexican Burritos, Bowls & Tacos',
 
-        image: '/src/assets/images/restaurants/california-burrito.webp',
+        image: '/src/assets/images/restaurants/california-burrito.jpeg',
 
         isOpenToday: true,
         category: FOOD_CATEGORY.BOTH,

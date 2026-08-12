@@ -1,6 +1,5 @@
 import { rolePermissions } from '@config/rolePermissions';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
-import { USER_ROLE } from '../../types/user.types';
 import { DISCOVERY_ACTION } from '@config/discoveryActions';
 import { getVisibleRestaurants } from '@utils/getVisibleRestaurants';
 import { useNavigate } from 'react-router-dom';
@@ -8,20 +7,26 @@ import { closeDialog, openDialog } from '@features/feedback/feedbackSlice';
 import {
     ACTION_DIALOG_TYPES,
     EXCEPTION_STATE_TYPES,
+    USER_ROLE,
 } from '@components/constants';
 import { Restaurant } from '../../types/restaurant.types';
 import { RestaurantCard } from '@components/RestaurantCard/RestaurantCard';
-import { Box, Grid2 as Grid, ToggleButton, Typography } from '@mui/material';
+import {
+    Box as MuiBox,
+    Grid2 as MuiGrid,
+    ToggleButton as MuiToggleButton,
+    Typography as MuiTypography,
+} from '@mui/material';
 import { theme } from '@theme/index';
-import { ActionDialog } from '@components/ActionDialog/ActionDialog';
 import { useState } from 'react';
 import { deleteRestaurant } from '@features/restaurant/restaurantSlice';
-import ExceptionState from '@components/ExceptionState/ExceptionState';
 import { isOpenToday } from '@utils/getOpenRestaurants';
 import MultiToggle from '@components/MultiToggle/MultiToggle';
-import { FOOD_CATEGORY } from '@constant';
+import { FOOD_CATEGORY } from '@constant/index';
 import { Permission } from '@config/permissions';
 import { useSearchRestaurants } from '@hooks/useSearchRestaurants';
+import { ActionDialog } from '@components/ActionDialog/ActionDialog.component';
+import ExceptionState from '@components/ExceptionState/ExceptionState.component';
 
 const Home = () => {
     const navigate = useNavigate();
@@ -116,8 +121,8 @@ const Home = () => {
     };
 
     return (
-        <Box
-            padding={{ mobile: theme.spacing(4), tablet: theme.spacing(4, 0) }}
+        <MuiBox
+            padding={{ xs: theme.spacing(4), sm: theme.spacing(4, 0) }}
             marginBottom={8}
         >
             <MultiToggle
@@ -125,26 +130,26 @@ const Home = () => {
                 value={category}
                 exclusive
                 onChange={handleChange}
-                aria-label="Platform"
+                aria-label="Restaurant category"
             >
-                <ToggleButton value={FOOD_CATEGORY.BOTH}>
-                    <Typography variant="body1" color="primary" mt={0.5}>
+                <MuiToggleButton value={FOOD_CATEGORY.BOTH}>
+                    <MuiTypography variant="body1" color="primary" mt={0.5}>
                         Both
-                    </Typography>
-                </ToggleButton>
-                <ToggleButton value={FOOD_CATEGORY.VEG} color="success">
-                    <Typography variant="body1" color="success" mt={0.5}>
+                    </MuiTypography>
+                </MuiToggleButton>
+                <MuiToggleButton value={FOOD_CATEGORY.VEG} color="success">
+                    <MuiTypography variant="body1" color="success" mt={0.5}>
                         Veg
-                    </Typography>
-                </ToggleButton>
-                <ToggleButton value={FOOD_CATEGORY.NON_VEG} color="error">
-                    <Typography variant="body1" color="error" mt={0.5}>
+                    </MuiTypography>
+                </MuiToggleButton>
+                <MuiToggleButton value={FOOD_CATEGORY.NON_VEG} color="error">
+                    <MuiTypography variant="body1" color="error" mt={0.5}>
                         Non Veg
-                    </Typography>
-                </ToggleButton>
+                    </MuiTypography>
+                </MuiToggleButton>
             </MultiToggle>
 
-            <Grid container spacing={10}>
+            <MuiGrid container spacing={10}>
                 {filteredVisibleRestaurants.length === 0 ? (
                     <ExceptionState
                         type={EXCEPTION_STATE_TYPES.EMPTY}
@@ -155,9 +160,9 @@ const Home = () => {
                     />
                 ) : (
                     filteredVisibleRestaurants.map((restaurant) => (
-                        <Grid
+                        <MuiGrid
                             key={restaurant.id}
-                            size={{ mobile: 12, tablet: 6, desktop: 4 }}
+                            size={{ xs: 12, md: 6, lg: 4 }}
                         >
                             <RestaurantCard
                                 restaurant={restaurant}
@@ -169,10 +174,10 @@ const Home = () => {
                                 canEdit={canEdit}
                                 canDelete={canDelete}
                             />
-                        </Grid>
+                        </MuiGrid>
                     ))
                 )}
-            </Grid>
+            </MuiGrid>
 
             <ActionDialog
                 open={feedback.open && Boolean(restaurantToDelete)}
@@ -181,10 +186,12 @@ const Home = () => {
                 type={feedback.type}
                 confirmText={feedback.confirmText}
                 cancelText={feedback.cancelText}
+                cancelButtonConfig={{ color: 'primary', variant: 'outlined' }}
+                confirmButtonConfig={{ color: 'error', variant: 'contained' }}
                 onClose={handleCloseDialog}
                 onConfirm={handleConfirmDelete}
             />
-        </Box>
+        </MuiBox>
     );
 };
 

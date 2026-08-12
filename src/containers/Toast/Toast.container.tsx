@@ -1,6 +1,8 @@
-import { Snackbar } from '@mui/material';
-import { LinearProgressProps } from '@mui/material';
-import Slide, { SlideProps } from '@mui/material/Slide';
+import { Snackbar as MuiSnackbar, Slide as MuiSlide } from '@mui/material';
+import type { LinearProgressProps, SlideProps } from '@mui/material';
+
+import { useAppDispatch, useAppSelector } from '@store/hooks';
+import { hideToast } from '@features/toast/toastSlice';
 
 import { TOAST_ICONS } from './Toast.icons';
 import {
@@ -13,7 +15,7 @@ import {
     StyledToastImage,
 } from './Toast.styles';
 import type { ToastProps } from './Toast.types';
-import { TOAST_TYPES } from '../constants';
+import { TOAST_TYPES } from '@components/constants';
 
 const getProgressColor = (
     variant: ToastProps['type'],
@@ -34,26 +36,24 @@ const getProgressColor = (
 };
 
 export const Transition = (props: SlideProps) => (
-    <Slide {...props} direction="left" />
+    <MuiSlide {...props} direction="left" />
 );
 
-const Toast = ({
-    open,
-    type,
-    title,
-    message,
-    autoHideDuration = 4000,
-    onClose,
-    ...props
-}: ToastProps) => {
+const Toast = () => {
+    const dispatch = useAppDispatch();
+    const { open, type, title, message } = useAppSelector(
+        (state) => state.toast,
+    );
+
+    if (!open) return null;
+
     const assets = TOAST_ICONS[type];
 
     return (
-        <Snackbar
-            {...props}
+        <MuiSnackbar
             open={open}
-            onClose={onClose}
-            autoHideDuration={autoHideDuration}
+            onClose={() => dispatch(hideToast())}
+            autoHideDuration={2000}
             anchorOrigin={{
                 vertical: 'top',
                 horizontal: 'right',
@@ -74,7 +74,7 @@ const Toast = ({
                     color={getProgressColor(type)}
                 />
             </StyledToast>
-        </Snackbar>
+        </MuiSnackbar>
     );
 };
 

@@ -1,5 +1,6 @@
+import { USER_ROLE } from '@components/constants';
 import { Restaurant } from '../types/restaurant.types';
-import { User, USER_ROLE } from '../types/user.types';
+import { User } from '../types/user.types';
 
 export const getVisibleRestaurants = (
     restaurants: Restaurant[],

@@ -2,7 +2,7 @@
     "compilerOptions": {
         "paths": {
             "@assets/*": ["./src/assets/*"],
-            "@constant": ["./src/constant/index"],
+            "@constant/*": ["./src/constant/*"],
             "@components/*": ["./src/components/*"],
             "@config/*": ["./src/config/*"],
             "@containers/*": ["./src/containers/*"],

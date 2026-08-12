@@ -7,7 +7,7 @@ import SuccessToast from '@assets/images/success-toast.webp';
 import WarningAtoms from '@assets/images/warning-atoms.webp';
 import WarningToast from '@assets/images/warning-toast.webp';
 
-import { TOAST_TYPES, ToastType } from '../constants';
+import { TOAST_TYPES, ToastType } from '@components/constants';
 
 interface ToastAsset {
     toast: string;
