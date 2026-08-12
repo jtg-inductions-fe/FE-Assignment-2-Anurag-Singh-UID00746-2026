@@ -5,17 +5,22 @@ import { useNavigate, useParams } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import PhoneIcon from '@mui/icons-material/Phone';
-import { alpha, Box, Grid2, Link, Stack, Typography } from '@mui/material';
+import {
+    alpha,
+    Box as MuiBox,
+    Grid2 as MuiGrid,
+    Link as MuiLink,
+    Stack as MuiStack,
+    Typography as MuiTypography,
+} from '@mui/material';
 
-import { ActionDialog } from '@components/ActionDialog/ActionDialog';
 import {
     ACTION_DIALOG_TYPES,
     EXCEPTION_STATE_TYPES,
     TOAST_TYPES,
+    USER_ROLE,
 } from '@components/constants';
 import MenuItemCard from '@containers/MenuItemCard/MenuItemCard.container';
-import { Permission } from '@config/permissions';
-import { rolePermissions } from '@config/rolePermissions';
 import { addToCart } from '@features/cart/cartSlice';
 import { closeDialog, openDialog } from '@features/feedback/feedbackSlice';
 import { deleteMenuItemThunk } from '@features/restaurant/restaurantThunk';
@@ -33,9 +38,10 @@ import {
     TimingChip,
 } from './Restaurant.styles';
 import { MenuItem } from '@types';
-import { USER_ROLE } from '../../types/user.types';
 import { ExceptionState } from '@components/ExceptionState';
 import { Button } from '@components/Button';
+import { ActionDialog } from '@components/ActionDialog';
+import { permission, rolepermissions } from '@containers/common/constants';
 
 const Restaurant = () => {
     const navigate = useNavigate();
@@ -58,7 +64,7 @@ const Restaurant = () => {
     const userRole = user?.role;
     const restaurant = restaurants.find((item) => item.id === id);
 
-    const permissions = rolePermissions[userRole || USER_ROLE.GUEST];
+    const permissions = rolepermissions[userRole || USER_ROLE.GUEST];
 
     if (error) {
         return (
@@ -181,9 +187,19 @@ const Restaurant = () => {
         return Number(isBInStock) - Number(isAInStock);
     });
 
+    const currentDay = new Date()
+        .toLocaleString('en-US', { weekday: 'long' })
+        .toLowerCase();
+
+    const isOpen = restaurant.operatingDays
+        ? !!restaurant.operatingDays[
+              currentDay as keyof typeof restaurant.operatingDays
+          ]
+        : true;
+
     return (
-        <Box
-            padding={{ mobile: theme.spacing(5), tablet: theme.spacing(4, 0) }}
+        <MuiBox
+            padding={{ xs: theme.spacing(5), sm: theme.spacing(4, 0) }}
             marginBottom={8}
         >
             <Button
@@ -195,84 +211,85 @@ const Restaurant = () => {
             </Button>
             <HeaderWrapper>
                 <HeaderContent>
-                    <Typography variant="h3">
+                    <MuiTypography variant="h3">
                         {restaurant.name.toUpperCase()}
-                    </Typography>
-                    <Typography
+                    </MuiTypography>
+                    <MuiTypography
                         variant="subtitle1"
                         color={alpha(theme.palette.text.secondary, 0.8)}
                     >
                         {restaurant.description}
-                    </Typography>
-                    <Typography
+                    </MuiTypography>
+                    <MuiTypography
                         variant="body1"
                         color={alpha(theme.palette.text.secondary, 0.6)}
                     >
                         {restaurant.address}
-                    </Typography>
+                    </MuiTypography>
                 </HeaderContent>
                 <ContactWrapper>
                     <TimingChip>
-                        <Typography variant="subtitle1" color="primary">
+                        <MuiTypography variant="subtitle1" color="primary">
                             Open now
-                        </Typography>
-                        <Typography variant="subtitle1" color="common.black">
+                        </MuiTypography>
+                        <MuiTypography variant="subtitle1" color="common.black">
                             {restaurant.openingTime} - {restaurant.closingTime}
-                        </Typography>
+                        </MuiTypography>
                     </TimingChip>
 
                     <CustomDivider orientation="vertical" flexItem />
 
-                    <Stack direction="row" alignItems="center" spacing={2}>
+                    <MuiStack direction="row" alignItems="center" spacing={2}>
                         <PhoneIcon color="error" />
-                        <Link
+                        <MuiLink
                             href={`tel:+91${restaurant.contactNumber}`}
                             underline="none"
                             color="common.black"
                         >
                             +91 {restaurant.contactNumber}
-                        </Link>
-                    </Stack>
+                        </MuiLink>
+                    </MuiStack>
                 </ContactWrapper>
             </HeaderWrapper>
-            {permissions.includes(Permission.ADD_MENU_ITEM) && (
-                <Button
-                    variant="contained"
-                    startIcon={<AddIcon />}
-                    onClick={handleAddMenuItem}
-                >
-                    Add Item
-                </Button>
-            )}
-            <Grid2 container spacing={8} mt={8}>
-                {menuItems.map((item) => (
-                    <Grid2
-                        key={item.id}
-                        size={{ mobile: 12, tablet: 12, desktop: 6 }}
+            {user?.id === restaurant.ownerId &&
+                permissions.includes(permission.ADD_MENU_ITEM) && (
+                    <Button
+                        variant="contained"
+                        startIcon={<AddIcon />}
+                        onClick={handleAddMenuItem}
                     >
-                        <MenuItemCard
-                            menuItem={item}
-                            role={userRole || USER_ROLE.GUEST}
-                            quantity={selectedQuantity[item.id] ?? 0}
-                            onIncrement={() =>
-                                setSelectedQuantity((prev) => ({
-                                    ...prev,
-                                    [item.id]: (prev[item.id] ?? 0) + 1,
-                                }))
-                            }
-                            onDecrement={() =>
-                                setSelectedQuantity((prev) => ({
-                                    ...prev,
-                                    [item.id]: (prev[item.id] ?? 0) - 1,
-                                }))
-                            }
-                            onAddToCart={() => handleAddToCart(item)}
-                            onDelete={() => handleDeleteItem(item)}
-                            onEdit={() => handleEditMenuItem(item)}
-                        />
-                    </Grid2>
-                ))}
-            </Grid2>
+                        Add Item
+                    </Button>
+                )}
+            <MuiGrid container spacing={8} mt={8}>
+                {menuItems.map((item) => {
+                    return (
+                        <MuiGrid key={item.id} size={{ xs: 12, sm: 12, md: 6 }}>
+                            <MenuItemCard
+                                isOpen={isOpen}
+                                menuItem={item}
+                                role={userRole || USER_ROLE.GUEST}
+                                quantity={selectedQuantity[item.id] ?? 0}
+                                onIncrement={() =>
+                                    setSelectedQuantity((prev) => ({
+                                        ...prev,
+                                        [item.id]: (prev[item.id] ?? 0) + 1,
+                                    }))
+                                }
+                                onDecrement={() =>
+                                    setSelectedQuantity((prev) => ({
+                                        ...prev,
+                                        [item.id]: (prev[item.id] ?? 0) - 1,
+                                    }))
+                                }
+                                onAddToCart={() => handleAddToCart(item)}
+                                onDelete={() => handleDeleteItem(item)}
+                                onEdit={() => handleEditMenuItem(item)}
+                            />
+                        </MuiGrid>
+                    );
+                })}
+            </MuiGrid>
             <ActionDialog
                 open={feedback.open && Boolean(itemtToDelete)}
                 title={feedback.title}
@@ -280,10 +297,12 @@ const Restaurant = () => {
                 type={feedback.type}
                 confirmText={feedback.confirmText}
                 cancelText={feedback.cancelText}
+                cancelButtonConfig={{ color: 'primary', variant: 'outlined' }}
+                confirmButtonConfig={{ color: 'error', variant: 'contained' }}
                 onClose={handleCloseDialog}
                 onConfirm={handleConfirmDelete}
             />
-        </Box>
+        </MuiBox>
     );
 };
 

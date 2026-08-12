@@ -1,1 +1,1 @@
-export { ActionDialog } from './ActionDialog';
+export { ActionDialog } from './ActionDialog.component';

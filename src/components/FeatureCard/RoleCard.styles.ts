@@ -1,12 +1,14 @@
+import { ThemeType } from '@components/types';
 import { alpha, Box, Card, CardActionArea, styled } from '@mui/material';
 
 import { typography } from '@theme/foundations';
+import { Z_INDEX } from '@constant/theme';
 
 export const StyledCard = styled(Card, {
     shouldForwardProp: (prop) => prop !== 'selected',
 })<{ selected?: boolean }>(({ theme, selected }) => ({
     position: 'relative',
-    borderRadius: 24,
+    borderRadius: typography.typographyUtil.pxToRem(24),
     border: `2px solid ${selected ? alpha(theme.palette.primary.main, 0.5) : alpha(theme.palette.text.secondary, 0.2)}`,
     background: selected
         ? alpha(theme.palette.primary.light, 0.4)
@@ -16,39 +18,41 @@ export const StyledCard = styled(Card, {
     width: '100%',
 }));
 
-export const MyCardActionArea = styled(CardActionArea)(({ theme }) => ({
-    padding: theme.spacing(4, 3),
-    textAlign: 'center',
+export const MyCardActionArea = styled(CardActionArea)(
+    ({ theme }: ThemeType) => ({
+        padding: theme.spacing(4, 3),
+        textAlign: 'center',
 
-    '&:hover .role-image': {
-        transform: 'scale(1.06)',
-    },
-}));
+        '&:hover .role-image': {
+            transform: 'scale(1.06)',
+        },
+    }),
+);
 
-export const ImgBox = styled(Box)(({ theme }) => ({
+export const ImgBox = styled(Box)(({ theme }: ThemeType) => ({
     height: typography.typographyUtil.pxToRem(120),
     width: '100%',
 
-    [theme.breakpoints.up('tablet')]: {
+    [theme.breakpoints.up('sm')]: {
         height: typography.typographyUtil.pxToRem(150),
         width: '95%',
     },
 }));
 
-export const MyBadge = styled(Box, {
+export const CheckBox = styled(Box, {
     shouldForwardProp: (prop) => prop !== 'selected',
 })<{ selected?: boolean }>(({ theme, selected }) => ({
     position: 'absolute',
-    top: 14,
-    right: 14,
-    width: 34,
-    height: 34,
+    top: typography.typographyUtil.pxToRem(14),
+    right: typography.typographyUtil.pxToRem(14),
+    width: typography.typographyUtil.pxToRem(34),
+    height: typography.typographyUtil.pxToRem(34),
     borderRadius: '50%',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    transition: '.25s',
-    zIndex: '1000',
+    transition: '0.25s',
+    zIndex: Z_INDEX,
 
     ...(selected
         ? {
@@ -60,9 +64,3 @@ export const MyBadge = styled(Box, {
               border: `2px solid ${alpha(theme.palette.text.secondary, 0.2)}`,
           }),
 }));
-
-export const Illustration = styled('img')({
-    width: '100%',
-    height: '100%',
-    transition: '.25s',
-});

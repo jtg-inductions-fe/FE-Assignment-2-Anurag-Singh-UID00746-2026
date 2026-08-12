@@ -1,10 +1,6 @@
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import HttpsOutlinedIcon from '@mui/icons-material/HttpsOutlined';
-import { alpha, Typography } from '@mui/material';
-
-import { FOOD_CATEGORY } from '@constant';
-import { theme } from '@theme/index';
+import { alpha, Typography as MuiTypography } from '@mui/material';
 
 import {
     ActionContainer,
@@ -21,22 +17,17 @@ import {
     StyledIconButton,
 } from './RestaurantCard.styles';
 import { RestaurantCardProps } from './restaurantCard.types';
-import { Image } from '@components/ImageBox';
-import { Badge } from '@components/Badge';
+import HttpsOutlinedIcon from '@mui/icons-material/HttpsOutlined';
+import { theme } from '@theme/index';
+import { FOOD_CATEGORY } from '@constant/index';
+import { Image } from '@components/ImageBox/ImageBox.styles';
+import { Chip } from '@components/Chip';
 
-export const RestaurantCard = ({
-    restaurant,
-    isOpen,
-    onCardClick,
-    onEdit,
-    onDelete,
-    canEdit,
-    canDelete,
-}: RestaurantCardProps) => {
+export const RestaurantCard = (props: RestaurantCardProps) => {
     const handleCardKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
         if (event.key === 'Enter' || event.key === ' ') {
             event.preventDefault();
-            onCardClick(restaurant);
+            props.onCardClick(props.restaurant);
         }
     };
 
@@ -52,33 +43,35 @@ export const RestaurantCard = ({
         <StyledCard
             tabIndex={0}
             role="button"
-            aria-label={`Open restaurant ${restaurant.name}`}
-            onClick={() => onCardClick(restaurant)}
+            aria-label={`Open restaurant ${props.restaurant.name}`}
+            onClick={() => props.onCardClick(props.restaurant)}
             onKeyDown={handleCardKeyDown}
             elevation={0}
         >
-            {(canEdit || canDelete) && (
+            {(props.canEdit || props.canDelete) && (
                 <ActionContainer>
-                    {canEdit && (
+                    {props.canEdit && (
                         <StyledIconButton
                             onClick={(event) => {
                                 event.stopPropagation();
-                                onEdit(restaurant);
+                                props.onEdit(props.restaurant);
                             }}
                             onKeyDown={handleIconButtonKeyDown}
+                            aria-label={`Edit ${props.restaurant.name}`}
                         >
                             <EditOutlinedIcon />
                         </StyledIconButton>
                     )}
 
-                    {canDelete && (
+                    {props.canDelete && (
                         <StyledIconButton
                             color="error"
                             onClick={(event) => {
                                 event.stopPropagation();
-                                onDelete(restaurant);
+                                props.onDelete(props.restaurant);
                             }}
                             onKeyDown={handleIconButtonKeyDown}
+                            aria-label={`Delete ${props.restaurant.name}`}
                         >
                             <DeleteOutlineOutlinedIcon />
                         </StyledIconButton>
@@ -86,16 +79,16 @@ export const RestaurantCard = ({
                 </ActionContainer>
             )}
 
-            {!isOpen && <ClosedBadge label="closed" size="medium" />}
+            {!props.isOpen && <ClosedBadge label="closed" size="medium" />}
 
             <ImageContainer>
                 <Image
-                    src={restaurant.image}
-                    alt={restaurant.name}
+                    src={props.restaurant.image}
+                    alt={props.restaurant.name}
                     height={250}
                     width="100%"
                 />
-                {!isOpen && (
+                {!props.isOpen && (
                     <Overlay>
                         <OverlayContent>
                             <IconWrapper>
@@ -104,54 +97,51 @@ export const RestaurantCard = ({
                                     color="primary"
                                 />
                             </IconWrapper>
-                            <Typography
+                            <MuiTypography
                                 variant="subtitle1"
                                 color={alpha(theme.palette.common.white, 0.9)}
                             >
                                 CLOSED FOR TODAY
-                            </Typography>
+                            </MuiTypography>
                         </OverlayContent>
                     </Overlay>
                 )}
             </ImageContainer>
 
             <StyledCardContent>
-                <InfoContainer maxWidth={{ tablet: 500 }}>
+                <InfoContainer maxWidth={{ sm: 500 }}>
                     <HeaderBox>
-                        <Typography
+                        <MuiTypography
                             variant="h5"
                             whiteSpace="nowrap"
                             textOverflow="ellipsis"
                             overflow="hidden"
                         >
-                            {restaurant.name}
-                        </Typography>
-                        {restaurant.category === FOOD_CATEGORY.VEG && (
-                            <Badge label="Veg" size="medium" color="success" />
+                            {props.restaurant.name}
+                        </MuiTypography>
+                        {props.restaurant.category === FOOD_CATEGORY.VEG && (
+                            <Chip label="Veg" size="medium" color="success" />
                         )}
 
-                        {restaurant.category === FOOD_CATEGORY.NON_VEG && (
-                            <Badge
-                                label="Non Veg"
-                                size="medium"
-                                color="error"
-                            />
+                        {props.restaurant.category ===
+                            FOOD_CATEGORY.NON_VEG && (
+                            <Chip label="Non Veg" size="medium" color="error" />
                         )}
                     </HeaderBox>
 
-                    <Typography
+                    <MuiTypography
                         variant="subtitle2"
                         color="primary"
                         whiteSpace="nowrap"
                         textOverflow="ellipsis"
                         overflow="hidden"
                     >
-                        {restaurant.description}
-                    </Typography>
+                        {props.restaurant.description}
+                    </MuiTypography>
                 </InfoContainer>
 
                 <MetaContainer>
-                    <Typography
+                    <MuiTypography
                         maxWidth={400}
                         variant="caption"
                         color="common.black"
@@ -159,8 +149,8 @@ export const RestaurantCard = ({
                         textOverflow="ellipsis"
                         overflow="hidden"
                     >
-                        {restaurant.address}
-                    </Typography>
+                        {props.restaurant.address}
+                    </MuiTypography>
                 </MetaContainer>
             </StyledCardContent>
         </StyledCard>

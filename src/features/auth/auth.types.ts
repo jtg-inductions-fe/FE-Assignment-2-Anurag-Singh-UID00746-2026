@@ -1,4 +1,4 @@
-import { UserRole } from '@types';
+import { User, UserRole } from '@types';
 
 /** User authentication input data model required for logging into an account. */
 export interface LoginCredential {
@@ -26,3 +26,27 @@ export interface SignupCredential {
     /** Optional custom security operational authorization classification category mapping tier. */
     role?: UserRole;
 }
+
+export type AuthState = {
+    /**
+     * The loggedin person's data.
+     * This is null if no one is logged in.
+     */
+    user: User | null;
+
+    /**
+     * True if the user is successfully logged in.
+     */
+    isLoggedIn: boolean;
+
+    /**
+     * True if the app is currently checking or loading the login status.
+     */
+    isLoading: boolean;
+
+    /**
+     * A text message explaining what went wrong.
+     * This is null if there are no errors.
+     */
+    error: string | null;
+};

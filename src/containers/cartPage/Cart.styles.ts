@@ -16,7 +16,7 @@ export const Container = styled(Box)(({ theme }) => ({
     padding: theme.spacing(2, 5),
     minHeight: '100dvh',
 
-    [theme.breakpoints.up('tablet')]: {
+    [theme.breakpoints.up('sm')]: {
         padding: theme.spacing(0),
     },
 }));
@@ -41,7 +41,7 @@ export const Main = styled(Box)(({ theme }) => ({
     gap: theme.spacing(6),
     margin: theme.spacing(12, 0, 8, 0),
 
-    [theme.breakpoints.up('desktop')]: {
+    [theme.breakpoints.up('lg')]: {
         flexDirection: 'row',
         alignItems: 'flex-start',
         gap: theme.spacing(5),
@@ -55,7 +55,7 @@ export const CartSection = styled(Box)(({ theme }) => ({
     width: '100%',
     minWidth: 0,
 
-    [theme.breakpoints.up('tablet')]: {
+    [theme.breakpoints.up('sm')]: {
         flex: 1,
     },
 }));
@@ -87,7 +87,7 @@ export const CartItem = styled(Box)(({ theme }) => ({
     gap: theme.spacing(6),
     padding: theme.spacing(5, 4),
 
-    [theme.breakpoints.up('desktop')]: {
+    [theme.breakpoints.up('lg')]: {
         display: 'grid',
         gridTemplateColumns: 'minmax(0, 1fr) auto auto auto',
         alignItems: 'center',
@@ -105,7 +105,7 @@ export const Name = styled(Typography)(({ theme }: { theme: Theme }) => ({
     width: '100%',
     ...lineClamp(2),
 
-    [theme.breakpoints.up('tablet')]: {
+    [theme.breakpoints.up('sm')]: {
         fontSize: typography.typographyUtil.pxToRem(14),
         marginBottom: theme.spacing(1),
     },
@@ -124,7 +124,7 @@ export const Description = styled(Box)(({ theme }: { theme: Theme }) => ({
         ...lineClamp(2),
     },
 
-    [theme.breakpoints.up('tablet')]: {
+    [theme.breakpoints.up('sm')]: {
         maxWidth: '100%',
     },
 }));
@@ -139,7 +139,7 @@ export const QuantityContainer = styled(Box)(({ theme }: { theme: Theme }) => ({
     justifyContent: 'space-between',
     alignItems: 'center',
 
-    [theme.breakpoints.up('desktop')]: {
+    [theme.breakpoints.up('lg')]: {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -166,7 +166,7 @@ export const BillCard = styled(Box)(({ theme }) => ({
     padding: theme.spacing(4, 5),
     backgroundColor: alpha(theme.palette.secondary.light, 0.1),
 
-    [theme.breakpoints.up('desktop')]: {
+    [theme.breakpoints.up('lg')]: {
         width: 'min(32%, 35rem)',
         position: 'sticky',
         top: theme.spacing(2),

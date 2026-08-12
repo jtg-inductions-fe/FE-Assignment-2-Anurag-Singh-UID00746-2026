@@ -1,7 +1,8 @@
+import { ThemeType } from '@components/types';
 import { styled, ToggleButtonGroup } from '@mui/material';
 
 export const StyledToggleButtonGroup = styled(ToggleButtonGroup)(
-    ({ theme }) => ({
+    ({ theme }: ThemeType) => ({
         margin: theme.spacing(8, 0),
 
         '& .MuiToggleButtonGroup-grouped': {

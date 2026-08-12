@@ -9,12 +9,7 @@ import {
     updateRestaurantThunk,
 } from './restaurantThunk';
 import { Restaurant } from '@types';
-
-type RestaurantState = {
-    restaurants: Restaurant[];
-    loading: boolean;
-    error: string | null;
-};
+import { RestaurantState } from './restaurant.types';
 
 const initialState: RestaurantState = {
     restaurants: [],

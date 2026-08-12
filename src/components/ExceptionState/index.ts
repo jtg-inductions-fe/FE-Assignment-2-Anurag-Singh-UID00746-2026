@@ -1,1 +1,1 @@
-export { ExceptionState } from './ExceptionState';
+export { ExceptionState } from './ExceptionState.component';

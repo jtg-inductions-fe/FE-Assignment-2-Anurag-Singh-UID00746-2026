@@ -1,5 +1,4 @@
-import { FoodCategory } from '@constant';
-
+import { FoodCategory } from '@constant/index';
 import { MenuItem } from './menuItem.types';
 
 /** All information describing a restaurant profile. */

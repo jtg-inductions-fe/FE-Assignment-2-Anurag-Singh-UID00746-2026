@@ -27,7 +27,7 @@ export type OwnerOrderPanelProps = {
 
 /** Props for a single tracking checkpoint step node within the order progress timeline. */
 export type OrderTimelineItemProps = {
-    /** The text heading label describing the timeline step activity (e.g., 'Preparing'). */
+    /** The text heading label describing the timeline step activity. */
     label: string;
 
     /** Toggles the highlighted pulse accent color state indicating current location focus. */

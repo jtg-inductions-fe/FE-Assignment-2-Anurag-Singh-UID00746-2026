@@ -1,4 +1,4 @@
-export { COLORS, HTML_FONT_SIZE, SCALING_FACTOR } from './themeConstant';
+export { COLORS, HTML_FONT_SIZE, SCALING_FACTOR } from './theme';
 
 /** Diet classification values for filtering or tagging food items. */
 export const FOOD_CATEGORY = {

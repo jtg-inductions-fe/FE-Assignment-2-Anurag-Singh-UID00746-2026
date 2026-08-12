@@ -24,3 +24,8 @@ export type CartItem = {
     /** How many of this item the user wants to buy. */
     quantity: number;
 };
+
+export type CartState = {
+    /** The list of all products currently added to the shopping cart. */
+    items: CartItem[];
+};

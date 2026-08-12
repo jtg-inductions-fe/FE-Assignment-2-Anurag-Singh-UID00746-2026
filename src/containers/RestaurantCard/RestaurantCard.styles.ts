@@ -1,9 +1,11 @@
-import { Box, Card, CardContent, Chip, IconButton, Theme } from '@mui/material';
+import { ThemeType } from '@components/types';
+import { Z_INDEX } from '@constant/theme';
+import { Box, Card, CardContent, Chip, IconButton } from '@mui/material';
 import { alpha, styled } from '@mui/material/styles';
 
 import { typography } from '@theme/foundations';
 
-export const StyledCard = styled(Card)(({ theme }: { theme: Theme }) => ({
+export const StyledCard = styled(Card)(({ theme }: ThemeType) => ({
     position: 'relative',
     display: 'flex',
     flexDirection: 'column',
@@ -22,7 +24,7 @@ export const StyledCard = styled(Card)(({ theme }: { theme: Theme }) => ({
 }));
 
 export const StyledCardContent = styled(CardContent)(
-    ({ theme }: { theme: Theme }) => ({
+    ({ theme }: ThemeType) => ({
         display: 'flex',
         flexDirection: 'column',
         gap: theme.spacing(2),
@@ -30,13 +32,13 @@ export const StyledCardContent = styled(CardContent)(
     }),
 );
 
-export const InfoContainer = styled(Box)(({ theme }: { theme: Theme }) => ({
+export const InfoContainer = styled(Box)(({ theme }: ThemeType) => ({
     display: 'flex',
     flexDirection: 'column',
     gap: theme.spacing(1),
 }));
 
-export const MetaContainer = styled(Box)(({ theme }: { theme: Theme }) => ({
+export const MetaContainer = styled(Box)(({ theme }: ThemeType) => ({
     display: 'flex',
     flexDirection: 'column',
     gap: theme.spacing(1.5),
@@ -56,39 +58,37 @@ export const MetaContainer = styled(Box)(({ theme }: { theme: Theme }) => ({
     },
 }));
 
-export const ActionContainer = styled(Box)(({ theme }: { theme: Theme }) => ({
+export const ActionContainer = styled(Box)(({ theme }: ThemeType) => ({
     position: 'absolute',
     top: theme.spacing(2),
     right: theme.spacing(2),
     display: 'flex',
     gap: theme.spacing(2),
-    zIndex: 1000,
+    zIndex: Z_INDEX,
 }));
 
-export const StyledIconButton = styled(IconButton)(
-    ({ theme }: { theme: Theme }) => ({
-        backgroundColor: alpha(theme.palette.background.paper, 0.8),
-        borderRadius: '50%',
-        height: theme.spacing(10),
-        width: theme.spacing(10),
-        backdropFilter: 'blur(8px)',
-        transition: 'all 0.3s ease-in-out',
+export const StyledIconButton = styled(IconButton)(({ theme }: ThemeType) => ({
+    backgroundColor: alpha(theme.palette.background.paper, 0.8),
+    borderRadius: '50%',
+    height: theme.spacing(10),
+    width: theme.spacing(10),
+    backdropFilter: 'blur(8px)',
+    transition: 'all 0.3s ease-in-out',
 
-        '&:hover': {
-            backgroundColor: theme.palette.primary.main,
-            color: theme.palette.common.white,
-            transform: 'scale(1.1)',
-        },
+    '&:hover': {
+        backgroundColor: theme.palette.primary.main,
+        color: theme.palette.common.white,
+        transform: 'scale(1.1)',
+    },
 
-        '&:focus-visible': {
-            backgroundColor: theme.palette.primary.main,
-            color: theme.palette.common.white,
-            outline: 'none',
-        },
-    }),
-);
+    '&:focus-visible': {
+        backgroundColor: theme.palette.primary.main,
+        color: theme.palette.common.white,
+        outline: 'none',
+    },
+}));
 
-export const ClosedBadge = styled(Chip)(({ theme }: { theme: Theme }) => ({
+export const ClosedBadge = styled(Chip)(({ theme }: ThemeType) => ({
     position: 'absolute',
     top: theme.spacing(2.5),
     left: theme.spacing(3),
@@ -114,7 +114,7 @@ export const ImageContainer = styled(Box)(() => ({
     width: '100%',
 }));
 
-export const Overlay = styled(Box)(({ theme }: { theme: Theme }) => ({
+export const Overlay = styled(Box)(({ theme }: ThemeType) => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
@@ -127,7 +127,7 @@ export const Overlay = styled(Box)(({ theme }: { theme: Theme }) => ({
     height: typography.typographyUtil.pxToRem(250),
 }));
 
-export const OverlayContent = styled(Box)(({ theme }: { theme: Theme }) => ({
+export const OverlayContent = styled(Box)(({ theme }: ThemeType) => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
@@ -135,7 +135,7 @@ export const OverlayContent = styled(Box)(({ theme }: { theme: Theme }) => ({
     gap: theme.spacing(2),
 }));
 
-export const IconWrapper = styled(Box)(({ theme }: { theme: Theme }) => ({
+export const IconWrapper = styled(Box)(({ theme }: ThemeType) => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',

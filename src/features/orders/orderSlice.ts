@@ -1,13 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-
-import { Order } from '@types';
 import { createOrderThunk, updateOrderStatusThunk } from './orderThunk';
-
-type OrderState = {
-    orders: Order[];
-    loading: boolean;
-    error: string | null;
-};
+import { OrderState } from './order.types';
 
 const initialState: OrderState = {
     orders: [],

@@ -10,18 +10,17 @@ import { QuantitySelectorProps } from './QuantitySelector.types';
 import { Button } from '@components/Button';
 
 export const QuantitySelector = ({
-    quantity,
-    onIncrement,
-    onDecrement,
     disabled = false,
+    ...props
 }: QuantitySelectorProps) => {
-    if (quantity === 0) {
+    if (props.quantity === 0) {
         return (
             <Button
                 variant="contained"
-                onClick={onIncrement}
+                onClick={props.onIncrement}
                 disabled={disabled}
                 startIcon={<AddIcon />}
+                aria-label="Add item"
             >
                 Add
             </Button>
@@ -30,13 +29,21 @@ export const QuantitySelector = ({
 
     return (
         <Container>
-            <ActionButton onClick={onDecrement} size="small">
+            <ActionButton
+                onClick={props.onDecrement}
+                size="small"
+                aria-label="Decrease quantity"
+            >
                 <RemoveIcon fontSize="small" />
             </ActionButton>
 
-            <QuantityDisplay>{quantity}</QuantityDisplay>
+            <QuantityDisplay>{props.quantity}</QuantityDisplay>
 
-            <ActionButton onClick={onIncrement} size="small">
+            <ActionButton
+                onClick={props.onIncrement}
+                size="small"
+                aria-label="Increase quantity"
+            >
                 <AddIcon fontSize="small" />
             </ActionButton>
         </Container>

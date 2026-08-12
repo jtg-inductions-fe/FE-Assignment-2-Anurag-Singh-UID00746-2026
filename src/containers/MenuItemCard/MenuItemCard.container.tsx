@@ -1,6 +1,6 @@
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import { Box, Typography } from '@mui/material';
+import { Box as MuiBox, Typography as MuiTypography } from '@mui/material';
 
 import {
     ActionIcon,
@@ -14,71 +14,72 @@ import {
     StyledCard,
 } from './MenuItemCard.styles';
 import { MenuItemCardProps } from './MenuItemCard.types';
-import { USER_ROLE } from '../../types/user.types';
 import { Image } from '@components/ImageBox';
-import { Badge } from '@components/Badge';
 import { Button } from '@components/Button';
+import { USER_ROLE } from '@components/constants';
+import { Chip } from '@components/Chip';
 
-const MenuItemCard = ({
-    menuItem,
-    role,
-    onEdit,
-    onDelete,
-    onAddToCart,
-}: MenuItemCardProps) => (
+const MenuItemCard = (props: MenuItemCardProps) => (
     <StyledCard elevation={0}>
         <Image
-            src={menuItem.image}
-            alt={menuItem.name}
+            src={props.menuItem.image}
+            alt={props.menuItem.name}
             sx={{
-                height: { mobile: 250, tablet: 180 },
-                width: { mobile: '100%', tablet: 150 },
+                height: { xs: 250, sm: 180 },
+                width: { xs: '100%', sm: 150 },
             }}
         />
         <Content>
             <MetaContainer>
-                {role === USER_ROLE.OWNER && menuItem.stock === 0 ? (
-                    <Badge label="OUT OF STOCK" size="small" color="warning" />
+                {props.role === USER_ROLE.OWNER &&
+                props.menuItem.stock === 0 ? (
+                    <Chip label="OUT OF STOCK" size="small" color="warning" />
                 ) : (
-                    <Badge
-                        label={menuItem.isVeg ? 'VEG' : 'NON VEG'}
-                        color={menuItem.isVeg ? 'success' : 'error'}
+                    <Chip
+                        label={props.menuItem.isVeg ? 'VEG' : 'NON VEG'}
+                        color={props.menuItem.isVeg ? 'success' : 'error'}
                         size="small"
                     />
                 )}
 
                 <Description>
-                    <Name variant="h6">{menuItem.name}</Name>
-                    <Typography variant="body1" color="text.secondary">
-                        {menuItem.description}
-                    </Typography>
+                    <Name variant="h6">{props.menuItem.name}</Name>
+                    <MuiTypography variant="body1" color="text.secondary">
+                        {props.menuItem.description}
+                    </MuiTypography>
                 </Description>
             </MetaContainer>
 
             <Footer>
-                <Box width="100%">
-                    <Typography variant="h6">₹{menuItem.price}</Typography>
-                </Box>
+                <MuiBox width="100%">
+                    <MuiTypography variant="h6">
+                        ₹{props.menuItem.price}
+                    </MuiTypography>
+                </MuiBox>
                 <ActionWrapper>
-                    {role === USER_ROLE.OWNER ? (
+                    {props.role === USER_ROLE.OWNER ? (
                         <OwnerActions>
-                            <ActionIcon onClick={onEdit}>
+                            <ActionIcon onClick={props.onEdit}>
                                 <EditOutlinedIcon color="primary" />
                             </ActionIcon>
 
-                            <ActionIcon onClick={onDelete}>
+                            <ActionIcon onClick={props.onDelete}>
                                 <DeleteOutlineOutlinedIcon color="error" />
                             </ActionIcon>
                         </OwnerActions>
-                    ) : menuItem.stock === 0 ? (
-                        <Badge
+                    ) : props.menuItem.stock === 0 ? (
+                        <Chip
                             label="NOT AVAILABLE"
                             size="small"
                             color="warning"
                         />
                     ) : (
-                        role === USER_ROLE.CUSTOMER && (
-                            <Button variant="contained" onClick={onAddToCart}>
+                        props.isOpen &&
+                        props.role === USER_ROLE.CUSTOMER && (
+                            <Button
+                                variant="contained"
+                                onClick={props.onAddToCart}
+                            >
                                 Add Item
                             </Button>
                         )

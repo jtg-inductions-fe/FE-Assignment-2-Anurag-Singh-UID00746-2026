@@ -1,8 +1,9 @@
+import { ThemeType } from '@components/types';
 import { Button, styled } from '@mui/material';
 
 import { typography } from '@theme/foundations';
 
-export const StyledButton = styled(Button)(({ theme }) => ({
+export const StyledButton = styled(Button)(({ theme }: ThemeType) => ({
     letterSpacing: typography.typographyUtil.pxToRem(0.5),
     borderRadius: typography.typographyUtil.pxToRem(8),
     minHeight: typography.typographyUtil.pxToRem(40),

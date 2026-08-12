@@ -5,15 +5,19 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { StorefrontOutlined } from '@mui/icons-material';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import { alpha, Box, MenuItem, Stack, Typography } from '@mui/material';
+import {
+    alpha,
+    Box as MuiBox,
+    MenuItem as MuiMenuItem,
+    Stack as MuiStack,
+    Typography as MuiTypography,
+} from '@mui/material';
 
-import { ActionDialog } from '@components/ActionDialog/ActionDialog';
 import {
     ACTION_DIALOG_TYPES,
     EXCEPTION_STATE_TYPES,
     TOAST_TYPES,
 } from '@components/constants';
-import { FOOD_CATEGORY } from '@constant';
 import { closeDialog, openDialog } from '@features/feedback/feedbackSlice';
 import { updateMenuItemThunk } from '@features/restaurant/restaurantThunk';
 import { showToast } from '@features/toast/toastSlice';
@@ -43,6 +47,8 @@ import { ExceptionState } from '@components/ExceptionState';
 import { Button } from '@components/Button';
 import { InputField } from '@components/InputField';
 import { Select } from '@components/BasicSelect';
+import { FOOD_CATEGORY } from '@constant/index';
+import { ActionDialog } from '@components/ActionDialog';
 
 const EditMenuItem = () => {
     const {
@@ -195,7 +201,7 @@ const EditMenuItem = () => {
 
     return (
         <Root>
-            <Box
+            <MuiBox
                 component="form"
                 onSubmit={handleSubmit(onSubmitForm)}
                 width="100%"
@@ -215,21 +221,21 @@ const EditMenuItem = () => {
                     Back
                 </Button>
                 <HeadingWrapper>
-                    <Typography variant="h3">EDIT MENU ITEM</Typography>
-                    <Typography
+                    <MuiTypography variant="h3">EDIT MENU ITEM</MuiTypography>
+                    <MuiTypography
                         variant="subtitle1"
                         color={alpha(theme.palette.text.secondary, 0.6)}
                     >
                         Update the item details below and save the changes.
-                    </Typography>
+                    </MuiTypography>
                 </HeadingWrapper>
                 <FormContainer>
                     <FormGrid>
                         <MetaContainer>
-                            <Stack spacing={2} width="100%">
-                                <Typography variant="body1">
+                            <MuiStack spacing={2} width="100%">
+                                <MuiTypography variant="body1">
                                     Image URL
-                                </Typography>
+                                </MuiTypography>
                                 <Controller
                                     name="image"
                                     control={control}
@@ -243,11 +249,11 @@ const EditMenuItem = () => {
                                         />
                                     )}
                                 />
-                            </Stack>
-                            <Stack spacing={2} width="100%">
-                                <Typography variant="body1">
+                            </MuiStack>
+                            <MuiStack spacing={2} width="100%">
+                                <MuiTypography variant="body1">
                                     Item name
-                                </Typography>
+                                </MuiTypography>
                                 <Controller
                                     name="name"
                                     control={control}
@@ -261,13 +267,13 @@ const EditMenuItem = () => {
                                         />
                                     )}
                                 />
-                            </Stack>
+                            </MuiStack>
                         </MetaContainer>
-                        <Box width="100%">
-                            <Stack spacing={2}>
-                                <Typography variant="body1">
+                        <MuiBox width="100%">
+                            <MuiStack spacing={2}>
+                                <MuiTypography variant="body1">
                                     Item description
-                                </Typography>
+                                </MuiTypography>
                                 <Controller
                                     name="description"
                                     control={control}
@@ -285,14 +291,14 @@ const EditMenuItem = () => {
                                         />
                                     )}
                                 />
-                            </Stack>
-                        </Box>
+                            </MuiStack>
+                        </MuiBox>
                         <FormGrid>
                             <MetaContainer>
-                                <Stack spacing={2} width="100%">
-                                    <Typography variant="body1">
+                                <MuiStack spacing={2} width="100%">
+                                    <MuiTypography variant="body1">
                                         Price
-                                    </Typography>
+                                    </MuiTypography>
                                     <Controller
                                         name="price"
                                         control={control}
@@ -309,11 +315,11 @@ const EditMenuItem = () => {
                                             />
                                         )}
                                     />
-                                </Stack>
-                                <Stack spacing={2} width="100%">
-                                    <Typography variant="body1">
+                                </MuiStack>
+                                <MuiStack spacing={2} width="100%">
+                                    <MuiTypography variant="body1">
                                         Quantity
-                                    </Typography>
+                                    </MuiTypography>
                                     <Controller
                                         name="stock"
                                         control={control}
@@ -330,14 +336,14 @@ const EditMenuItem = () => {
                                             />
                                         )}
                                     />
-                                </Stack>
+                                </MuiStack>
                             </MetaContainer>
                             <RangeContainer>
                                 <SelectFormControl>
-                                    <Stack spacing={2} width="100%">
-                                        <Typography variant="body1">
+                                    <MuiStack spacing={2} width="100%">
+                                        <MuiTypography variant="body1">
                                             Food category
-                                        </Typography>
+                                        </MuiTypography>
                                         <Controller
                                             name="isVeg"
                                             control={control}
@@ -359,32 +365,32 @@ const EditMenuItem = () => {
                                                     fullWidth
                                                     error={!!errors.isVeg}
                                                 >
-                                                    <MenuItem
+                                                    <MuiMenuItem
                                                         value={
                                                             FOOD_CATEGORY.VEG
                                                         }
                                                     >
                                                         VEG
-                                                    </MenuItem>
-                                                    <MenuItem
+                                                    </MuiMenuItem>
+                                                    <MuiMenuItem
                                                         value={
                                                             FOOD_CATEGORY.NON_VEG
                                                         }
                                                     >
                                                         NON VEG
-                                                    </MenuItem>
+                                                    </MuiMenuItem>
                                                 </Select>
                                             )}
                                         />
                                         {errors.isVeg && (
-                                            <Typography
+                                            <MuiTypography
                                                 color="error.main"
                                                 variant="caption"
                                             >
                                                 {errors.isVeg.message}
-                                            </Typography>
+                                            </MuiTypography>
                                         )}
-                                    </Stack>
+                                    </MuiStack>
                                 </SelectFormControl>
                             </RangeContainer>
                         </FormGrid>
@@ -411,7 +417,7 @@ const EditMenuItem = () => {
                         </Button>
                     </ActionContainer>
                 </FooterContainer>
-            </Box>
+            </MuiBox>
             <ActionDialog
                 open={feedback.open && Boolean(pendingFormData)}
                 title={feedback.title}
@@ -419,6 +425,8 @@ const EditMenuItem = () => {
                 type={feedback.type}
                 confirmText={feedback.confirmText}
                 cancelText={feedback.cancelText}
+                cancelButtonConfig={{ color: 'error', variant: 'outlined' }}
+                confirmButtonConfig={{ color: 'primary', variant: 'contained' }}
                 onClose={handleCancelSubmit}
                 onConfirm={handleConfirmSubmit}
             />

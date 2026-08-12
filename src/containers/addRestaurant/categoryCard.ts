@@ -1,4 +1,4 @@
-import { FOOD_CATEGORY } from '@constant';
+import { FOOD_CATEGORY } from '@constant/index';
 
 /** List of available food category card configurations for display cards. */
 export const CATEGORY_CARD = [

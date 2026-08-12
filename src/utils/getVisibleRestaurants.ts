@@ -1,5 +1,5 @@
+import { USER_ROLE } from '@components/constants';
 import { Restaurant } from '@types';
-import { USER_ROLE } from '../types/user.types';
 import { User } from '@types';
 
 /**

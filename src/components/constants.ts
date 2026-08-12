@@ -1,13 +1,22 @@
+/**
+ * Represents 2 different variants for action dialog component
+ */
 export const ACTION_DIALOG_TYPES = {
     ALERT: 'alert',
     CONFIRM: 'confirm',
 } as const;
 
+/**
+ * Represents 2 different variants for exception component
+ */
 export const EXCEPTION_STATE_TYPES = {
     ERROR: 'error',
     EMPTY: 'empty',
 } as const;
 
+/**
+ * Represents 2 different variants for toast component
+ */
 export const TOAST_TYPES = {
     SUCCESS: 'success',
     ERROR: 'error',
@@ -15,12 +24,24 @@ export const TOAST_TYPES = {
     INFO: 'info',
 } as const;
 
+/**
+ * Represents 3 different variants for input component
+ */
 export const INPUT_TYPES = {
     TEXT: 'text',
     EMAIL: 'email',
     PASSWORD: 'password',
     TIME: 'time',
     NUMBER: 'number',
+} as const;
+
+/**
+ * Represents 3 different types of users
+ */
+export const USER_ROLE = {
+    GUEST: 'guest',
+    CUSTOMER: 'customer',
+    OWNER: 'owner',
 } as const;
 
 export type DialogType =

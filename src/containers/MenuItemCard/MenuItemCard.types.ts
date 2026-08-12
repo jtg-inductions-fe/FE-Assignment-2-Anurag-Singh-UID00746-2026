@@ -2,6 +2,9 @@ import { UserRole, MenuItem } from '@types';
 
 /** Props for the MenuItemCard component. */
 export type MenuItemCardProps = {
+    /** Flag to check whether restaurant is opened or not. */
+    isOpen: Boolean;
+
     /** The menu item data model containing details. */
     menuItem: MenuItem;
 

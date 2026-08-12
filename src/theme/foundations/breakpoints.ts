@@ -1,23 +1,14 @@
 import type { BreakpointsOptions } from '@mui/material/styles';
 
-/* Custom Breakpoints */
-declare module '@mui/material/styles' {
-    interface BreakpointOverrides {
-        xs: false;
-        sm: false;
-        md: false;
-        lg: false;
-        xl: false;
-        mobile: true;
-        tablet: true;
-        desktop: true;
-    }
-}
+import { BREAKPOINTS } from './constants';
 
+/* Custom Breakpoints */
 export const breakpoints: BreakpointsOptions = {
     values: {
-        mobile: 0,
-        tablet: 600,
-        desktop: 1200,
+        xs: BREAKPOINTS.EXTRA_SMALL,
+        sm: BREAKPOINTS.SMALL,
+        md: BREAKPOINTS.MEDIUM,
+        lg: BREAKPOINTS.LARGE,
+        xl: BREAKPOINTS.EXTRA_LARGE,
     },
 };

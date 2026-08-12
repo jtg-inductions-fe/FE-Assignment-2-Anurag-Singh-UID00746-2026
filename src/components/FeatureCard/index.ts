@@ -1,1 +1,1 @@
-export { FeatureCard } from './RoleCard';
+export { FeatureCard } from './RoleCard.component';

@@ -1,4 +1,4 @@
-import { MenuItem } from '@types';
+import { MenuItem, Restaurant } from '@types';
 
 /** Parameters used to search for or filter restaurants. */
 export type FetchRestaurantsParams = {
@@ -29,3 +29,17 @@ export interface DeleteMenuItemParams {
     /** The unique ID of the food item to delete. */
     menuItemId: string;
 }
+
+export type RestaurantState = {
+    /** The list of all the restaurants. */
+    restaurants: Restaurant[];
+    /**
+     * True if the app is loading the restaurants.
+     */
+    loading: boolean;
+    /**
+     * A text message explaining what went wrong.
+     * This is null if there are no errors.
+     */
+    error: string | null;
+};

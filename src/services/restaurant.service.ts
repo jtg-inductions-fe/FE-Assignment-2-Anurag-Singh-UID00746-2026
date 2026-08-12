@@ -65,9 +65,11 @@ export const restaurantService = {
             (item) => item.id === restaurant.id,
         );
 
-        if (index !== -1) {
-            restaurants[index] = restaurant;
+        if (index === -1) {
+            throw new Error(`Restaurant "${restaurant.id}" was not found`);
         }
+
+        restaurants[index] = restaurant;
 
         return restaurant;
     },

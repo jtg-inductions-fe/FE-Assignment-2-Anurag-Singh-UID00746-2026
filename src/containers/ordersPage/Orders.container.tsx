@@ -7,7 +7,11 @@ import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 
 import { alpha, Box, Divider, IconButton, Typography } from '@mui/material';
 
-import { EXCEPTION_STATE_TYPES, TOAST_TYPES } from '@components/constants';
+import {
+    EXCEPTION_STATE_TYPES,
+    TOAST_TYPES,
+    USER_ROLE,
+} from '@components/constants';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 
 import { updateOrderStatusThunk } from '@features/orders/orderThunk';
@@ -46,9 +50,6 @@ import {
 } from './Orders.styles';
 
 import type { Order, OrderStatus } from '@types';
-import { rolePermissions } from '@config/rolePermissions';
-import { USER_ROLE } from '../../types/user.types';
-import { Permission } from '@config/permissions';
 import { ROUTES } from '@router/routes';
 import { theme } from '@theme/index';
 import { formatOrderDateTime } from '@utils/getFormattedDateTime';
@@ -65,7 +66,8 @@ import { orderStatusSteps } from './order.constants';
 import { ExceptionState } from '@components/ExceptionState';
 import { Button } from '@components/Button';
 import { InputField } from '@components/InputField';
-import { Badge } from '@components/Badge';
+import { Chip } from '@components/Chip';
+import { permission, rolepermissions } from '@containers/common/constants';
 
 const OrdersPage = () => {
     const navigate = useNavigate();
@@ -76,8 +78,8 @@ const OrdersPage = () => {
 
     const userRole = user?.role;
 
-    const permissions = rolePermissions[userRole || USER_ROLE.GUEST];
-    const canManageOrders = permissions.includes(Permission.MANAGE_ORDERS);
+    const permissions = rolepermissions[userRole || USER_ROLE.GUEST];
+    const canManageOrders = permissions.includes(permission.MANAGE_ORDERS);
 
     const [expandedOrderId, setExpandedOrderId] = useState<string | null>(null);
 
@@ -145,9 +147,7 @@ const OrdersPage = () => {
     };
 
     return (
-        <Container
-            padding={{ mobile: theme.spacing(5), tablet: theme.spacing(4, 0) }}
-        >
+        <Container padding={{ xs: theme.spacing(5), sm: theme.spacing(4, 0) }}>
             <Button
                 variant="outlined"
                 startIcon={<ArrowBackIosNewIcon />}
@@ -205,7 +205,7 @@ const OrdersPage = () => {
                                     >
                                         ₹{order.totalPrice}
                                     </Typography>
-                                    <Badge
+                                    <Chip
                                         label={order.status}
                                         color={
                                             order.status === 'Delivered' ||
@@ -592,11 +592,11 @@ const OwnerOrderPanel = ({ order, onStatusChange }: OwnerOrderPanelProps) => {
                 )}
 
                 {order.status === 'Rejected' && (
-                    <Badge label="Order Rejected" color="error" />
+                    <Chip label="Order Rejected" color="error" />
                 )}
 
                 {order.status === 'Delivered' && (
-                    <Badge label="Order Completed" color="success" />
+                    <Chip label="Order Completed" color="success" />
                 )}
             </Actions>
         </TimelineCard>

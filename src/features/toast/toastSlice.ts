@@ -1,14 +1,8 @@
 import { TOAST_TYPES } from '@components/constants';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { ToastState } from './toast.types';
 
 export type ToastType = (typeof TOAST_TYPES)[keyof typeof TOAST_TYPES];
-
-type ToastState = {
-    open: boolean;
-    type: ToastType;
-    title: string;
-    message: string;
-};
 
 const initialState: ToastState = {
     open: false,
@@ -30,13 +24,16 @@ const toastSlice = createSlice({
             }>,
         ) => {
             state.open = true;
-            state.type = action.payload.type;
-            state.title = action.payload.title;
-            state.message = action.payload.message;
+            const { type, title, message } = action.payload;
+            state.type = type;
+            state.title = title;
+            state.message = message;
         },
 
         hideToast: (state) => {
             state.open = false;
+            state.title = '';
+            state.message = '';
         },
     },
 });

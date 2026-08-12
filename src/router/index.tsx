@@ -5,20 +5,20 @@ import AddRestaurant from '@containers/addRestaurant/AddRestaurant.container';
 import CartPage from '@containers/cartPage/Cart.container';
 import EditMenuItem from '@containers/editMenuItem/EditMenuItem.container';
 import EditRestaurant from '@containers/editRestaurant/EditRestaurant.container';
-import ErrorPage from '@containers/exception/ErrorPage';
-import NotFoundPage from '@containers/exception/NotFoundPage';
-import Home from '@containers/home';
-import Login from '@containers/login';
 import Restaurant from '@containers/restaurant/Restaurant.container';
-import Signup from '@containers/signup';
 import RootLayout from '@layouts/RootLayout';
 
-import ProtectedRoute from './ProtectedRoute/ProtectedRoute';
 import PublicRoute from './PublicRoute';
 import RoleGuard from './RoleGuard/RoleGuard';
 import { ROUTES, ROUTES_SEGMENTS } from './routes';
-import { USER_ROLE } from '../types/user.types';
 import OrdersPage from '@containers/ordersPage/Orders.container';
+import ErrorPage from '@containers/exception/Error.container';
+import Home from '@containers/home/Home.container';
+import Login from '@containers/login/Login.container';
+import Signup from '@containers/signup/Signup.container';
+import ProtectedRoute from './ProtectedRoute/ProtectedRoute';
+import { USER_ROLE } from '@components/constants';
+import NotFoundPage from '@containers/exception/NotFound.container';
 
 export const router = createBrowserRouter([
     {

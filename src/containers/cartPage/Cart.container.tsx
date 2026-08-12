@@ -6,7 +6,6 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { Divider, Typography } from '@mui/material';
 
-import { ActionDialog } from '@components/ActionDialog/ActionDialog';
 import {
     selectCartItemCount,
     selectCartItemsByRestaurant,
@@ -54,6 +53,7 @@ import { generateOrderId } from '@utils/getCustomOrderId';
 import { ExceptionState } from '@components/ExceptionState';
 import { Button } from '@components/Button';
 import { QuantitySelector } from '@components/QuantitySelector';
+import { ActionDialog } from '@components/ActionDialog';
 
 const Cart = () => {
     const dispatch = useAppDispatch();
@@ -384,6 +384,8 @@ const Cart = () => {
                 type={feedback.type}
                 confirmText={feedback.confirmText}
                 cancelText={feedback.cancelText}
+                cancelButtonConfig={{ color: 'error', variant: 'outlined' }}
+                confirmButtonConfig={{ color: 'primary', variant: 'contained' }}
                 onClose={handleCancelClear}
                 onConfirm={handleConfirmClear}
             />
