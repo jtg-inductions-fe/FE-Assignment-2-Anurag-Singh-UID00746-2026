@@ -1,4 +1,5 @@
-import { Box, Chip, Container, Divider, styled, Theme } from '@mui/material';
+import { ThemeType } from '@components/types';
+import { Box, Chip, Container, Divider, styled } from '@mui/material';
 import { typography } from '@theme/foundations';
 
 export const Wrapper = styled(Container)(() => {
@@ -8,7 +9,7 @@ export const Wrapper = styled(Container)(() => {
     };
 });
 
-export const HeaderWrapper = styled(Box)(({ theme }: { theme: Theme }) => ({
+export const HeaderWrapper = styled(Box)(({ theme }: ThemeType) => ({
     display: 'flex',
     flexDirection: 'column',
     width: '100%',
@@ -20,32 +21,32 @@ export const HeaderContent = styled(Box)({
     flexDirection: 'column',
 });
 
-export const CustomChip = styled(Chip)({
+export const CustomChip = styled(Chip)(({ theme }: ThemeType) => ({
     backgroundColor: 'transparent',
     height: 'auto',
-    padding: '6px 12px',
-});
+    padding: theme.spacing(2, 4),
+}));
 
-export const CustomDivider = styled(Divider)(({ theme }: { theme: Theme }) => ({
+export const CustomDivider = styled(Divider)(({ theme }: ThemeType) => ({
     display: 'none',
 
-    [theme.breakpoints.up('tablet')]: {
+    [theme.breakpoints.up('sm')]: {
         display: 'flex',
     },
 }));
 
-export const ContactWrapper = styled(Box)(({ theme }: { theme: Theme }) => ({
+export const ContactWrapper = styled(Box)(({ theme }: ThemeType) => ({
     display: 'flex',
     flexDirection: 'column',
     margin: theme.spacing(3, 0),
     gap: theme.spacing(3),
 
-    [theme.breakpoints.up('tablet')]: {
+    [theme.breakpoints.up('sm')]: {
         flexDirection: 'row',
     },
 }));
 
-export const TimingChip = styled(Box)(({ theme }: { theme: Theme }) => ({
+export const TimingChip = styled(Box)(({ theme }: ThemeType) => ({
     display: 'flex',
     alignItems: 'start',
     padding: theme.spacing(2, 3),

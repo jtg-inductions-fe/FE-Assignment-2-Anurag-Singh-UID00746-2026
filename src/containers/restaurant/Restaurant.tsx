@@ -1,14 +1,20 @@
 import { rolePermissions } from '@config/rolePermissions';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
-import { USER_ROLE } from '../../types/user.types';
 import { useNavigate, useParams } from 'react-router-dom';
-import ExceptionState from '@components/ExceptionState/ExceptionState';
 import {
     ACTION_DIALOG_TYPES,
     EXCEPTION_STATE_TYPES,
     TOAST_TYPES,
+    USER_ROLE,
 } from '@components/constants';
-import { alpha, Box, Grid2, Link, Stack, Typography } from '@mui/material';
+import {
+    alpha,
+    Box as MuiBox,
+    Grid2 as MuiGrid,
+    Link as MuiLink,
+    Stack as MuiStack,
+    Typography as MuiTypography,
+} from '@mui/material';
 import { theme } from '@theme/index';
 import { useSearchRestaurants } from '@hooks/useSearchRestaurants';
 import { useState } from 'react';
@@ -17,11 +23,9 @@ import { addToCart } from '@features/cart/cartSlice';
 import { MenuItem } from '../../types/menuItem.types';
 import { showToast } from '@features/toast/toastSlice';
 import { deleteMenuItemThunk } from '@features/restaurant/restaurantThunk';
-import { ActionDialog } from '@components/ActionDialog/ActionDialog';
 import { closeDialog, openDialog } from '@features/feedback/feedbackSlice';
 import { ROUTES } from '@router/routes';
 import { Permission } from '@config/permissions';
-import MyButton from '@components/Button/Button';
 import AddIcon from '@mui/icons-material/Add';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import PhoneIcon from '@mui/icons-material/Phone';
@@ -32,6 +36,9 @@ import {
     HeaderWrapper,
     TimingChip,
 } from './Restaurant.styles';
+import ExceptionState from '@components/ExceptionState/ExceptionState.component';
+import { ActionDialog } from '@components/ActionDialog/ActionDialog.component';
+import { Button } from '@components/Button/Button.component';
 
 const Restaurant = () => {
     const navigate = useNavigate();
@@ -145,75 +152,73 @@ const Restaurant = () => {
     };
 
     return (
-        <Box
-            padding={{ mobile: theme.spacing(5), tablet: theme.spacing(4, 0) }}
+        <MuiBox
+            padding={{ xs: theme.spacing(5), sm: theme.spacing(4, 0) }}
             marginBottom={8}
         >
-            <MyButton
+            <Button
                 variant="outlined"
                 startIcon={<ArrowBackIosNewIcon />}
                 onClick={() => void navigate(ROUTES.ROOT)}
             >
                 Back
-            </MyButton>
+            </Button>
             <HeaderWrapper>
                 <HeaderContent>
-                    <Typography variant="h3">
+                    <MuiTypography variant="h3">
                         {restaurant.name.toUpperCase()}
-                    </Typography>
-                    <Typography
+                    </MuiTypography>
+                    <MuiTypography
                         variant="subtitle1"
                         color={alpha(theme.palette.text.secondary, 0.8)}
                     >
                         {restaurant.description}
-                    </Typography>
-                    <Typography
+                    </MuiTypography>
+                    <MuiTypography
                         variant="body1"
                         color={alpha(theme.palette.text.secondary, 0.6)}
                     >
                         {restaurant.address}
-                    </Typography>
+                    </MuiTypography>
                 </HeaderContent>
                 <ContactWrapper>
                     <TimingChip>
-                        <Typography variant="subtitle1" color="primary">
+                        <MuiTypography variant="subtitle1" color="primary">
                             Open now -&nbsp;
-                        </Typography>
-                        <Typography variant="subtitle1" color="common.black">
+                        </MuiTypography>
+                        <MuiTypography variant="subtitle1" color="common.black">
                             {restaurant.openingTime} - {restaurant.closingTime}
-                        </Typography>
+                        </MuiTypography>
                     </TimingChip>
 
                     <CustomDivider orientation="vertical" flexItem />
 
-                    <Stack direction="row" alignItems="center" spacing={2}>
+                    <MuiStack direction="row" alignItems="center" spacing={2}>
                         <PhoneIcon color="error" />
-                        <Link
+                        <MuiLink
                             href={`tel:+91${restaurant.contactNumber}`}
                             underline="none"
                             color="common.black"
                         >
                             +91 {restaurant.contactNumber}
-                        </Link>
-                    </Stack>
+                        </MuiLink>
+                    </MuiStack>
                 </ContactWrapper>
             </HeaderWrapper>
-            {permissions.includes(Permission.ADD_MENU_ITEM) && (
-                <MyButton
-                    variant="contained"
-                    startIcon={<AddIcon />}
-                    onClick={handleAddMenuItem}
-                >
-                    Add Item
-                </MyButton>
-            )}
-            <Grid2 container spacing={8} mt={8}>
+            {user?.id === restaurant.ownerId &&
+                permissions.includes(Permission.ADD_MENU_ITEM) && (
+                    <Button
+                        variant="contained"
+                        startIcon={<AddIcon />}
+                        onClick={handleAddMenuItem}
+                    >
+                        Add Item
+                    </Button>
+                )}
+            <MuiGrid container spacing={8} mt={8}>
                 {restaurant.menuItems.map((item) => {
                     return (
-                        <Grid2
-                            key={item.id}
-                            size={{ mobile: 12, tablet: 12, desktop: 6 }}
-                        >
+                        <MuiGrid key={item.id} size={{ xs: 12, sm: 12, md: 6 }}>
                             <MenuItemCard
                                 menuItem={item}
                                 isOwner={userRole === USER_ROLE.OWNER}
@@ -234,10 +239,10 @@ const Restaurant = () => {
                                 onDelete={() => handleDeleteItem(item)}
                                 onEdit={() => handleEditMenuItem(item)}
                             />
-                        </Grid2>
+                        </MuiGrid>
                     );
                 })}
-            </Grid2>
+            </MuiGrid>
             <ActionDialog
                 open={feedback.open && Boolean(itemtToDelete)}
                 title={feedback.title}
@@ -245,10 +250,12 @@ const Restaurant = () => {
                 type={feedback.type}
                 confirmText={feedback.confirmText}
                 cancelText={feedback.cancelText}
+                cancelButtonConfig={{ color: 'primary', variant: 'outlined' }}
+                confirmButtonConfig={{ color: 'error', variant: 'contained' }}
                 onClose={handleCloseDialog}
                 onConfirm={handleConfirmDelete}
             />
-        </Box>
+        </MuiBox>
     );
 };
 

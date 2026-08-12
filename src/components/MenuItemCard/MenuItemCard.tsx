@@ -1,6 +1,6 @@
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import { Box, Typography } from '@mui/material';
+import { Box as MuiBox, Typography as MuiTypography } from '@mui/material';
 
 import QuantitySelector from '@components/QuantitySelector/QuantitySelector';
 
@@ -17,71 +17,70 @@ import {
 } from './MenuItemCard.styles';
 
 import { MenuItemCardProps } from './MenuItemCard.types';
-import Badge from '@components/Badge/Badge';
-import { MyImage } from '@components/ImageBox/ImageBox.styles';
-import MyButton from '@components/Button/Button';
+import { Image } from '@components/ImageBox/ImageBox.styles';
+import Chip from '@components/Chip/Chip.component';
+import { Button } from '@components/Button/Button.component';
 
-const MenuItemCard = ({
-    menuItem,
-    isOwner,
-    quantity = 0,
-    onIncrement,
-    onDecrement,
-    onEdit,
-    onDelete,
-    onAddToCart,
-}: MenuItemCardProps) => {
+const MenuItemCard = ({ quantity = 0, ...props }: MenuItemCardProps) => {
     return (
         <StyledCard elevation={0}>
-            <MyImage
-                src={menuItem.image}
-                alt={menuItem.name}
+            <Image
+                src={props.menuItem.image}
+                alt={props.menuItem.name}
                 sx={{
-                    height: { mobile: 250, tablet: 180 },
-                    width: { mobile: '100%', tablet: 150 },
+                    height: { xs: 250, sm: 180 },
+                    width: { xs: '100%', sm: 150 },
                 }}
             />
             <Content>
                 <MetaContainer>
-                    {isOwner && menuItem.stock === 0 ? (
-                        <Badge
+                    {props.isOwner && props.menuItem.stock === 0 ? (
+                        <Chip
                             label="OUT OF STOCK"
                             size="small"
                             color="warning"
                         />
                     ) : (
-                        <Badge
-                            label={menuItem.isVeg ? 'VEG' : 'NON VEG'}
-                            color={menuItem.isVeg ? 'success' : 'error'}
+                        <Chip
+                            label={props.menuItem.isVeg ? 'VEG' : 'NON VEG'}
+                            color={props.menuItem.isVeg ? 'success' : 'error'}
                             size="small"
                         />
                     )}
 
                     <Description>
-                        <Name variant="h6">{menuItem.name}</Name>
-                        <Typography variant="body1" color="text.secondary">
-                            {menuItem.description}
-                        </Typography>
+                        <Name variant="h6">{props.menuItem.name}</Name>
+                        <MuiTypography variant="body1" color="text.secondary">
+                            {props.menuItem.description}
+                        </MuiTypography>
                     </Description>
                 </MetaContainer>
 
                 <Footer>
-                    <Box width="100%">
-                        <Typography variant="h6">₹{menuItem.price}</Typography>
-                    </Box>
+                    <MuiBox width="100%">
+                        <MuiTypography variant="h6">
+                            ₹{props.menuItem.price}
+                        </MuiTypography>
+                    </MuiBox>
                     <ActionWrapper>
-                        {isOwner ? (
+                        {props.isOwner ? (
                             <OwnerActions>
-                                <ActionIcon onClick={onEdit}>
+                                <ActionIcon
+                                    onClick={props.onEdit}
+                                    aria-label="Edit menu item"
+                                >
                                     <EditOutlinedIcon color="primary" />
                                 </ActionIcon>
 
-                                <ActionIcon onClick={onDelete}>
+                                <ActionIcon
+                                    onClick={props.onDelete}
+                                    aria-label="Delete menu item"
+                                >
                                     <DeleteOutlineOutlinedIcon color="error" />
                                 </ActionIcon>
                             </OwnerActions>
-                        ) : menuItem.stock === 0 ? (
-                            <Badge
+                        ) : props.menuItem.stock === 0 ? (
+                            <Chip
                                 label="NOT AVAILABLE"
                                 size="small"
                                 color="warning"
@@ -89,14 +88,17 @@ const MenuItemCard = ({
                         ) : (
                             <QuantitySelector
                                 quantity={quantity}
-                                onIncrement={onIncrement!}
-                                onDecrement={onDecrement!}
+                                onIncrement={props.onIncrement!}
+                                onDecrement={props.onDecrement!}
                             />
                         )}
-                        {!isOwner && quantity > 0 && (
-                            <MyButton variant="contained" onClick={onAddToCart}>
+                        {!props.isOwner && quantity > 0 && (
+                            <Button
+                                variant="contained"
+                                onClick={props.onAddToCart}
+                            >
                                 Add Item
-                            </MyButton>
+                            </Button>
                         )}
                     </ActionWrapper>
                 </Footer>

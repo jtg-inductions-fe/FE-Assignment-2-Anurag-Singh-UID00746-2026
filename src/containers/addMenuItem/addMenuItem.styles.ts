@@ -1,7 +1,8 @@
-import { Box, Container, FormControl, styled, Theme } from '@mui/material';
+import { ThemeType } from '@components/types';
+import { Box, Container, FormControl, styled } from '@mui/material';
 import { typography } from '@theme/foundations';
 
-export const Root = styled(Container)(({ theme }: { theme: Theme }) => ({
+export const Root = styled(Container)(({ theme }: ThemeType) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'flex-start',
@@ -9,7 +10,7 @@ export const Root = styled(Container)(({ theme }: { theme: Theme }) => ({
     marginTop: typography.typographyUtil.pxToRem(35),
     width: '100%',
 
-    [theme.breakpoints.up('tablet')]: {
+    [theme.breakpoints.up('sm')]: {
         padding: theme.spacing(4, 0),
     },
 }));
@@ -20,7 +21,7 @@ export const HeadingWrapper = styled(Box)(() => ({
     marginTop: typography.typographyUtil.pxToRem(20),
 }));
 
-export const FormContainer = styled(Box)(({ theme }: { theme: Theme }) => ({
+export const FormContainer = styled(Box)(({ theme }: ThemeType) => ({
     display: 'flex',
     flexDirection: 'column',
     gap: theme.spacing(3),
@@ -28,50 +29,50 @@ export const FormContainer = styled(Box)(({ theme }: { theme: Theme }) => ({
     margin: theme.spacing(12, 0),
 }));
 
-export const FormGrid = styled(Box)(({ theme }: { theme: Theme }) => ({
+export const FormGrid = styled(Box)(({ theme }: ThemeType) => ({
     display: 'flex',
     flexDirection: 'column',
     gap: theme.spacing(4),
     width: '100%',
 }));
 
-export const MetaContainer = styled(Box)(({ theme }: { theme: Theme }) => ({
+export const MetaContainer = styled(Box)(({ theme }: ThemeType) => ({
     display: 'flex',
     flexDirection: 'column',
     gap: theme.spacing(5),
     width: '100%',
 
-    [theme.breakpoints.up('tablet')]: {
+    [theme.breakpoints.up('sm')]: {
         flexDirection: 'row',
         gap: theme.spacing(4),
     },
 }));
 
 export const SelectFormControl = styled(FormControl)(() => ({
-    margin: 2,
+    margin: typography.typographyUtil.pxToRem(2),
     width: '100%',
 }));
 
-export const RangeContainer = styled(Box)(({ theme }: { theme: Theme }) => ({
+export const RangeContainer = styled(Box)(({ theme }: ThemeType) => ({
     display: 'flex',
     flexDirection: 'column',
     gap: theme.spacing(4),
     width: '100%',
 
-    [theme.breakpoints.up('tablet')]: {
+    [theme.breakpoints.up('sm')]: {
         flexDirection: 'row',
         gap: theme.spacing(4),
     },
 }));
 
-export const FooterContainer = styled(Box)(({ theme }: { theme: Theme }) => ({
+export const FooterContainer = styled(Box)(({ theme }: ThemeType) => ({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
     width: '100%',
     paddingTop: theme.spacing(4),
 
-    [theme.breakpoints.up('tablet')]: {
+    [theme.breakpoints.up('sm')]: {
         flexDirection: 'column',
         alignItems: 'stretch',
         gap: theme.spacing(2),
@@ -79,7 +80,7 @@ export const FooterContainer = styled(Box)(({ theme }: { theme: Theme }) => ({
     },
 }));
 
-export const ActionContainer = styled(Box)(({ theme }: { theme: Theme }) => ({
+export const ActionContainer = styled(Box)(({ theme }: ThemeType) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-start',

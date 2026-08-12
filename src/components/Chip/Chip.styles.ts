@@ -1,7 +1,8 @@
+import { ThemeType } from '@components/types';
 import { Chip, styled } from '@mui/material';
 import { typography } from '@theme/foundations';
 
-export const StyledChip = styled(Chip)(({ theme }) => {
+export const StyledChip = styled(Chip)(({ theme }: ThemeType) => {
     return {
         borderRadius: typography.typographyUtil.pxToRem(6),
         fontWeight: theme.typography.fontWeightBold,

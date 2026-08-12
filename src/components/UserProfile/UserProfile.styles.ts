@@ -39,6 +39,6 @@ export const UserAvatar = styled(Avatar)(({ theme }: ThemeType) => ({
 export const UserMenuItem = styled(MenuItem)(({ theme }: ThemeType) => ({
     minHeight: 0,
     padding: theme.spacing(0, 4, 1, 4),
-    gap: 4,
+    gap: typography.typographyUtil.pxToRem(4),
     justifyContent: 'start',
 }));

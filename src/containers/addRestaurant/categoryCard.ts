@@ -1,4 +1,4 @@
-import { FOOD_CATEGORY } from '@constant';
+import { FOOD_CATEGORY } from '@constant/index';
 
 export const CATEGORY_CARD = [
     {

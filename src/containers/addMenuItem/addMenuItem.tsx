@@ -1,5 +1,11 @@
 import { useState } from 'react';
-import { alpha, Box, MenuItem, Stack, Typography } from '@mui/material';
+import {
+    alpha,
+    Box as MuiBox,
+    MenuItem as MuiMenuItem,
+    Stack as MuiStack,
+    Typography as MuiTypography,
+} from '@mui/material';
 import { theme } from '@theme/index';
 import {
     ActionContainer,
@@ -12,12 +18,8 @@ import {
     Root,
     SelectFormControl,
 } from './addMenuItem.styles';
-import MyButton from '@components/Button/Button';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { StorefrontOutlined } from '@mui/icons-material';
-import { MyInputField } from '@components/InputField/InputField';
-import { MySelect } from '@components/BasicSelect/BasicSelect';
-import { FOOD_CATEGORY } from '@constant';
 import {
     MenuItemFormData,
     menuItemSchema,
@@ -34,12 +36,16 @@ import {
     EXCEPTION_STATE_TYPES,
     TOAST_TYPES,
 } from '@components/constants';
-import ExceptionState from '@components/ExceptionState/ExceptionState';
 import { showToast } from '@features/toast/toastSlice';
 import { useSearchRestaurants } from '@hooks/useSearchRestaurants';
 import { ROUTES } from '@router/routes';
-import { ActionDialog } from '@components/ActionDialog/ActionDialog';
 import { closeDialog, openDialog } from '@features/feedback/feedbackSlice';
+import ExceptionState from '@components/ExceptionState/ExceptionState.component';
+import { Button } from '@components/Button/Button.component';
+import { InputField } from '@components/InputField/InputField.component';
+import { MySelect } from '@components/BasicSelect/BasicSelect';
+import { FOOD_CATEGORY } from '@constant/index';
+import { ActionDialog } from '@components/ActionDialog/ActionDialog.component';
 
 const AddMenuItem = () => {
     const {
@@ -149,12 +155,12 @@ const AddMenuItem = () => {
 
     return (
         <Root>
-            <Box
+            <MuiBox
                 component="form"
                 onSubmit={handleSubmit(onSubmitForm)}
                 width="100%"
             >
-                <MyButton
+                <Button
                     variant="outlined"
                     startIcon={<ArrowBackIosNewIcon />}
                     onClick={() =>
@@ -167,29 +173,29 @@ const AddMenuItem = () => {
                     }
                 >
                     Back
-                </MyButton>
+                </Button>
                 <HeadingWrapper>
-                    <Typography variant="h3">ADD MENU ITEM</Typography>
-                    <Typography
+                    <MuiTypography variant="h3">ADD MENU ITEM</MuiTypography>
+                    <MuiTypography
                         variant="subtitle1"
                         color={alpha(theme.palette.text.secondary, 0.6)}
                     >
                         Add a new item to our restaurant. Fill in the details
                         below.
-                    </Typography>
+                    </MuiTypography>
                 </HeadingWrapper>
                 <FormContainer>
                     <FormGrid>
                         <MetaContainer>
-                            <Stack spacing={2} width="100%">
-                                <Typography variant="body1">
+                            <MuiStack spacing={2} width="100%">
+                                <MuiTypography variant="body1">
                                     Image URL
-                                </Typography>
+                                </MuiTypography>
                                 <Controller
                                     name="image"
                                     control={control}
                                     render={({ field }) => (
-                                        <MyInputField
+                                        <InputField
                                             {...field}
                                             placeholder="Paste your URL here"
                                             fullWidth
@@ -198,16 +204,16 @@ const AddMenuItem = () => {
                                         />
                                     )}
                                 />
-                            </Stack>
-                            <Stack spacing={2} width="100%">
-                                <Typography variant="body1">
+                            </MuiStack>
+                            <MuiStack spacing={2} width="100%">
+                                <MuiTypography variant="body1">
                                     Item name
-                                </Typography>
+                                </MuiTypography>
                                 <Controller
                                     name="name"
                                     control={control}
                                     render={({ field }) => (
-                                        <MyInputField
+                                        <InputField
                                             {...field}
                                             placeholder="Enter your item name"
                                             fullWidth
@@ -216,18 +222,18 @@ const AddMenuItem = () => {
                                         />
                                     )}
                                 />
-                            </Stack>
+                            </MuiStack>
                         </MetaContainer>
-                        <Box width="100%">
-                            <Stack spacing={2}>
-                                <Typography variant="body1">
+                        <MuiBox width="100%">
+                            <MuiStack spacing={2}>
+                                <MuiTypography variant="body1">
                                     Item description
-                                </Typography>
+                                </MuiTypography>
                                 <Controller
                                     name="description"
                                     control={control}
                                     render={({ field }) => (
-                                        <MyInputField
+                                        <InputField
                                             {...field}
                                             placeholder="Enter your item description"
                                             fullWidth
@@ -240,19 +246,19 @@ const AddMenuItem = () => {
                                         />
                                     )}
                                 />
-                            </Stack>
-                        </Box>
+                            </MuiStack>
+                        </MuiBox>
                         <FormGrid>
                             <MetaContainer>
-                                <Stack spacing={2} width="100%">
-                                    <Typography variant="body1">
+                                <MuiStack spacing={2} width="100%">
+                                    <MuiTypography variant="body1">
                                         Price
-                                    </Typography>
+                                    </MuiTypography>
                                     <Controller
                                         name="price"
                                         control={control}
                                         render={({ field }) => (
-                                            <MyInputField
+                                            <InputField
                                                 {...field}
                                                 type="number"
                                                 placeholder="Enter price of your item"
@@ -264,16 +270,16 @@ const AddMenuItem = () => {
                                             />
                                         )}
                                     />
-                                </Stack>
-                                <Stack spacing={2} width="100%">
-                                    <Typography variant="body1">
+                                </MuiStack>
+                                <MuiStack spacing={2} width="100%">
+                                    <MuiTypography variant="body1">
                                         Quantity
-                                    </Typography>
+                                    </MuiTypography>
                                     <Controller
                                         name="stock"
                                         control={control}
                                         render={({ field }) => (
-                                            <MyInputField
+                                            <InputField
                                                 {...field}
                                                 type="number"
                                                 placeholder="Enter available quantity"
@@ -285,14 +291,14 @@ const AddMenuItem = () => {
                                             />
                                         )}
                                     />
-                                </Stack>
+                                </MuiStack>
                             </MetaContainer>
                             <RangeContainer>
                                 <SelectFormControl>
-                                    <Stack spacing={2} width="100%">
-                                        <Typography variant="body1">
+                                    <MuiStack spacing={2} width="100%">
+                                        <MuiTypography variant="body1">
                                             Food category
-                                        </Typography>
+                                        </MuiTypography>
                                         <Controller
                                             name="isVeg"
                                             control={control}
@@ -314,32 +320,32 @@ const AddMenuItem = () => {
                                                     fullWidth
                                                     error={!!errors.isVeg}
                                                 >
-                                                    <MenuItem
+                                                    <MuiMenuItem
                                                         value={
                                                             FOOD_CATEGORY.VEG
                                                         }
                                                     >
                                                         VEG
-                                                    </MenuItem>
-                                                    <MenuItem
+                                                    </MuiMenuItem>
+                                                    <MuiMenuItem
                                                         value={
                                                             FOOD_CATEGORY.NON_VEG
                                                         }
                                                     >
                                                         NON VEG
-                                                    </MenuItem>
+                                                    </MuiMenuItem>
                                                 </MySelect>
                                             )}
                                         />
                                         {errors.isVeg && (
-                                            <Typography
+                                            <MuiTypography
                                                 color="error.main"
                                                 variant="caption"
                                             >
                                                 {errors.isVeg.message}
-                                            </Typography>
+                                            </MuiTypography>
                                         )}
-                                    </Stack>
+                                    </MuiStack>
                                 </SelectFormControl>
                             </RangeContainer>
                         </FormGrid>
@@ -347,26 +353,26 @@ const AddMenuItem = () => {
                 </FormContainer>
                 <FooterContainer>
                     <ActionContainer>
-                        <MyButton
+                        <Button
                             type="button"
                             variant="outlined"
                             color="error"
                             onClick={() => reset()}
                         >
                             Reset
-                        </MyButton>
+                        </Button>
 
-                        <MyButton
+                        <Button
                             type="submit"
                             variant="contained"
                             startIcon={<StorefrontOutlined />}
                             loading={isSubmitting}
                         >
                             {!isSubmitting && 'Submit'}
-                        </MyButton>
+                        </Button>
                     </ActionContainer>
                 </FooterContainer>
-            </Box>
+            </MuiBox>
             <ActionDialog
                 open={feedback.open && Boolean(pendingFormData)}
                 title={feedback.title}
@@ -374,6 +380,8 @@ const AddMenuItem = () => {
                 type={feedback.type}
                 confirmText={feedback.confirmText}
                 cancelText={feedback.cancelText}
+                cancelButtonConfig={{ color: 'error', variant: 'outlined' }}
+                confirmButtonConfig={{ color: 'primary', variant: 'contained' }}
                 onClose={handleCancelSubmit}
                 onConfirm={handleConfirmSubmit}
             />

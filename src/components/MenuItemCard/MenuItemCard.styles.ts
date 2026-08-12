@@ -1,11 +1,6 @@
-import {
-    Box,
-    Card,
-    IconButton,
-    styled,
-    Typography,
-    Theme,
-} from '@mui/material';
+import { ThemeType } from '@components/types';
+import { Z_INDEX } from '@constant/theme';
+import { Box, Card, IconButton, styled, Typography } from '@mui/material';
 import { typography } from '@theme/foundations';
 import { CSSProperties } from 'react';
 
@@ -17,26 +12,26 @@ const lineClamp = (lines: number = 1): CSSProperties => ({
     WebkitLineClamp: lines,
 });
 
-export const StyledCard = styled(Card)(({ theme }: { theme: Theme }) => ({
+export const StyledCard = styled(Card)(({ theme }: ThemeType) => ({
     position: 'relative',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'stretch',
     flexDirection: 'column',
     overflow: 'hidden',
-    borderRadius: 16,
+    borderRadius: typography.typographyUtil.pxToRem(16),
     cursor: 'pointer',
     backgroundColor: theme.palette.common.white,
     border: `1px solid ${theme.palette.divider}`,
     boxShadow: 'none',
 
-    [theme.breakpoints.up('tablet')]: {
+    [theme.breakpoints.up('sm')]: {
         flexDirection: 'row',
         gap: theme.spacing(2),
     },
 }));
 
-export const Content = styled(Box)(({ theme }: { theme: Theme }) => ({
+export const Content = styled(Box)(({ theme }: ThemeType) => ({
     flex: 1,
     display: 'flex',
     flexDirection: 'column',
@@ -44,24 +39,24 @@ export const Content = styled(Box)(({ theme }: { theme: Theme }) => ({
     padding: theme.spacing(5, 3),
     gap: theme.spacing(2),
 
-    [theme.breakpoints.up('tablet')]: {
+    [theme.breakpoints.up('sm')]: {
         padding: theme.spacing(4, 4),
         gap: theme.spacing(4),
     },
 }));
 
-export const MetaContainer = styled(Box)(({ theme }: { theme: Theme }) => ({
+export const MetaContainer = styled(Box)(({ theme }: ThemeType) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'flex-start',
     gap: theme.spacing(4),
 
-    [theme.breakpoints.up('tablet')]: {
+    [theme.breakpoints.up('sm')]: {
         gap: theme.spacing(3),
     },
 }));
 
-export const Name = styled(Typography)(({ theme }: { theme: Theme }) => ({
+export const Name = styled(Typography)(({ theme }: ThemeType) => ({
     fontWeight: theme.typography.fontWeightBold,
     fontSize: typography.typographyUtil.pxToRem(15),
     textTransform: 'uppercase',
@@ -71,18 +66,18 @@ export const Name = styled(Typography)(({ theme }: { theme: Theme }) => ({
     width: '100%',
     ...lineClamp(2),
 
-    [theme.breakpoints.up('tablet')]: {
+    [theme.breakpoints.up('sm')]: {
         fontSize: typography.typographyUtil.pxToRem(18),
         marginBottom: theme.spacing(1),
     },
 }));
 
-export const Description = styled(Box)(({ theme }: { theme: Theme }) => ({
+export const Description = styled(Box)(({ theme }: ThemeType) => ({
     display: 'block',
     marginLeft: typography.typographyUtil.pxToRem(3),
     width: '100%',
     overflow: 'hidden',
-    maxWidth: '400px',
+    maxWidth: typography.typographyUtil.pxToRem(400),
     marginTop: theme.spacing(0.5),
 
     '& .MuiTypography-root': {
@@ -90,12 +85,12 @@ export const Description = styled(Box)(({ theme }: { theme: Theme }) => ({
         ...lineClamp(2),
     },
 
-    [theme.breakpoints.up('tablet')]: {
+    [theme.breakpoints.up('sm')]: {
         maxWidth: '100%',
     },
 }));
 
-export const Footer = styled(Box)(({ theme }: { theme: Theme }) => ({
+export const Footer = styled(Box)(({ theme }: ThemeType) => ({
     display: 'flex',
     alignItems: 'center',
     flexDirection: 'row',
@@ -103,21 +98,21 @@ export const Footer = styled(Box)(({ theme }: { theme: Theme }) => ({
     marginTop: theme.spacing(4),
     width: '100%',
 
-    [theme.breakpoints.up('tablet')]: {
+    [theme.breakpoints.up('sm')]: {
         marginTop: 'auto',
     },
 }));
 
-export const OwnerActions = styled(Box)(({ theme }: { theme: Theme }) => ({
+export const OwnerActions = styled(Box)(({ theme }: ThemeType) => ({
     display: 'flex',
     gap: theme.spacing(2),
-    zIndex: 3,
+    zIndex: Z_INDEX,
 }));
 
-export const ActionIcon = styled(IconButton)(({ theme }: { theme: Theme }) => ({
-    height: 38,
-    width: 38,
-    borderRadius: 10,
+export const ActionIcon = styled(IconButton)(({ theme }: ThemeType) => ({
+    height: typography.typographyUtil.pxToRem(38),
+    width: typography.typographyUtil.pxToRem(38),
+    borderRadius: typography.typographyUtil.pxToRem(10),
     color: theme.palette.text.secondary,
     padding: 0,
     border: `1px solid ${theme.palette.divider}`,
@@ -149,11 +144,11 @@ export const ActionIcon = styled(IconButton)(({ theme }: { theme: Theme }) => ({
     },
 }));
 
-export const ActionWrapper = styled(Box)(({ theme }: { theme: Theme }) => ({
+export const ActionWrapper = styled(Box)(({ theme }: ThemeType) => ({
     display: 'flex',
     gap: theme.spacing(2),
 
-    [theme.breakpoints.up('tablet')]: {
+    [theme.breakpoints.up('sm')]: {
         gap: theme.spacing(4),
     },
 }));

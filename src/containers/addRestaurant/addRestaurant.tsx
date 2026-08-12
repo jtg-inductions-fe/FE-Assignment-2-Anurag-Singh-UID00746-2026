@@ -45,6 +45,9 @@ import {
 import { closeDialog, openDialog } from '@features/feedback/feedbackSlice';
 import { AddRestaurantFormValues } from './addRestaurant.types';
 import { nanoid } from '@reduxjs/toolkit';
+import { Button } from '@components/Button/Button.component';
+import { InputField } from '@components/InputField/InputField.component';
+import { ActionDialog } from '@components/ActionDialog/ActionDialog.component';
 
 const AddRestaurant = () => {
     const dispatch = useAppDispatch();
