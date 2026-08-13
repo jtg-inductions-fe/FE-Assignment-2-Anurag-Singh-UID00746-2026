@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -18,11 +18,12 @@ import {
     EXCEPTION_STATE_TYPES,
     TOAST_TYPES,
 } from '@components/constants';
-import { closeDialog, openDialog } from '@features/feedback/feedbackSlice';
-import { updateMenuItemThunk } from '@features/restaurant/restaurantThunk';
+import { closeDialog } from '@features/feedback/feedbackSlice';
+import { addMenuItemThunk } from '@features/restaurant/restaurantThunk';
 import { showToast } from '@features/toast/toastSlice';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useSearchRestaurants } from '@hooks/useSearchRestaurants';
+import { nanoid } from '@reduxjs/toolkit';
 import { ROUTES } from '@router/routes';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { theme } from '@theme/index';
@@ -41,7 +42,7 @@ import {
     RangeContainer,
     Root,
     SelectFormControl,
-} from './EditMenuItem.styles';
+} from './AddMenuItem.styles';
 import { MenuItem as MenuItemType } from '@types';
 import { ExceptionState } from '@components/ExceptionState';
 import { Button } from '@components/Button';
@@ -49,8 +50,9 @@ import { InputField } from '@components/InputField';
 import { Select } from '@components/BasicSelect';
 import { FOOD_CATEGORY } from '@constant/index';
 import { ActionDialog } from '@components/ActionDialog';
+import { showDialog } from '@utils/openDialog';
 
-const EditMenuItem = () => {
+const AddMenuItem = () => {
     const {
         control,
         handleSubmit,
@@ -77,33 +79,11 @@ const EditMenuItem = () => {
     const [pendingFormData, setPendingFormData] =
         useState<MenuItemFormData | null>(null);
 
-    const { id, menuItemId } = useParams<{
-        id: string;
-        menuItemId: string;
-    }>();
+    const { id } = useParams<{ id: string }>();
 
     useSearchRestaurants();
 
     const restaurant = restaurants.find((item) => item.id === id);
-
-    const menuItemToEdit = restaurant?.menuItems.find(
-        (item) => item.id === menuItemId,
-    );
-
-    useEffect(() => {
-        if (!menuItemToEdit) {
-            return;
-        }
-
-        reset({
-            image: menuItemToEdit.image,
-            name: menuItemToEdit.name,
-            description: menuItemToEdit.description,
-            price: menuItemToEdit.price,
-            stock: menuItemToEdit.stock,
-            isVeg: menuItemToEdit.isVeg,
-        });
-    }, [menuItemToEdit, reset]);
 
     if (!restaurant) {
         return (
@@ -115,36 +95,27 @@ const EditMenuItem = () => {
         );
     }
 
-    if (!menuItemToEdit) {
-        return (
-            <ExceptionState
-                type={EXCEPTION_STATE_TYPES.EMPTY}
-                title="Menu item not found"
-                description="We couldn't find the menu item you are looking for."
-            />
-        );
-    }
-
     /**
-     * Saves the edited form data and opens the update confirmation dialog.
-     * @param data - The modified menu item form values.
+     * Saves the form data and opens the confirmation dialog box.
+     * @param data - The filled-out menu item form data.
      */
     const onSubmitForm = (data: MenuItemFormData) => {
         setPendingFormData(data);
-        dispatch(
-            openDialog({
-                title: 'EDIT MENU ITEM',
-                description: 'Are you sure you want to update this menu item ?',
+        showDialog(
+            {
+                title: 'ADD MENU ITEM',
+                description: 'Are you sure you want to add this menu item ?',
                 type: ACTION_DIALOG_TYPES.CONFIRM,
                 confirmText: 'Confirm',
                 cancelText: 'Cancel',
-            }),
+            },
+            dispatch,
         );
     };
 
     /**
-     * Sends the updated menu item details to the backend after confirmation.
-     * On success, shows a banner alert and redirects to the restaurant details page.
+     * Submits the menu item to the backend after the user clicks confirm.
+     * On success, shows a notification and takes the user back to the restaurant page.
      */
     const handleConfirmSubmit = async () => {
         if (!pendingFormData) return;
@@ -152,7 +123,7 @@ const EditMenuItem = () => {
         dispatch(closeDialog());
 
         const menuItem: MenuItemType = {
-            id: menuItemToEdit.id,
+            id: nanoid(),
             name: pendingFormData.name,
             description: pendingFormData.description,
             image: pendingFormData.image,
@@ -163,7 +134,7 @@ const EditMenuItem = () => {
 
         try {
             await dispatch(
-                updateMenuItemThunk({
+                addMenuItemThunk({
                     restaurantId: id!,
                     menuItem,
                 }),
@@ -173,7 +144,7 @@ const EditMenuItem = () => {
                 showToast({
                     type: TOAST_TYPES.SUCCESS,
                     title: 'Success',
-                    message: 'Menu item updated successfully !!',
+                    message: 'Menu item added successfully !!',
                 }),
             );
             setPendingFormData(null);
@@ -184,7 +155,7 @@ const EditMenuItem = () => {
             dispatch(
                 showToast({
                     type: TOAST_TYPES.ERROR,
-                    title: 'Update Menu Item Failed',
+                    title: 'Add Menu Item Failed',
                     message: error as string,
                 }),
             );
@@ -192,7 +163,7 @@ const EditMenuItem = () => {
     };
 
     /**
-     * Closes the confirmation dialog and clears the pending form data.
+     * Closes the confirmation dialog and clears the saved form data.
      */
     const handleCancelSubmit = () => {
         dispatch(closeDialog());
@@ -221,12 +192,13 @@ const EditMenuItem = () => {
                     Back
                 </Button>
                 <HeadingWrapper>
-                    <MuiTypography variant="h3">EDIT MENU ITEM</MuiTypography>
+                    <MuiTypography variant="h3">ADD MENU ITEM</MuiTypography>
                     <MuiTypography
                         variant="subtitle1"
                         color={alpha(theme.palette.text.secondary, 0.6)}
                     >
-                        Update the item details below and save the changes.
+                        Add a new item to our restaurant. Fill in the details
+                        below.
                     </MuiTypography>
                 </HeadingWrapper>
                 <FormContainer>
@@ -361,7 +333,6 @@ const EditMenuItem = () => {
                                                                 FOOD_CATEGORY.VEG,
                                                         )
                                                     }
-                                                    displayEmpty
                                                     fullWidth
                                                     error={!!errors.isVeg}
                                                 >
@@ -413,7 +384,7 @@ const EditMenuItem = () => {
                             startIcon={<StorefrontOutlined />}
                             loading={isSubmitting}
                         >
-                            {!isSubmitting && 'Save changes'}
+                            {!isSubmitting && 'Submit'}
                         </Button>
                     </ActionContainer>
                 </FooterContainer>
@@ -434,4 +405,4 @@ const EditMenuItem = () => {
     );
 };
 
-export default EditMenuItem;
+export default AddMenuItem;

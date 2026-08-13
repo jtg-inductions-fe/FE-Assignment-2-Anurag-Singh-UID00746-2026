@@ -25,7 +25,7 @@ import { Chip } from '@components/Chip';
 
 export const RestaurantCard = (props: RestaurantCardProps) => {
     const handleCardKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
-        if (event.key === 'Enter' || event.key === ' ') {
+        if (event.key === 'Enter') {
             event.preventDefault();
             props.onCardClick(props.restaurant);
         }
@@ -34,7 +34,7 @@ export const RestaurantCard = (props: RestaurantCardProps) => {
     const handleIconButtonKeyDown = (
         event: React.KeyboardEvent<HTMLElement>,
     ) => {
-        if (event.key === 'Enter' || event.key === ' ') {
+        if (event.key === 'Enter') {
             event.stopPropagation();
         }
     };

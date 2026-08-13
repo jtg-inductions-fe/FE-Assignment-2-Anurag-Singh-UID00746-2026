@@ -20,15 +20,12 @@ import { EXCEPTION_STATE_TYPES } from '@components/constants';
 
 export const ExceptionState = ({
     type = EXCEPTION_STATE_TYPES.ERROR,
-    title,
-    description,
-    onRetry,
     ...boxProps
 }: ExceptionStateProps) => {
     const navigate = useNavigate();
 
     const handleFixedRetry = () => {
-        onRetry?.();
+        boxProps.onRetry ? boxProps.onRetry() : window.location.reload();
     };
 
     const handleBack = async () => {
@@ -45,10 +42,10 @@ export const ExceptionState = ({
                         : EmptyStateImage
                 }
             />
-            <StyledTitle variant="h4">{title}</StyledTitle>
-            {description && (
+            <StyledTitle variant="h4">{boxProps.title}</StyledTitle>
+            {boxProps.description && (
                 <StyledDescription variant="subtitle1">
-                    {description}
+                    {boxProps.description}
                 </StyledDescription>
             )}
             <StyledButton

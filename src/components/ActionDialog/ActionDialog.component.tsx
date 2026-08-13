@@ -17,20 +17,12 @@ import { ACTION_DIALOG_TYPES } from '@components/constants';
 import { Button } from '@components/Button/Button.component';
 
 export const ActionDialog = ({
-    open,
     type = ACTION_DIALOG_TYPES.CONFIRM,
-    title,
-    description,
     cancelText = 'Cancel',
-    confirmText,
-    icon,
-    cancelButtonConfig,
-    confirmButtonConfig,
-    onClose,
-    onConfirm,
+    ...props
 }: ActionDialogProps) => {
     const renderIcon = () => {
-        if (icon) return icon;
+        if (props.icon) return props.icon;
         return type === ACTION_DIALOG_TYPES.ALERT ? (
             <PrivacyTipOutlinedIcon fontSize="large" />
         ) : (
@@ -39,30 +31,34 @@ export const ActionDialog = ({
     };
 
     return (
-        <StyledDialog open={open} onClose={onClose}>
+        <StyledDialog open={props.open} onClose={props.onClose}>
             <ContentContainer>
                 <IconContainer dialogType={type}>{renderIcon()}</IconContainer>
                 <TextContainer>
-                    <StyledDialogTitle>{title}</StyledDialogTitle>
+                    <StyledDialogTitle>{props.title}</StyledDialogTitle>
                     <StyledDialogContent>
                         <StyledDialogContentText>
-                            {description}
+                            {props.description}
                         </StyledDialogContentText>
                     </StyledDialogContent>
                 </TextContainer>
             </ContentContainer>
             <MuiDivider />
             <StyledDialogActions>
-                <Button {...cancelButtonConfig} onClick={onClose} disableRipple>
+                <Button
+                    {...props.cancelButtonConfig}
+                    onClick={props.onClose}
+                    disableRipple
+                >
                     {cancelText}
                 </Button>
                 <Button
-                    {...confirmButtonConfig}
-                    onClick={onConfirm}
+                    {...props.confirmButtonConfig}
+                    onClick={props.onConfirm}
                     disableElevation
                     disableRipple
                 >
-                    {confirmText}
+                    {props.confirmText}
                 </Button>
             </StyledDialogActions>
         </StyledDialog>

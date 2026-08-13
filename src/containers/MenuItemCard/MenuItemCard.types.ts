@@ -11,15 +11,6 @@ export type MenuItemCardProps = {
     /** The active user role used to show or hide action buttons. */
     role: UserRole;
 
-    /** Optional item quantity currently added to the cart. */
-    quantity?: number;
-
-    /** Optional callback to increase the item quantity. */
-    onIncrement?: () => void;
-
-    /** Optional callback to decrease the item quantity. */
-    onDecrement?: () => void;
-
     /** Optional callback to open the edit menu item form. */
     onEdit?: () => void;
 

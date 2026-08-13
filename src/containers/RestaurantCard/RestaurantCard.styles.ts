@@ -92,7 +92,7 @@ export const ClosedBadge = styled(Chip)(({ theme }: ThemeType) => ({
     position: 'absolute',
     top: theme.spacing(2.5),
     left: theme.spacing(3),
-    zIndex: 10,
+    zIndex: Z_INDEX,
     background: `linear-gradient(135deg, ${alpha(theme.palette.error.main, 0.75)} 0%, ${alpha(theme.palette.error.dark, 0.85)} 100%)`,
     backdropFilter: 'blur(8px)',
     border: `1px solid ${alpha(theme.palette.common.white, 0.15)}`,

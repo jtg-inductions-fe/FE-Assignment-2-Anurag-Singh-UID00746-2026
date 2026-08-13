@@ -1,5 +1,4 @@
-import { DiscoveryAction } from '@config/discoveryActions';
-
+import { DiscoveryAction } from '@containers/Home/discoveryActions';
 import { Restaurant } from '@types';
 
 /** Props for the RestaurantCard component. */

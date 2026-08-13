@@ -1,8 +1,8 @@
 import { ThemeType } from '@components/types';
-import { Box, Container, FormControl, styled } from '@mui/material';
+import { Box, FormControl, styled } from '@mui/material';
 import { typography } from '@theme/foundations';
 
-export const Root = styled(Container)(({ theme }: ThemeType) => ({
+export const Root = styled(Box)(({ theme }: ThemeType) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'flex-start',

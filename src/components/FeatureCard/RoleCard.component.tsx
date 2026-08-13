@@ -11,7 +11,7 @@ import { RoleCardProps } from './Rolecard.types';
 import { Image } from '@components/ImageBox/ImageBox.styles';
 
 export const FeatureCard = (props: RoleCardProps) => (
-    <StyledCard selected={props.selected}>
+    <StyledCard selected={props.selected ?? false}>
         <MyCardActionArea onClick={props.onClick} aria-pressed={props.selected}>
             <CheckBox selected={props.selected}>
                 {props.selected && <CheckRoundedIcon />}

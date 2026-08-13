@@ -369,10 +369,7 @@ const CustomerOrderPanel = ({ order }: CustomerOrderPanelProps) => {
                 <Timeline>
                     <OrderTimelineItem label="PENDING" completed />
 
-                    <OrderTimelineItem
-                        label="REJECTED"
-                        rejected
-                    ></OrderTimelineItem>
+                    <OrderTimelineItem label="REJECTED" rejected />
                 </Timeline>
             ) : (
                 <Timeline>
@@ -435,7 +432,7 @@ const CustomerOrderPanel = ({ order }: CustomerOrderPanelProps) => {
 };
 
 const OwnerOrderPanel = ({ order, onStatusChange }: OwnerOrderPanelProps) => {
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 

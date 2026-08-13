@@ -2,7 +2,7 @@ import { Outlet } from 'react-router-dom';
 
 import { Box as MuiBox } from '@mui/material';
 
-import Header from '@containers/header/Header.container';
+import Header from '@containers/Header/Header.container';
 import { theme } from '@theme/index';
 import { Toast } from '@containers/Toast';
 

@@ -13,7 +13,7 @@ import {
 } from '@mui/material';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { ACTION_DIALOG_TYPES, TOAST_TYPES } from '@components/constants';
-import { closeDialog, openDialog } from '@features/feedback/feedbackSlice';
+import { closeDialog } from '@features/feedback/feedbackSlice';
 import { addRestaurantThunk } from '@features/restaurant/restaurantThunk';
 import { showToast } from '@features/toast/toastSlice';
 import { nanoid } from '@reduxjs/toolkit';
@@ -49,6 +49,7 @@ import { InputField } from '@components/InputField';
 import { Select } from '@components/BasicSelect';
 import { ActionDialog } from '@components/ActionDialog';
 import { Restaurant } from '@types';
+import { showDialog } from '@utils/openDialog';
 
 const AddRestaurant = () => {
     const dispatch = useAppDispatch();
@@ -106,14 +107,15 @@ const AddRestaurant = () => {
      */
     const onSubmitForm = (data: AddRestaurantFormValues) => {
         setPendingFormData(data);
-        dispatch(
-            openDialog({
+        showDialog(
+            {
                 title: 'ADD RESTAURANT',
                 description: 'Are you sure you want to add this restaurant ?',
                 type: ACTION_DIALOG_TYPES.CONFIRM,
                 confirmText: 'Confirm',
                 cancelText: 'Cancel',
-            }),
+            },
+            dispatch,
         );
     };
 

@@ -11,7 +11,7 @@ import {
     USER_ROLE,
 } from '@components/constants';
 import { logout } from '@features/auth/authSlice';
-import { closeDialog, openDialog } from '@features/feedback/feedbackSlice';
+import { closeDialog } from '@features/feedback/feedbackSlice';
 import { showToast } from '@features/toast/toastSlice';
 import { ROUTES } from '@router/routes';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
@@ -31,6 +31,7 @@ import { UserProfile } from '@components/UserProfile';
 import { ActionDialog } from '@components/ActionDialog';
 import { HEADER_ACTION } from './headerActions';
 import { rolepermissions } from '@containers/common/constants';
+import { showDialog } from '@utils/openDialog';
 
 const Header = () => {
     const dispatch = useAppDispatch();
@@ -70,11 +71,7 @@ const Header = () => {
         const search = value.trim();
 
         if (location.pathname !== ROUTES.ROOT) {
-            void navigate(
-                search
-                    ? `/?restaurant=${encodeURIComponent(search)}`
-                    : ROUTES.ROOT,
-            );
+            void navigate(search ? `/?restaurant=${search}` : ROUTES.ROOT);
 
             return;
         }
@@ -102,15 +99,16 @@ const Header = () => {
      * Dispatches open dialog action to get the confirmation from the user
      */
     const handleLogoutClick: () => void = () => {
-        dispatch(
-            openDialog({
-                title: 'LOG OUT ?',
+        showDialog(
+            {
+                title: 'LOG OUT',
                 description:
                     'Are you sure you want to logout from your account ?',
                 type: ACTION_DIALOG_TYPES.ALERT,
                 confirmText: 'Logout',
                 cancelText: 'Cancel',
-            }),
+            },
+            dispatch,
         );
     };
 
@@ -190,7 +188,7 @@ const Header = () => {
                             onKeyDown={(
                                 e: React.KeyboardEvent<HTMLDivElement>,
                             ) => {
-                                if (e.key === 'Enter' || e.key === ' ') {
+                                if (e.key === 'Enter') {
                                     e.preventDefault();
                                     const profileButton =
                                         e.currentTarget.querySelector(

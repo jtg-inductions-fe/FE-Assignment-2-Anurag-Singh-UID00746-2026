@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import {
@@ -10,21 +10,21 @@ import { StyledTextField } from './InputField.styles';
 import { InputProps } from './InputField.types';
 import { INPUT_TYPES } from '@components/constants';
 
-export const InputField = ({ type, ...restProps }: InputProps) => {
+export const InputField = (props: InputProps) => {
     const [showPassword, setShowPassword] = useState(false);
 
     const getInputType = () => {
-        if (type === INPUT_TYPES.PASSWORD)
+        if (props.type === INPUT_TYPES.PASSWORD)
             return showPassword ? INPUT_TYPES.TEXT : INPUT_TYPES.PASSWORD;
-        return type;
+        return props.type;
     };
 
     const getInputAdornments = () => {
         const adornments: {
-            endAdornment?: React.ReactNode;
+            endAdornment?: ReactNode;
         } = {};
 
-        if (type === INPUT_TYPES.PASSWORD) {
+        if (props.type === INPUT_TYPES.PASSWORD) {
             adornments.endAdornment = (
                 <MuiInputAdornment position="end">
                     <MuiIconButton
@@ -48,7 +48,7 @@ export const InputField = ({ type, ...restProps }: InputProps) => {
                     ...getInputAdornments(),
                 },
             }}
-            {...restProps}
+            {...props}
             type={getInputType()}
             variant="outlined"
         />

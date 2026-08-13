@@ -8,7 +8,7 @@ export const UserProfileBox = styled(Box)(() => ({
 }));
 
 export const UserProfileMenu = styled(Menu)(({ theme }: ThemeType) => ({
-    marginTop: typography.typographyUtil.pxToRem(45),
+    marginTop: typography.typographyUtil.pxToRem(60),
 
     '& .MuiMenu-paper': {
         boxShadow: '0 1px 3px rgba(0,0,0,0.1), 0 4px 8px rgba(0,0,0,0.04)',

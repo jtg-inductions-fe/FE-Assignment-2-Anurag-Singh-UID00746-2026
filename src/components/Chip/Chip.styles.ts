@@ -10,12 +10,6 @@ export const StyledChip = styled(Chip)(({ theme }: ThemeType) => ({
     letterSpacing: typography.typographyUtil.pxToRem(1),
     textTransform: 'uppercase',
 
-    transition: theme.transitions.create([
-        'background-color',
-        'color',
-        'border-color',
-    ]),
-
     '&.MuiChip-colorSuccess': {
         backgroundColor: 'rgba(46, 125, 50, 0.08)',
         color: theme.palette.success.dark,

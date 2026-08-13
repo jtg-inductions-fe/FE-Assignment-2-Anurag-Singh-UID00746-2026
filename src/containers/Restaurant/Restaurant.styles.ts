@@ -51,7 +51,7 @@ export const TimingChip = styled(Box)(({ theme }: ThemeType) => ({
     border: `1px solid ${theme.palette.text.disabled}`,
     borderRadius: typography.typographyUtil.pxToRem(10),
     gap: theme.spacing(3),
-    maxWidth: typography.typographyUtil.pxToRem(265),
+    maxWidth: typography.typographyUtil.pxToRem(270),
 
     [theme.breakpoints.up('sm')]: {
         maxWidth: 'none',

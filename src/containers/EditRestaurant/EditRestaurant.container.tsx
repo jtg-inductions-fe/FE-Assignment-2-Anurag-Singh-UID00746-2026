@@ -19,7 +19,7 @@ import {
     USER_ROLE,
 } from '@components/constants';
 import { InputField } from '@components/InputField/InputField.component';
-import { closeDialog, openDialog } from '@features/feedback/feedbackSlice';
+import { closeDialog } from '@features/feedback/feedbackSlice';
 import { updateRestaurantThunk } from '@features/restaurant/restaurantThunk';
 import { showToast } from '@features/toast/toastSlice';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -44,7 +44,7 @@ import {
     Root,
     SelectFormControl,
     TimeRangeContainer,
-} from '@containers/addRestaurant/AddRestaurant.styles';
+} from '@containers/AddRestaurant/AddRestaurant.styles';
 import { Button } from '@components/Button';
 import { Select } from '@components/BasicSelect';
 import {
@@ -54,6 +54,7 @@ import {
     FoodCategory,
 } from '@constant/index';
 import { ActionDialog } from '@components/ActionDialog';
+import { showDialog } from '@utils/openDialog';
 
 const editRestaurantSchema = restaurantSchema.omit(['imageUrl']);
 
@@ -124,14 +125,15 @@ const EditRestaurant = () => {
      */
     const onSubmitForm = (data: EditRestaurantFormValues) => {
         setPendingFormData(data);
-        dispatch(
-            openDialog({
+        showDialog(
+            {
                 title: 'SAVE CHANGES',
                 description: 'Are you sure you want to save this changes ?',
                 type: ACTION_DIALOG_TYPES.CONFIRM,
                 confirmText: 'Save',
                 cancelText: 'Cancel',
-            }),
+            },
+            dispatch,
         );
     };
 

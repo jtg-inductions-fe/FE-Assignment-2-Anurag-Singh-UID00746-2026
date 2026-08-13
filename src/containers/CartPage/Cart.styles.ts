@@ -1,4 +1,5 @@
-import { Box, Typography, Theme } from '@mui/material';
+import { ThemeType } from '@components/types';
+import { Box, Typography } from '@mui/material';
 import { alpha, styled } from '@mui/material/styles';
 import { typography } from '@theme/foundations';
 import { CSSProperties } from 'react';
@@ -11,7 +12,7 @@ const lineClamp = (lines: number = 1): CSSProperties => ({
     WebkitLineClamp: lines,
 });
 
-export const Container = styled(Box)(({ theme }) => ({
+export const Container = styled(Box)(({ theme }: ThemeType) => ({
     width: '100%',
     padding: theme.spacing(2, 5),
     minHeight: '100dvh',
@@ -21,7 +22,7 @@ export const Container = styled(Box)(({ theme }) => ({
     },
 }));
 
-export const Header = styled(Box)(({ theme }) => ({
+export const Header = styled(Box)(({ theme }: ThemeType) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -29,13 +30,13 @@ export const Header = styled(Box)(({ theme }) => ({
     margin: theme.spacing(5, 0),
 }));
 
-export const HeaderContent = styled(Box)(({ theme }) => ({
+export const HeaderContent = styled(Box)(({ theme }: ThemeType) => ({
     display: 'flex',
     alignItems: 'center',
     gap: theme.spacing(3),
 }));
 
-export const Main = styled(Box)(({ theme }) => ({
+export const Wrapper = styled(Box)(({ theme }: ThemeType) => ({
     display: 'flex',
     flexDirection: 'column',
     gap: theme.spacing(6),
@@ -48,7 +49,7 @@ export const Main = styled(Box)(({ theme }) => ({
     },
 }));
 
-export const CartSection = styled(Box)(({ theme }) => ({
+export const CartSection = styled(Box)(({ theme }: ThemeType) => ({
     display: 'flex',
     flexDirection: 'column',
     gap: theme.spacing(6),
@@ -60,14 +61,14 @@ export const CartSection = styled(Box)(({ theme }) => ({
     },
 }));
 
-export const RestaurantCard = styled(Box)(({ theme }) => ({
+export const RestaurantCard = styled(Box)(({ theme }: ThemeType) => ({
     width: '100%',
     border: `1px solid ${theme.palette.divider}`,
     borderRadius: theme.spacing(1.5),
     overflow: 'hidden',
 }));
 
-export const RestaurantHeader = styled(Box)(({ theme }) => ({
+export const RestaurantHeader = styled(Box)(({ theme }: ThemeType) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -81,7 +82,7 @@ export const RestaurantItems = styled(Box)({
     width: '100%',
 });
 
-export const CartItem = styled(Box)(({ theme }) => ({
+export const CartItem = styled(Box)(({ theme }: ThemeType) => ({
     display: 'flex',
     flexDirection: 'column',
     gap: theme.spacing(6),
@@ -95,7 +96,7 @@ export const CartItem = styled(Box)(({ theme }) => ({
     },
 }));
 
-export const Name = styled(Typography)(({ theme }: { theme: Theme }) => ({
+export const Name = styled(Typography)(({ theme }: ThemeType) => ({
     fontWeight: theme.typography.fontWeightBold,
     fontSize: typography.typographyUtil.pxToRem(15),
     textTransform: 'uppercase',
@@ -111,12 +112,12 @@ export const Name = styled(Typography)(({ theme }: { theme: Theme }) => ({
     },
 }));
 
-export const Description = styled(Box)(({ theme }: { theme: Theme }) => ({
+export const Description = styled(Box)(({ theme }: ThemeType) => ({
     display: 'block',
     marginLeft: typography.typographyUtil.pxToRem(3),
     width: '100%',
     overflow: 'hidden',
-    maxWidth: '400px',
+    maxWidth: typography.typographyUtil.pxToRem(400),
     marginTop: theme.spacing(0.5),
 
     '& .MuiTypography-root': {
@@ -133,7 +134,7 @@ export const ItemDetails = styled(Box)({
     minWidth: 0,
 });
 
-export const QuantityContainer = styled(Box)(({ theme }: { theme: Theme }) => ({
+export const QuantityContainer = styled(Box)(({ theme }: ThemeType) => ({
     display: 'flex',
     gap: theme.spacing(6),
     justifyContent: 'space-between',
@@ -143,10 +144,10 @@ export const QuantityContainer = styled(Box)(({ theme }: { theme: Theme }) => ({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        width: '220px',
-        height: '36px',
-        borderRadius: '8px',
-        padding: '0 8px',
+        width: typography.typographyUtil.pxToRem(220),
+        height: typography.typographyUtil.pxToRem(36),
+        borderRadius: typography.typographyUtil.pxToRem(8),
+        padding: theme.spacing(0, 8),
         flexShrink: 0,
     },
 }));
@@ -159,36 +160,7 @@ export const DeleteContainer = styled(Box)({
     flexShrink: 0,
 });
 
-export const BillCard = styled(Box)(({ theme }) => ({
-    width: '100%',
-    border: `1px solid ${theme.palette.divider}`,
-    borderRadius: theme.spacing(1.5),
-    padding: theme.spacing(4, 5),
-    backgroundColor: alpha(theme.palette.secondary.light, 0.1),
-
-    [theme.breakpoints.up('lg')]: {
-        width: 'min(32%, 35rem)',
-        position: 'sticky',
-        top: theme.spacing(2),
-    },
-}));
-
-export const BillRowWrapper = styled(Box)(({ theme }) => ({
-    display: 'flex',
-    flexDirection: 'column',
-    margin: theme.spacing(2, 0),
-}));
-
-export const BillRow = styled(Box)(({ theme }) => ({
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    gap: theme.spacing(2),
-    paddingBlock: theme.spacing(1),
-    marginTop: typography.typographyUtil.pxToRem(12),
-}));
-
-export const ActionContainer = styled(Box)(({ theme }) => ({
+export const ActionContainer = styled(Box)(({ theme }: ThemeType) => ({
     display: 'flex',
     alignItems: 'center',
     gap: theme.spacing(3),

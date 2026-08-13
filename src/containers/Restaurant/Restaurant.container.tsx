@@ -22,7 +22,7 @@ import {
 } from '@components/constants';
 import MenuItemCard from '@containers/MenuItemCard/MenuItemCard.container';
 import { addToCart } from '@features/cart/cartSlice';
-import { closeDialog, openDialog } from '@features/feedback/feedbackSlice';
+import { closeDialog } from '@features/feedback/feedbackSlice';
 import { deleteMenuItemThunk } from '@features/restaurant/restaurantThunk';
 import { showToast } from '@features/toast/toastSlice';
 import { useSearchRestaurants } from '@hooks/useSearchRestaurants';
@@ -42,6 +42,7 @@ import { ExceptionState } from '@components/ExceptionState';
 import { Button } from '@components/Button';
 import { ActionDialog } from '@components/ActionDialog';
 import { permission, rolepermissions } from '@containers/common/constants';
+import { showDialog } from '@utils/openDialog';
 
 const Restaurant = () => {
     const navigate = useNavigate();
@@ -50,10 +51,6 @@ const Restaurant = () => {
     const { restaurants, error } = useAppSelector((state) => state.restaurant);
     const feedback = useAppSelector((state) => state.feedback);
     const dispatch = useAppDispatch();
-
-    const [selectedQuantity, setSelectedQuantity] = useState<
-        Record<string, number>
-    >({});
 
     const [itemtToDelete, setItemToDelete] = useState<MenuItem | undefined>(
         undefined,
@@ -96,7 +93,7 @@ const Restaurant = () => {
             addToCart({
                 ...item,
                 restaurantId: restaurant.id,
-                quantity: selectedQuantity[item.id] ?? 1,
+                quantity: 1,
             }),
         );
         dispatch(
@@ -106,11 +103,6 @@ const Restaurant = () => {
                 message: `Added [${item.name}] to your cart !!`,
             }),
         );
-
-        setSelectedQuantity((prev) => ({
-            ...prev,
-            [item.id]: 0,
-        }));
     };
 
     /**
@@ -165,14 +157,15 @@ const Restaurant = () => {
      */
     const handleDeleteItem = (item: MenuItem) => {
         setItemToDelete(item);
-        dispatch(
-            openDialog({
+        showDialog(
+            {
                 title: `DELETE ${item.name} ?`,
                 description: `Are you sure you want to delete ${item.name} from your restaurant ?`,
                 type: ACTION_DIALOG_TYPES.ALERT,
                 confirmText: 'Delete',
                 cancelText: 'Cancel',
-            }),
+            },
+            dispatch,
         );
     };
 
@@ -269,19 +262,6 @@ const Restaurant = () => {
                                 isOpen={isOpen}
                                 menuItem={item}
                                 role={userRole || USER_ROLE.GUEST}
-                                quantity={selectedQuantity[item.id] ?? 0}
-                                onIncrement={() =>
-                                    setSelectedQuantity((prev) => ({
-                                        ...prev,
-                                        [item.id]: (prev[item.id] ?? 0) + 1,
-                                    }))
-                                }
-                                onDecrement={() =>
-                                    setSelectedQuantity((prev) => ({
-                                        ...prev,
-                                        [item.id]: (prev[item.id] ?? 0) - 1,
-                                    }))
-                                }
                                 onAddToCart={() => handleAddToCart(item)}
                                 onDelete={() => handleDeleteItem(item)}
                                 onEdit={() => handleEditMenuItem(item)}

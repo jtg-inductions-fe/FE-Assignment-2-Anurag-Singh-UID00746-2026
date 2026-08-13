@@ -2,9 +2,9 @@ import * as yup from 'yup';
 import { messages } from './constants';
 
 export const menuItemSchema = yup.object({
-    name: yup.string().trim().required('Item name is required'),
+    name: yup.string().trim().required(messages.REQUIRED),
 
-    description: yup.string().trim().required('Description is required'),
+    description: yup.string().trim().required(messages.REQUIRED),
 
     image: yup
         .string()

@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import { Divider, Typography } from '@mui/material';
+import {
+    Box as MuiBox,
+    Divider as MuiDivider,
+    Typography as MuiTypography,
+} from '@mui/material';
 
 import {
     selectCartItemCount,
@@ -16,7 +20,7 @@ import {
     decreaseQuantity,
     increaseQuantity,
 } from '@features/cart/cartSlice';
-import { closeDialog, openDialog } from '@features/feedback/feedbackSlice';
+import { closeDialog } from '@features/feedback/feedbackSlice';
 import { useSearchRestaurants } from '@hooks/useSearchRestaurants';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import {
@@ -26,9 +30,6 @@ import {
 
 import {
     ActionContainer,
-    BillCard,
-    BillRow,
-    BillRowWrapper,
     CartItem,
     CartSection,
     Container,
@@ -36,14 +37,13 @@ import {
     Header,
     HeaderContent,
     ItemPrice,
-    Main,
     Name,
     QuantityContainer,
     RestaurantCard,
     RestaurantHeader,
     RestaurantItems,
+    Wrapper,
 } from './Cart.styles';
-import { theme } from '@theme/index';
 import { ROUTES } from '@router/routes';
 import { showToast } from '@features/toast/toastSlice';
 import { TOAST_TYPES } from '@components/constants';
@@ -54,6 +54,8 @@ import { ExceptionState } from '@components/ExceptionState';
 import { Button } from '@components/Button';
 import { QuantitySelector } from '@components/QuantitySelector';
 import { ActionDialog } from '@components/ActionDialog';
+import { BillCard } from '@components/BillCard';
+import { showDialog } from '@utils/openDialog';
 
 const Cart = () => {
     const dispatch = useAppDispatch();
@@ -106,15 +108,16 @@ const Cart = () => {
      */
     const handleClearCart = () => {
         setPendingClear(true);
-        dispatch(
-            openDialog({
+        showDialog(
+            {
                 title: 'Clear Cart',
                 description:
                     'Are you sure you want to clear all the items from your cart ?',
                 type: ACTION_DIALOG_TYPES.ALERT,
                 confirmText: 'Clear',
                 cancelText: 'Cancel',
-            }),
+            },
+            dispatch,
         );
     };
 
@@ -197,7 +200,7 @@ const Cart = () => {
                     mt={30}
                 />
             ) : (
-                <React.Fragment>
+                <MuiBox>
                     <Header>
                         <HeaderContent>
                             <Button
@@ -210,7 +213,7 @@ const Cart = () => {
                         </HeaderContent>
                     </Header>
 
-                    <Main>
+                    <Wrapper>
                         <CartSection>
                             {Object.entries(groupedItems).map(
                                 ([restaurantId, items]) => {
@@ -221,29 +224,27 @@ const Cart = () => {
                                     return (
                                         <RestaurantCard key={restaurantId}>
                                             <RestaurantHeader>
-                                                <Typography variant="h6">
+                                                <MuiTypography variant="h6">
                                                     {restaurant?.name.toUpperCase()}
-                                                </Typography>
+                                                </MuiTypography>
                                             </RestaurantHeader>
 
                                             <RestaurantItems>
                                                 {items.map((item, index) => (
-                                                    <React.Fragment
-                                                        key={item.id}
-                                                    >
+                                                    <MuiBox key={item.id}>
                                                         <CartItem>
                                                             <Description>
                                                                 <Name variant="body1">
                                                                     {item.name}
                                                                 </Name>
-                                                                <Typography
+                                                                <MuiTypography
                                                                     variant="body1"
                                                                     color="text.secondary"
                                                                 >
                                                                     {
                                                                         item.description
                                                                     }
-                                                                </Typography>
+                                                                </MuiTypography>
                                                             </Description>
 
                                                             <QuantityContainer>
@@ -263,7 +264,7 @@ const Cart = () => {
                                                                     }
                                                                 />
                                                                 <ItemPrice>
-                                                                    <Typography
+                                                                    <MuiTypography
                                                                         variant="h6"
                                                                         color="common.black"
                                                                         letterSpacing={
@@ -273,7 +274,7 @@ const Cart = () => {
                                                                         ₹
                                                                         {item.price *
                                                                             item.quantity}
-                                                                    </Typography>
+                                                                    </MuiTypography>
                                                                 </ItemPrice>
                                                             </QuantityContainer>
                                                         </CartItem>
@@ -281,9 +282,9 @@ const Cart = () => {
                                                         {index <
                                                             items.length -
                                                                 1 && (
-                                                            <Divider />
+                                                            <MuiDivider />
                                                         )}
-                                                    </React.Fragment>
+                                                    </MuiBox>
                                                 ))}
                                             </RestaurantItems>
                                         </RestaurantCard>
@@ -291,91 +292,32 @@ const Cart = () => {
                                 },
                             )}
                         </CartSection>
-
-                        <BillCard>
-                            <Typography
-                                variant="subtitle1"
-                                color="common.black"
+                        <BillCard subtotal={subtotal} />
+                    </Wrapper>
+                    {itemCount > 0 && (
+                        <ActionContainer>
+                            <Button
+                                variant="contained"
+                                onClick={handlePlaceOrder}
+                                loading={placingOrder}
+                                disabled={placingOrder}
                             >
-                                BILL DETAILS
-                            </Typography>
+                                Place Order
+                            </Button>
 
-                            <BillRowWrapper>
-                                <BillRow>
-                                    <Typography
-                                        variant="body2"
-                                        color="text.secondary"
-                                    >
-                                        Subtotal
-                                    </Typography>
-                                    <Typography
-                                        variant="body2"
-                                        color="common.black"
-                                    >
-                                        ₹{subtotal}
-                                    </Typography>
-                                </BillRow>
-
-                                <BillRow>
-                                    <Typography
-                                        variant="body2"
-                                        color="text.secondary"
-                                    >
-                                        Delivery Fee
-                                    </Typography>
-                                    <Typography
-                                        variant="body2"
-                                        color="success.main"
-                                    >
-                                        FREE
-                                    </Typography>
-                                </BillRow>
-                            </BillRowWrapper>
-
-                            <Divider />
-
-                            <BillRow>
-                                <Typography
-                                    variant="subtitle1"
-                                    color="common.black"
-                                    fontWeight={theme.typography.fontWeightBold}
-                                >
-                                    TO PAY
-                                </Typography>
-
-                                <Typography
-                                    variant="subtitle1"
-                                    color="common.black"
-                                    fontWeight={theme.typography.fontWeightBold}
-                                    letterSpacing={2}
-                                >
-                                    ₹{subtotal}
-                                </Typography>
-                            </BillRow>
-                        </BillCard>
-                    </Main>
-
-                    <ActionContainer>
-                        <Button
-                            variant="contained"
-                            onClick={handlePlaceOrder}
-                            loading={placingOrder}
-                            disabled={placingOrder}
-                        >
-                            Place Order
-                        </Button>
-                        {itemCount > 0 && (
                             <Button
                                 variant="contained"
                                 color="error"
                                 startIcon={<DeleteOutlineIcon />}
                                 onClick={handleClearCart}
+                                loading={pendingClear}
+                                disabled={pendingClear}
                             >
                                 Clear Cart
                             </Button>
-                        )}
-                    </ActionContainer>
-                </React.Fragment>
+                        </ActionContainer>
+                    )}
+                </MuiBox>
             )}
             <ActionDialog
                 open={feedback.open && pendingClear}
@@ -384,8 +326,8 @@ const Cart = () => {
                 type={feedback.type}
                 confirmText={feedback.confirmText}
                 cancelText={feedback.cancelText}
-                cancelButtonConfig={{ color: 'error', variant: 'outlined' }}
-                confirmButtonConfig={{ color: 'primary', variant: 'contained' }}
+                cancelButtonConfig={{ color: 'primary', variant: 'outlined' }}
+                confirmButtonConfig={{ color: 'error', variant: 'contained' }}
                 onClose={handleCancelClear}
                 onConfirm={handleConfirmClear}
             />

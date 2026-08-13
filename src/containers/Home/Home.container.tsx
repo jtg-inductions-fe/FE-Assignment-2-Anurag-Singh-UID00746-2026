@@ -14,7 +14,7 @@ import {
     USER_ROLE,
 } from '@components/constants';
 import { RestaurantCard } from '@containers/RestaurantCard/RestaurantCard.container';
-import { closeDialog, openDialog } from '@features/feedback/feedbackSlice';
+import { closeDialog } from '@features/feedback/feedbackSlice';
 import { deleteRestaurant } from '@features/restaurant/restaurantSlice';
 import { useSearchRestaurants } from '@hooks/useSearchRestaurants';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
@@ -29,6 +29,8 @@ import { FOOD_CATEGORY } from '@constant/index';
 import { ActionDialog } from '@components/ActionDialog';
 import { permission, rolepermissions } from '@containers/common/constants';
 import { DISCOVERY_ACTION } from './discoveryActions';
+import { ROUTES } from '@router/routes';
+import { showDialog } from '@utils/openDialog';
 
 const Home = () => {
     const navigate = useNavigate();
@@ -36,6 +38,7 @@ const Home = () => {
     const { user } = useAppSelector((state) => state.auth);
     const { restaurants } = useAppSelector((state) => state.restaurant);
     const feedback = useAppSelector((state) => state.feedback);
+
     const [restaurantToDelete, setRestaurantToDelete] = useState<
         Restaurant | undefined
     >(undefined);
@@ -68,7 +71,9 @@ const Home = () => {
      * @param restaurant - The restaurant object to view.
      */
     const openRestaurant = (restaurant: Restaurant) => {
-        void navigate(`/restaurants/${restaurant.id}`);
+        void navigate(
+            ROUTES.RESTAURANTS.RESTAURANT_DETAILS.replace(':id', restaurant.id),
+        );
     };
 
     /**
@@ -76,7 +81,9 @@ const Home = () => {
      * @param restaurant - The restaurant object to edit.
      */
     const handleEditRestaurant = (restaurant: Restaurant) => {
-        void navigate(`/restaurants/${restaurant.id}/edit`);
+        void navigate(
+            ROUTES.RESTAURANTS.EDIT_RESTAURANT.replace(':id', restaurant.id),
+        );
     };
 
     /**
@@ -85,15 +92,16 @@ const Home = () => {
      */
     const handleDeleteRestaurant = (restaurant: Restaurant) => {
         setRestaurantToDelete(restaurant);
-        dispatch(
-            openDialog({
-                title: 'DELETE RESTAURANT ?',
+        showDialog(
+            {
+                title: 'DELETE RESTAURANT',
                 description:
                     'Are you sure you want to delete this restaurant ?',
                 type: ACTION_DIALOG_TYPES.ALERT,
                 confirmText: 'Delete',
                 cancelText: 'Cancel',
-            }),
+            },
+            dispatch,
         );
     };
 
@@ -147,7 +155,7 @@ const Home = () => {
         _event: React.MouseEvent<HTMLElement>,
         newCategory: string,
     ) => {
-        setCategory(newCategory || FOOD_CATEGORY.BOTH);
+        setCategory(newCategory);
     };
 
     return (

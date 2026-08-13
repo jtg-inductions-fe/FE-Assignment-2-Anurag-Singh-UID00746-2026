@@ -23,6 +23,10 @@ export const MyCardActionArea = styled(CardActionArea)(
         padding: theme.spacing(4, 3),
         textAlign: 'center',
 
+        '& .role-image': {
+            transition: 'transform 0.3s ease-in-out',
+        },
+
         '&:hover .role-image': {
             transform: 'scale(1.06)',
         },
