@@ -5,7 +5,8 @@ import {
     UpdateMenuItemParams,
 } from '@features/restaurant/restaurant.types';
 import { restaurants } from '@mock/restaurant';
-import { Restaurant } from '../types/restaurant.types';
+
+import { Restaurant } from '@types';
 
 const cloneRestaurants = (): Restaurant[] =>
     restaurants.map((restaurant) => ({
@@ -14,6 +15,11 @@ const cloneRestaurants = (): Restaurant[] =>
     }));
 
 export const restaurantService = {
+    /**
+     * Filters the restaurant based on the keyword searched by the user
+     * @param params: restaurant name from the URL
+     * @returns filtered list of restaurants based on the keyword
+     */
     fetchRestaurants: async (
         params: FetchRestaurantsParams,
     ): Promise<Restaurant[]> => {
@@ -34,6 +40,11 @@ export const restaurantService = {
         );
     },
 
+    /**
+     * Adds a new restaurant to the existing restaurants array
+     * @param restaurant: restaurant added by the owner
+     * @returns the newly added restaurant
+     */
     addRestaurant: async (restaurant: Restaurant): Promise<Restaurant> => {
         await new Promise((res) => setTimeout(res, 2000));
 
@@ -42,6 +53,11 @@ export const restaurantService = {
         return restaurant;
     },
 
+    /**
+     * Updates an existing restaurant in the restaurants array
+     * @param restaurant: updated restaurant information
+     * @returns the updated restaurant
+     */
     updateRestaurant: async (restaurant: Restaurant): Promise<Restaurant> => {
         await new Promise((res) => setTimeout(res, 2000));
 
@@ -58,6 +74,12 @@ export const restaurantService = {
         return restaurant;
     },
 
+    /**
+     * Adds a new menu item to an existing restaurant
+     * @param restaurantId: id of the restaurant to which the menu item is added
+     * @param menuItem: menu item added by the owner
+     * @returns the updated restaurant with the newly added menu item
+     */
     addMenuItem: async ({
         restaurantId,
         menuItem,
@@ -78,6 +100,12 @@ export const restaurantService = {
         };
     },
 
+    /**
+     * Updates an existing menu item in an existing restaurant
+     * @param restaurantId: id of the restaurant to which the menu item belongs
+     * @param menuItem: updated menu item information
+     * @returns the updated restaurant with the modified menu item
+     */
     updateMenuItem: async ({
         restaurantId,
         menuItem,
@@ -106,6 +134,12 @@ export const restaurantService = {
         };
     },
 
+    /**
+     * Deletes a menu item from an existing restaurant
+     * @param restaurantId: id of the restaurant from which the menu item is deleted
+     * @param menuItemId: id of the menu item to be deleted
+     * @returns the updated restaurant with the deleted menu item
+     */
     deleteMenuItem: async ({
         restaurantId,
         menuItemId,

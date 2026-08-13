@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 
 import LogoutIcon from '@mui/icons-material/Logout';
 import {
@@ -15,11 +15,12 @@ import {
     UserProfileMenu,
 } from './UserProfile.styles';
 import { USER_ROLE } from '@components/constants';
-import { Button } from '@components/Button/Button.component';
+import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
+import { Button } from '@components/Button';
+import { UserProfileProps } from './UserProfile.types';
 
-const UserProfile = ({ handleLogout }: { handleLogout: () => void }) => {
+export const UserProfile = (props: UserProfileProps) => {
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
-    const logoutButtonRef = useRef<HTMLButtonElement | null>(null);
     const { user } = useAppSelector((state) => state.auth);
 
     const handleOpenUserMenu = (
@@ -28,16 +29,8 @@ const UserProfile = ({ handleLogout }: { handleLogout: () => void }) => {
         setAnchorElUser(event.currentTarget);
     };
 
-    useEffect(() => {
-        if (anchorElUser) {
-            requestAnimationFrame(() => {
-                logoutButtonRef.current?.focus();
-            });
-        }
-    }, [anchorElUser]);
-
     const handleUserMenuKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
-        if (event.key === 'Enter' || event.key === ' ') {
+        if (event.key === 'Enter') {
             event.preventDefault();
             handleOpenUserMenu(event);
         }
@@ -50,9 +43,18 @@ const UserProfile = ({ handleLogout }: { handleLogout: () => void }) => {
     const handleLogoutKeyDown = (
         event: React.KeyboardEvent<HTMLButtonElement>,
     ) => {
-        if (event.key === 'Enter' || event.key === ' ') {
+        if (event.key === 'Enter') {
             event.preventDefault();
-            handleLogout();
+            props.handleLogout();
+        }
+    };
+
+    const handleOrdersKeyDown = (
+        event: React.KeyboardEvent<HTMLButtonElement>,
+    ) => {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            props.handleOrders();
         }
     };
 
@@ -93,15 +95,28 @@ const UserProfile = ({ handleLogout }: { handleLogout: () => void }) => {
                         {user?.email}
                     </MuiTypography>
                 </UserMenuItem>
+
                 <MuiDivider />
                 <UserMenuItem onClick={handleCloseUserMenu}>
                     <Button
-                        ref={logoutButtonRef}
+                        variant="text"
+                        color="primary"
+                        disableRipple
+                        onClick={props.handleOrders}
+                        startIcon={<LocalMallOutlinedIcon color="primary" />}
+                        onKeyDown={handleOrdersKeyDown}
+                    >
+                        MY ORDERS
+                    </Button>
+                </UserMenuItem>
+                <MuiDivider />
+                <UserMenuItem onClick={handleCloseUserMenu}>
+                    <Button
                         variant="text"
                         color="error"
                         disableRipple
                         startIcon={<LogoutIcon color="error" />}
-                        onClick={handleLogout}
+                        onClick={props.handleLogout}
                         onKeyDown={handleLogoutKeyDown}
                     >
                         Logout
@@ -111,5 +126,3 @@ const UserProfile = ({ handleLogout }: { handleLogout: () => void }) => {
         </UserProfileBox>
     );
 };
-
-export default UserProfile;

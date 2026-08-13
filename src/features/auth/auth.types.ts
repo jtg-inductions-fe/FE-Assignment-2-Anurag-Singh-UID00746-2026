@@ -1,21 +1,52 @@
-import { User, UserRole } from '../../types/user.types';
+import { User, UserRole } from '@types';
 
+/** User authentication input data model required for logging into an account. */
 export interface LoginCredential {
+    /** The registered user email address string. */
     email: string;
+
+    /** The plain text account password entry string. */
     password: string;
 }
 
+/** Form dataset payload structure model used for registering a completely new system user. */
 export interface SignupCredential {
+    /** The legal first name and last name display text string of the applicant. */
     fullName: string;
+
+    /** The target authentication user email address string container. */
     email: string;
+
+    /** The freshly declared account registration password value string. */
     password: string;
+
+    /** Secondary security checkpoint validation value verifying matching password inputs. */
     confirmPassword: string;
+
+    /** Optional custom security operational authorization classification category mapping tier. */
     role?: UserRole;
 }
 
 export type AuthState = {
+    /**
+     * The loggedin person's data.
+     * This is null if no one is logged in.
+     */
     user: User | null;
+
+    /**
+     * True if the user is successfully logged in.
+     */
     isLoggedIn: boolean;
+
+    /**
+     * True if the app is currently checking or loading the login status.
+     */
     isLoading: boolean;
+
+    /**
+     * A text message explaining what went wrong.
+     * This is null if there are no errors.
+     */
     error: string | null;
 };

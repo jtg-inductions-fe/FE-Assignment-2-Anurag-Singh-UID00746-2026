@@ -1,45 +1,23 @@
-import { Snackbar as MuiSnackbar, Slide as MuiSlide } from '@mui/material';
-import type { LinearProgressProps, SlideProps } from '@mui/material';
-
-import { useAppDispatch, useAppSelector } from '@store/hooks';
-import { hideToast } from '@features/toast/toastSlice';
+import { Snackbar as MuiSnackbar } from '@mui/material';
+import { Slide as MuiSlide, SlideProps } from '@mui/material';
 
 import { TOAST_ICONS } from './Toast.icons';
 import {
     StyledAtoms,
     StyledContent,
     StyledMessage,
-    StyledProgress,
     StyledTitle,
     StyledToast,
     StyledToastImage,
 } from './Toast.styles';
-import type { ToastProps } from './Toast.types';
-import { TOAST_TYPES } from '@components/constants';
-
-const getProgressColor = (
-    variant: ToastProps['type'],
-): LinearProgressProps['color'] => {
-    switch (variant) {
-        case TOAST_TYPES.SUCCESS:
-            return 'success';
-
-        case TOAST_TYPES.ERROR:
-            return 'error';
-
-        case TOAST_TYPES.WARNING:
-            return 'warning';
-
-        default:
-            return 'info';
-    }
-};
+import { useAppDispatch, useAppSelector } from '@store/hooks';
+import { hideToast } from '@features/toast/toastSlice';
 
 export const Transition = (props: SlideProps) => (
     <MuiSlide {...props} direction="left" />
 );
 
-const Toast = () => {
+export const Toast = () => {
     const dispatch = useAppDispatch();
     const { open, type, title, message } = useAppSelector(
         (state) => state.toast,
@@ -68,14 +46,7 @@ const Toast = () => {
                 </StyledContent>
 
                 <StyledAtoms src={assets.atoms} alt="Toast atoms" />
-
-                <StyledProgress
-                    variant="indeterminate"
-                    color={getProgressColor(type)}
-                />
             </StyledToast>
         </MuiSnackbar>
     );
 };
-
-export default Toast;

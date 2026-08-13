@@ -11,11 +11,11 @@ import {
 import storage from 'redux-persist/lib/storage';
 
 import authReducer from '@features/auth/authSlice';
-import feedbackReducer from '@features/feedback/feedbackSlice';
-import toastReducer from '@features/toast/toastSlice';
-import restaurantReducer from '@features/restaurant/restaurantSlice';
 import cartReducer from '@features/cart/cartSlice';
-
+import ordersReducer from '@features/orders/orderSlice';
+import feedbackReducer from '@features/feedback/feedbackSlice';
+import restaurantReducer from '@features/restaurant/restaurantSlice';
+import toastReducer from '@features/toast/toastSlice';
 import { configureStore } from '@reduxjs/toolkit';
 
 const authPersistConfig = {
@@ -28,8 +28,17 @@ const cartPersistConfig = {
     storage,
 };
 
+const ordersPersistConfig = {
+    key: 'orders',
+    storage,
+};
+
 const persistedAuthReducer = persistReducer(authPersistConfig, authReducer);
 const persistedCartReducer = persistReducer(cartPersistConfig, cartReducer);
+const persistedOrdersReducer = persistReducer(
+    ordersPersistConfig,
+    ordersReducer,
+);
 
 export const store = configureStore({
     reducer: {
@@ -38,6 +47,7 @@ export const store = configureStore({
         feedback: feedbackReducer,
         restaurant: restaurantReducer,
         cart: persistedCartReducer,
+        order: persistedOrdersReducer,
     },
 
     middleware: (getDefaultMiddleware) =>

@@ -21,6 +21,7 @@ export const StyledButton = styled(Button)(({ theme }: ThemeType) => ({
 
     '&.MuiButton-text': {
         backgroundColor: 'transparent',
+        padding: 0,
     },
 
     '&.Mui-disabled': {

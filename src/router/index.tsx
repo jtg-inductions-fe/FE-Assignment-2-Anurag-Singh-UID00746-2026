@@ -1,23 +1,24 @@
 import { createBrowserRouter } from 'react-router-dom';
 
+import AddMenuItem from '@containers/AddMenuItem/AddMenuItem.container';
+import AddRestaurant from '@containers/AddRestaurant/AddRestaurant.container';
+import CartPage from '@containers/CartPage/Cart.container';
+import EditMenuItem from '@containers/EditMenuItem/EditMenuItem.container';
+import EditRestaurant from '@containers/EditRestaurant/EditRestaurant.container';
+import Restaurant from '@containers/Restaurant/Restaurant.container';
 import RootLayout from '@layouts/RootLayout';
 
-import ErrorPage from '@containers/exception/Error.container';
-import NotFoundPage from '@containers/exception/NotFound.container';
-import Home from '@containers/home/Home.container';
-import Login from '@containers/login/Login.container';
-import Signup from '@containers/signup/Signup.container';
-
 import PublicRoute from './PublicRoute';
-import { ROUTES, ROUTES_SEGMENTS } from './routes';
-import AddRestaurant from '@containers/addRestaurant/addRestaurant';
-import EditRestaurant from '@containers/editRestaurant/editRestaurant';
-import Restaurant from '@containers/restaurant/Restaurant';
 import RoleGuard from './RoleGuard/RoleGuard';
-import AddMenuItem from '@containers/addMenuItem/addMenuItem';
-import EditMenuItem from '@containers/editMenuItem/editMenuItem';
-import { USER_ROLE } from '@components/constants';
+import { ROUTES, ROUTES_SEGMENTS } from './routes';
+import OrdersPage from '@containers/OrdersPage/Orders.container';
+import ErrorPage from '@containers/Exception/Error.container';
+import Home from '@containers/Home/Home.container';
+import Login from '@containers/Login/Login.container';
+import Signup from '@containers/Signup/Signup.container';
 import ProtectedRoute from './ProtectedRoute/ProtectedRoute';
+import { USER_ROLE } from '@components/constants';
+import NotFoundPage from '@containers/Exception/NotFound.container';
 
 export const router = createBrowserRouter([
     {
@@ -86,7 +87,29 @@ export const router = createBrowserRouter([
                             <RoleGuard allowedRoles={[USER_ROLE.CUSTOMER]} />
                         ),
 
-                        children: [],
+                        children: [
+                            {
+                                path: ROUTES_SEGMENTS.CART,
+                                element: <CartPage />,
+                            },
+                        ],
+                    },
+                    {
+                        element: (
+                            <RoleGuard
+                                allowedRoles={[
+                                    USER_ROLE.CUSTOMER,
+                                    USER_ROLE.OWNER,
+                                ]}
+                            />
+                        ),
+
+                        children: [
+                            {
+                                path: ROUTES_SEGMENTS.ORDERS,
+                                element: <OrdersPage />,
+                            },
+                        ],
                     },
                 ],
             },

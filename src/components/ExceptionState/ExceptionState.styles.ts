@@ -28,10 +28,6 @@ export const StyledTitle = styled(Typography)(({ theme }: ThemeType) => ({
     fontWeight: theme.typography.fontWeightRegular,
     marginBottom: theme.spacing(2),
     letterSpacing: theme.spacing(0.3),
-    background: 'linear-gradient(180deg, #2b2d42 0%, #4a4e69 100%)',
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent',
-    backgroundClip: 'text',
 }));
 
 export const StyledDescription = styled(Typography)(({ theme }: ThemeType) => ({

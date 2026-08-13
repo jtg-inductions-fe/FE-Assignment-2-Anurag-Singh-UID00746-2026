@@ -11,7 +11,6 @@ export const Container = styled(Box)(({ theme }: ThemeType) => ({
     borderRadius: typography.typographyUtil.pxToRem(8),
     border: `1.5px solid ${theme.palette.divider}`,
     backgroundColor: theme.palette.background.paper,
-    overflow: 'hidden',
     padding: theme.spacing(0, 0.5),
 }));
 

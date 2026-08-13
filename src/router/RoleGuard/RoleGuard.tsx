@@ -1,7 +1,9 @@
-import { useAppSelector } from '@store/hooks';
-import { RoleGuardProps } from './RoleGuard.types';
 import { Navigate, Outlet } from 'react-router-dom';
+
 import { ROUTES } from '@router/routes';
+import { useAppSelector } from '@store/hooks';
+
+import { RoleGuardProps } from './RoleGuard.types';
 import { USER_ROLE } from '@components/constants';
 
 export const RoleGuard = ({ allowedRoles }: RoleGuardProps) => {

@@ -1,8 +1,8 @@
 import * as yup from 'yup';
 
-import { UserRole } from '../types/user.types';
-import { USER_ROLE } from '@components/constants';
 import { messages } from './constants';
+import { UserRole } from '@types';
+import { USER_ROLE } from '@components/constants';
 
 const email = yup
     .string()

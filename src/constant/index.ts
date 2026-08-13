@@ -1,11 +1,13 @@
 export { COLORS, HTML_FONT_SIZE, SCALING_FACTOR } from './theme';
 
+/** Diet classification values for filtering or tagging food items. */
 export const FOOD_CATEGORY = {
     VEG: 'veg',
     NON_VEG: 'non-veg',
     BOTH: 'both',
 } as const;
 
+/** Complete list of weekly days paired with their standard system identifiers. */
 export const DAYS = [
     {
         label: 'Monday',
@@ -37,6 +39,7 @@ export const DAYS = [
     },
 ];
 
+/** Standard baseline work week identifiers used for default selection scheduling. */
 export const DEFAULT_DAYS = [
     'MONDAY',
     'TUESDAY',

@@ -1,5 +1,6 @@
 import { ThemeType } from '@components/types';
 import { Avatar, Box, Menu, MenuItem, styled } from '@mui/material';
+
 import { typography } from '@theme/foundations';
 
 export const UserProfileBox = styled(Box)(() => ({
@@ -7,7 +8,7 @@ export const UserProfileBox = styled(Box)(() => ({
 }));
 
 export const UserProfileMenu = styled(Menu)(({ theme }: ThemeType) => ({
-    marginTop: typography.typographyUtil.pxToRem(45),
+    marginTop: typography.typographyUtil.pxToRem(60),
 
     '& .MuiMenu-paper': {
         boxShadow: '0 1px 3px rgba(0,0,0,0.1), 0 4px 8px rgba(0,0,0,0.04)',
@@ -38,7 +39,10 @@ export const UserAvatar = styled(Avatar)(({ theme }: ThemeType) => ({
 
 export const UserMenuItem = styled(MenuItem)(({ theme }: ThemeType) => ({
     minHeight: 0,
-    padding: theme.spacing(0, 4, 1, 4),
+    padding: theme.spacing(2, 4, 1, 4),
     gap: typography.typographyUtil.pxToRem(4),
+    display: 'flex',
+    alignItems: 'start',
+    flexDirection: 'column',
     justifyContent: 'start',
 }));

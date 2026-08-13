@@ -1,3 +1,6 @@
+/**
+ * Absolute path links used to navigate across the entire app.
+ */
 export const ROUTES = {
     ROOT: '/',
 
@@ -16,8 +19,14 @@ export const ROUTES = {
         ADD_MENU_ITEM: '/restaurants/:id/menu/add',
         EDIT_MENU_ITEM: '/restaurants/:id/menu/:menuItemId/edit',
     },
+
+    CART: '/cart',
+    ORDERS: '/orders',
 } as const;
 
+/**
+ * Relative URL string segments used to build layout navigation trees.
+ */
 export const ROUTES_SEGMENTS = {
     AUTH: {
         LOGIN: 'login',
@@ -34,6 +43,9 @@ export const ROUTES_SEGMENTS = {
         ADD_MENU_ITEM: 'restaurants/:id/menu/add',
         EDIT_MENU_ITEM: 'restaurants/:id/menu/:menuItemId/edit',
     },
+
+    CART: 'cart',
+    ORDERS: 'orders',
 
     ERROR: {
         NOT_FOUND: '*',

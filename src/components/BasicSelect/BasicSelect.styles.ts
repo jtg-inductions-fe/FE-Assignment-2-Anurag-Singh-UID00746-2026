@@ -1,5 +1,6 @@
 import { ThemeType } from '@components/types';
 import { alpha, Select, styled } from '@mui/material';
+
 import { typography } from '@theme/foundations';
 
 export const StyledBaseSelect = styled(Select)(({ theme }: ThemeType) => ({

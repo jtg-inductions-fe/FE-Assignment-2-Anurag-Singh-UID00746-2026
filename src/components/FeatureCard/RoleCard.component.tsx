@@ -10,8 +10,8 @@ import {
 import { RoleCardProps } from './Rolecard.types';
 import { Image } from '@components/ImageBox/ImageBox.styles';
 
-const FeatureCard = (props: RoleCardProps) => (
-    <StyledCard selected={props.selected}>
+export const FeatureCard = (props: RoleCardProps) => (
+    <StyledCard selected={props.selected ?? false}>
         <MyCardActionArea onClick={props.onClick} aria-pressed={props.selected}>
             <CheckBox selected={props.selected}>
                 {props.selected && <CheckRoundedIcon />}
@@ -30,5 +30,3 @@ const FeatureCard = (props: RoleCardProps) => (
         </MyCardActionArea>
     </StyledCard>
 );
-
-export default FeatureCard;

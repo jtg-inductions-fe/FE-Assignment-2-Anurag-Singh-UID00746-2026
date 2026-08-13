@@ -3,7 +3,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Search, SearchIconWrapper, StyledInputBase } from './SearchBar.styles';
 import type { SearchBarProps } from './SearchBar.types';
 
-const SearchBar = (props: SearchBarProps) => (
+export const SearchBar = (props: SearchBarProps) => (
     <Search>
         <StyledInputBase
             placeholder={props.placeholder}
@@ -16,5 +16,3 @@ const SearchBar = (props: SearchBarProps) => (
         </SearchIconWrapper>
     </Search>
 );
-
-export default SearchBar;

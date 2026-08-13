@@ -1,5 +1,10 @@
-import { Restaurant } from '../types/restaurant.types';
+import { Restaurant } from '@types';
 
+/**
+ * Checks the current day of the week to see if the restaurant is open today.
+ * @param restaurant - The restaurant data object containing operating days.
+ * @returns True if the restaurant is open today, false otherwise.
+ */
 export const isOpenToday = (restaurant: Restaurant) => {
     const today = new Date()
         .toLocaleDateString('en-US', {
