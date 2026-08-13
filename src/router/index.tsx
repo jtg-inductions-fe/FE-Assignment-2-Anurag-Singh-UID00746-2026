@@ -12,10 +12,12 @@ import PublicRoute from './PublicRoute';
 import { ROUTES, ROUTES_SEGMENTS } from './routes';
 import AddRestaurant from '@containers/addRestaurant/addRestaurant';
 import EditRestaurant from '@containers/editRestaurant/editRestaurant';
-import Restaurant from '@containers/Restaurant/Restaurant';
+import Restaurant from '@containers/restaurant/Restaurant';
 import RoleGuard from './RoleGuard/RoleGuard';
-import ProtectedRoute from './ProtectedRoute/ProtectedRoute';
+import AddMenuItem from '@containers/addMenuItem/addMenuItem';
+import EditMenuItem from '@containers/editMenuItem/editMenuItem';
 import { USER_ROLE } from '@components/constants';
+import ProtectedRoute from './ProtectedRoute/ProtectedRoute';
 
 export const router = createBrowserRouter([
     {
@@ -66,6 +68,16 @@ export const router = createBrowserRouter([
                                 path: ROUTES_SEGMENTS.RESTAURANTS
                                     .EDIT_RESTAURANT,
                                 element: <EditRestaurant />,
+                            },
+
+                            {
+                                path: ROUTES_SEGMENTS.MENU_ITEMS.ADD_MENU_ITEM,
+                                element: <AddMenuItem />,
+                            },
+
+                            {
+                                path: ROUTES_SEGMENTS.MENU_ITEMS.EDIT_MENU_ITEM,
+                                element: <EditMenuItem />,
                             },
                         ],
                     },

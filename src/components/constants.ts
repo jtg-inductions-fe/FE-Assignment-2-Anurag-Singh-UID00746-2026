@@ -32,6 +32,7 @@ export const INPUT_TYPES = {
     EMAIL: 'email',
     PASSWORD: 'password',
     TIME: 'time',
+    NUMBER: 'number',
 } as const;
 
 /**

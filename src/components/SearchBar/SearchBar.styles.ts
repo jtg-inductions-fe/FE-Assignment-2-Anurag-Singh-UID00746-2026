@@ -39,6 +39,13 @@ export const SearchIconWrapper = styled('div')(({ theme }: ThemeType) => ({
 export const StyledInputBase = styled(InputBase)(({ theme }: ThemeType) => ({
     color: 'inherit',
     fontSize: typography.typographyUtil.pxToRem(15),
+    width: '100%',
+
+    '& input': {
+        textOverflow: 'ellipsis',
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+    },
 
     '& .MuiInputBase-input': {
         padding: theme.spacing(1, 1, 1, 0),

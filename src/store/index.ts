@@ -14,15 +14,22 @@ import authReducer from '@features/auth/authSlice';
 import feedbackReducer from '@features/feedback/feedbackSlice';
 import toastReducer from '@features/toast/toastSlice';
 import restaurantReducer from '@features/restaurant/restaurantSlice';
+import cartReducer from '@features/cart/cartSlice';
 
 import { configureStore } from '@reduxjs/toolkit';
 
-const persistConfig = {
+const authPersistConfig = {
     key: 'auth',
     storage,
 };
 
-const persistedAuthReducer = persistReducer(persistConfig, authReducer);
+const cartPersistConfig = {
+    key: 'cart',
+    storage,
+};
+
+const persistedAuthReducer = persistReducer(authPersistConfig, authReducer);
+const persistedCartReducer = persistReducer(cartPersistConfig, cartReducer);
 
 export const store = configureStore({
     reducer: {
@@ -30,6 +37,7 @@ export const store = configureStore({
         toast: toastReducer,
         feedback: feedbackReducer,
         restaurant: restaurantReducer,
+        cart: persistedCartReducer,
     },
 
     middleware: (getDefaultMiddleware) =>

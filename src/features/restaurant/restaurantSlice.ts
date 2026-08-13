@@ -1,10 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
 import { Restaurant } from '../../types/restaurant.types';
-
 import {
+    addMenuItemThunk,
     addRestaurantThunk,
+    deleteMenuItemThunk,
     fetchRestaurantsThunk,
+    updateMenuItemThunk,
     updateRestaurantThunk,
 } from './restaurantThunk';
 
@@ -78,6 +79,60 @@ const restaurantSlice = createSlice({
                 state.loading = false;
                 state.error =
                     action.error.message ?? 'Failed to update restaurant';
+            })
+            .addCase(addMenuItemThunk.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(addMenuItemThunk.fulfilled, (state, action) => {
+                state.loading = false;
+                const index = state.restaurants.findIndex(
+                    (restaurant) => restaurant.id === action.payload.id,
+                );
+
+                if (index !== -1) {
+                    state.restaurants[index] = action.payload;
+                }
+            })
+            .addCase(addMenuItemThunk.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message ?? 'Failed to add menu Item';
+            })
+            .addCase(updateMenuItemThunk.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(updateMenuItemThunk.fulfilled, (state, action) => {
+                const index = state.restaurants.findIndex(
+                    (restaurant) => restaurant.id === action.payload.id,
+                );
+
+                if (index !== -1) {
+                    state.restaurants[index] = action.payload;
+                }
+            })
+            .addCase(updateMenuItemThunk.rejected, (state, action) => {
+                state.loading = false;
+                state.error =
+                    action.error.message ?? 'Failed to update menu Item';
+            })
+            .addCase(deleteMenuItemThunk.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(deleteMenuItemThunk.fulfilled, (state, action) => {
+                const index = state.restaurants.findIndex(
+                    (restaurant) => restaurant.id === action.payload.id,
+                );
+
+                if (index !== -1) {
+                    state.restaurants[index] = action.payload;
+                }
+            })
+            .addCase(deleteMenuItemThunk.rejected, (state, action) => {
+                state.loading = false;
+                state.error =
+                    action.error.message ?? 'Failed to delete menu Item';
             });
     },
 });

@@ -1,4 +1,5 @@
-import { foodCategory } from '@constant';
+import { FoodCategory } from '@constant';
+
 import { MenuItem } from './menuItem.types';
 
 export type Restaurant = {
@@ -12,7 +13,7 @@ export type Restaurant = {
     address: string;
     contactNumber?: string;
 
-    category: foodCategory;
+    category: FoodCategory;
     isOpenToday: boolean;
 
     operatingDays: {

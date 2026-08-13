@@ -44,9 +44,10 @@ import {
 } from './addRestaurant.styles';
 import { closeDialog, openDialog } from '@features/feedback/feedbackSlice';
 import { AddRestaurantFormValues } from './addRestaurant.types';
-import { ActionDialog } from '@components/ActionDialog/ActionDialog.component';
-import { InputField } from '@components/InputField/InputField.component';
+import { nanoid } from '@reduxjs/toolkit';
 import { Button } from '@components/Button/Button.component';
+import { InputField } from '@components/InputField/InputField.component';
+import { ActionDialog } from '@components/ActionDialog/ActionDialog.component';
 
 const AddRestaurant = () => {
     const dispatch = useAppDispatch();
@@ -112,7 +113,7 @@ const AddRestaurant = () => {
         dispatch(closeDialog());
 
         const payload: Restaurant = {
-            id: `${Date.now()}`,
+            id: nanoid(),
             ownerId: user?.id ?? 'guest-user',
             name: pendingFormData.name,
             description: pendingFormData.description,

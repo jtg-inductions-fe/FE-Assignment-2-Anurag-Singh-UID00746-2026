@@ -40,12 +40,21 @@ export const InfoContainer = styled(Box)(({ theme }: ThemeType) => ({
 export const MetaContainer = styled(Box)(({ theme }: ThemeType) => ({
     display: 'flex',
     flexDirection: 'column',
-    gap: theme.spacing(1),
-    backgroundColor: theme.palette.primary.light,
+    gap: theme.spacing(1.5),
+    backgroundColor:
+        theme.palette.mode === 'dark'
+            ? 'rgba(255, 255, 255, 0.03)'
+            : 'rgba(25, 118, 210, 0.04)',
+    border: `1px solid rgba(25, 118, 210, 0.08)`,
     padding: theme.spacing(2),
-    borderRadius: theme.spacing(2),
-    color: theme.palette.primary.main,
-    boxShadow: '0 1px 3px rgba(0,0,0,0.1), 0 2px 2px rgba(0,0,0,0.04)',
+    borderRadius: 10,
+
+    '& .MuiTypography-root': {
+        color: theme.palette.text.primary,
+    },
+    '& .meta-highlight': {
+        color: theme.palette.primary.main,
+    },
 }));
 
 export const ActionContainer = styled(Box)(({ theme }: ThemeType) => ({

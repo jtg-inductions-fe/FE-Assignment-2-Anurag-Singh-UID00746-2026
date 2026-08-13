@@ -16,7 +16,7 @@ import {
     StyledTitle,
 } from './ExceptionState.styles';
 import { ExceptionStateProps } from './ExceptionState.types';
-import { EXCEPTION_STATE_TYPES } from '../constants';
+import { EXCEPTION_STATE_TYPES } from '@components/constants';
 
 const ExceptionState = ({
     type = EXCEPTION_STATE_TYPES.ERROR,
