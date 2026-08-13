@@ -154,34 +154,6 @@ export const ExpandedContent = styled(Box)(({ theme }: ThemeType) => ({
     },
 }));
 
-export const ItemsSection = styled(Box)(({ theme }: ThemeType) => ({
-    display: 'flex',
-    flexDirection: 'column',
-    gap: theme.spacing(1.5),
-}));
-
-export const SectionHeader = styled(Box)(({ theme }: ThemeType) => ({
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingBottom: theme.spacing(1),
-}));
-
-export const ItemRow = styled(Box)(({ theme }: ThemeType) => ({
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    gap: theme.spacing(2),
-    paddingTop: theme.spacing(2),
-}));
-
-export const ItemInfo = styled(Box)({
-    minWidth: 0,
-    flex: 1,
-    display: 'flex',
-    flexDirection: 'column',
-});
-
 export const TimelineCard = styled(Box)(({ theme }: ThemeType) => ({
     backgroundColor: alpha(theme.palette.info.light, 0.1),
     border: `1px solid ${theme.palette.primary.light}`,
@@ -271,16 +243,6 @@ export const Actions = styled(Box)(({ theme }: ThemeType) => ({
         flexWrap: 'wrap',
         gap: theme.spacing(3),
     },
-}));
-
-export const TotalSection = styled(Box)(({ theme }: ThemeType) => ({
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    gap: theme.spacing(2),
-    marginTop: theme.spacing(2),
-    paddingTop: theme.spacing(2),
-    borderTop: `2px solid ${theme.palette.text.primary}`,
 }));
 
 export const RejectionModal = styled(Modal)(() => ({

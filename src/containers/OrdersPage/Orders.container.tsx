@@ -5,7 +5,13 @@ import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 
-import { alpha, Box, Divider, IconButton, Typography } from '@mui/material';
+import {
+    alpha,
+    Box as MuiBox,
+    Divider as MuiDivider,
+    IconButton as MuiIconButton,
+    Typography as MuiTypography,
+} from '@mui/material';
 
 import {
     EXCEPTION_STATE_TYPES,
@@ -21,7 +27,6 @@ import {
     Container,
     Header,
     HeaderContent,
-    OrdersList,
     OrderCard,
     OrderSummary,
     OrderInfo,
@@ -29,11 +34,6 @@ import {
     OrderDetails,
     StatusContainer,
     ExpandedContent,
-    ItemsSection,
-    SectionHeader,
-    ItemRow,
-    ItemInfo,
-    TotalSection,
     TimelineCard,
     Timeline,
     TimelineItem,
@@ -68,6 +68,8 @@ import { Button } from '@components/Button';
 import { InputField } from '@components/InputField';
 import { Chip } from '@components/Chip';
 import { permission, rolepermissions } from '@containers/common/constants';
+import { List } from '@components/List';
+import { OrderSummaryCard } from '@components/OrderSummary';
 
 const OrdersPage = () => {
     const navigate = useNavigate();
@@ -157,24 +159,25 @@ const OrdersPage = () => {
             </Button>
             <Header>
                 <HeaderContent>
-                    <Typography variant="h3">
+                    <MuiTypography variant="h3">
                         {userRole === USER_ROLE.CUSTOMER
                             ? 'MY ORDERS'
                             : 'MANAGE ORDERS'}
-                    </Typography>
-                    <Typography
+                    </MuiTypography>
+                    <MuiTypography
                         variant="subtitle1"
                         color={alpha(theme.palette.text.secondary, 0.8)}
                     >
                         {userRole === USER_ROLE.CUSTOMER
                             ? 'View and track all your orders in one place'
                             : 'Track and manage all your orders in one place'}
-                    </Typography>
+                    </MuiTypography>
                 </HeaderContent>
             </Header>
 
-            <OrdersList>
-                {orders.map((order) => {
+            <List
+                items={orders}
+                renderItem={(order) => {
                     const isExpanded = expandedOrderId === order.id;
 
                     return (
@@ -199,12 +202,12 @@ const OrdersPage = () => {
                                 </OrderInfo>
 
                                 <StatusContainer>
-                                    <Typography
+                                    <MuiTypography
                                         variant="subtitle1"
                                         color="common.black"
                                     >
                                         ₹{order.totalPrice}
-                                    </Typography>
+                                    </MuiTypography>
                                     <Chip
                                         label={order.status}
                                         color={
@@ -216,7 +219,7 @@ const OrdersPage = () => {
                                                   : 'warning'
                                         }
                                     />
-                                    <IconButton
+                                    <MuiIconButton
                                         sx={{ padding: '0' }}
                                         onClick={(event) => {
                                             event.stopPropagation();
@@ -229,103 +232,16 @@ const OrdersPage = () => {
                                         ) : (
                                             <ExpandMore />
                                         )}
-                                    </IconButton>
+                                    </MuiIconButton>
                                 </StatusContainer>
                             </OrderSummary>
 
                             {isExpanded && (
-                                <React.Fragment>
-                                    <Divider />
+                                <MuiBox>
+                                    <MuiDivider />
 
                                     <ExpandedContent>
-                                        <ItemsSection>
-                                            <SectionHeader>
-                                                <Typography
-                                                    variant="subtitle1"
-                                                    fontWeight={
-                                                        theme.typography
-                                                            .fontWeightBold
-                                                    }
-                                                    color={
-                                                        theme.palette.common
-                                                            .black
-                                                    }
-                                                >
-                                                    ORDER ITEMS
-                                                </Typography>
-
-                                                <Typography
-                                                    variant="body2"
-                                                    color="text.secondary"
-                                                >
-                                                    {order.items.length}{' '}
-                                                    {order.items.length > 1
-                                                        ? 'items'
-                                                        : 'item'}
-                                                </Typography>
-                                            </SectionHeader>
-
-                                            <Divider />
-
-                                            {order.items.map((item) => (
-                                                <ItemRow key={item.id}>
-                                                    <ItemInfo>
-                                                        <Typography
-                                                            variant="body1"
-                                                            fontWeight={
-                                                                theme.typography
-                                                                    .fontWeightBold
-                                                            }
-                                                            color={alpha(
-                                                                theme.palette
-                                                                    .common
-                                                                    .black,
-                                                                0.7,
-                                                            )}
-                                                        >
-                                                            {item.name.toUpperCase()}{' '}
-                                                            × {item.quantity}
-                                                        </Typography>
-                                                    </ItemInfo>
-
-                                                    <Typography
-                                                        variant="body1"
-                                                        fontWeight={
-                                                            theme.typography
-                                                                .fontWeightMedium
-                                                        }
-                                                    >
-                                                        ₹
-                                                        {item.price *
-                                                            item.quantity}
-                                                    </Typography>
-                                                </ItemRow>
-                                            ))}
-
-                                            <TotalSection>
-                                                <Typography
-                                                    variant="body1"
-                                                    fontWeight={
-                                                        theme.typography
-                                                            .fontWeightBold
-                                                    }
-                                                    color={
-                                                        theme.palette.common
-                                                            .black
-                                                    }
-                                                    letterSpacing={2}
-                                                >
-                                                    TOTAL
-                                                </Typography>
-
-                                                <Typography
-                                                    variant="h6"
-                                                    color="primary"
-                                                >
-                                                    ₹{order.totalPrice}
-                                                </Typography>
-                                            </TotalSection>
-                                        </ItemsSection>
+                                        <OrderSummaryCard order={order} />
 
                                         {canManageOrders ? (
                                             <OwnerOrderPanel
@@ -338,12 +254,12 @@ const OrdersPage = () => {
                                             <CustomerOrderPanel order={order} />
                                         )}
                                     </ExpandedContent>
-                                </React.Fragment>
+                                </MuiBox>
                             )}
                         </OrderCard>
                     );
-                })}
-            </OrdersList>
+                }}
+            />
         </Container>
     );
 };
@@ -357,13 +273,13 @@ const CustomerOrderPanel = ({ order }: CustomerOrderPanelProps) => {
 
     return (
         <TimelineCard>
-            <Typography
+            <MuiTypography
                 variant="subtitle1"
                 fontWeight={theme.typography.fontWeightBold}
                 color={theme.palette.common.black}
             >
                 ORDER STATUS
-            </Typography>
+            </MuiTypography>
 
             {isRejected ? (
                 <Timeline>
@@ -406,8 +322,8 @@ const CustomerOrderPanel = ({ order }: CustomerOrderPanelProps) => {
             )}
 
             {isRejected && order.rejectionReason && (
-                <Box mt={5}>
-                    <Typography
+                <MuiBox mt={5}>
+                    <MuiTypography
                         component="span"
                         variant="caption"
                         color="error.main"
@@ -415,17 +331,17 @@ const CustomerOrderPanel = ({ order }: CustomerOrderPanelProps) => {
                         mb={0.25}
                     >
                         REASON FOR REJECTION
-                    </Typography>
+                    </MuiTypography>
 
-                    <Typography
+                    <MuiTypography
                         component="span"
                         variant="body2"
                         color="primary.main"
                         display="block"
                     >
                         {order.rejectionReason}
-                    </Typography>
-                </Box>
+                    </MuiTypography>
+                </MuiBox>
             )}
         </TimelineCard>
     );
@@ -467,18 +383,18 @@ const OwnerOrderPanel = ({ order, onStatusChange }: OwnerOrderPanelProps) => {
 
     return (
         <TimelineCard>
-            <Typography
+            <MuiTypography
                 variant="subtitle1"
                 fontWeight={theme.typography.fontWeightBold}
                 color={theme.palette.common.black}
                 letterSpacing={1.5}
             >
                 MANAGE ORDER
-            </Typography>
+            </MuiTypography>
 
-            <Typography variant="body2" color="text.secondary" mt={1}>
+            <MuiTypography variant="body2" color="text.secondary" mt={1}>
                 Current status : {order.status.toUpperCase()}
-            </Typography>
+            </MuiTypography>
 
             <Actions>
                 {order.status === 'Pending' && (
@@ -507,9 +423,12 @@ const OwnerOrderPanel = ({ order, onStatusChange }: OwnerOrderPanelProps) => {
                                 component="form"
                                 onSubmit={handleSubmit(onRejectSubmit)}
                             >
-                                <Typography id="modal-modal-title" variant="h6">
+                                <MuiTypography
+                                    id="modal-modal-title"
+                                    variant="h6"
+                                >
                                     Reason for rejection ?
-                                </Typography>
+                                </MuiTypography>
                                 <Controller
                                     name="reason"
                                     control={control}
@@ -619,8 +538,8 @@ const OrderTimelineItem = ({
                 <TimelineDot />
             )}
 
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5 }}>
-                <Typography
+            <MuiBox sx={{ display: 'flex', flexDirection: 'column', gap: 0.5 }}>
+                <MuiTypography
                     variant="body2"
                     fontWeight={
                         active || completed || rejected
@@ -636,18 +555,18 @@ const OrderTimelineItem = ({
                     }
                 >
                     {label}
-                </Typography>
+                </MuiTypography>
 
                 {helperText && (
-                    <Typography
+                    <MuiTypography
                         variant="caption"
                         color="error.main"
                         sx={{ lineHeight: 1.4, maxWidth: 220 }}
                     >
                         {helperText}
-                    </Typography>
+                    </MuiTypography>
                 )}
-            </Box>
+            </MuiBox>
         </TimelineItem>
     );
 };
