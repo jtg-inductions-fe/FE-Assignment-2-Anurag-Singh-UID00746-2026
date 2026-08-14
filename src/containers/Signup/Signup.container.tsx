@@ -1,7 +1,7 @@
 import { ChangeEvent } from 'react';
 
 import { Controller, useForm } from 'react-hook-form';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import {
     alpha,
@@ -23,8 +23,15 @@ import { signupSchema } from '@validations/auth.validation';
 import { ROLECARD } from './rolecard';
 import { InputField } from '@components/InputField';
 import { Button } from '@components/Button';
-import { ClickableLink, Wrapper } from './Signup.styles';
 import { FeatureCard } from '@components/FeatureCard';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import {
+    IconButton as MuiIconButton,
+    InputAdornment as MuiInputAdornment,
+} from '@mui/material';
+import { useState } from 'react';
+import { Link } from '@components/Link';
+import { Wrapper } from './Signup.styles';
 
 export const Signup = () => {
     const {
@@ -44,6 +51,8 @@ export const Signup = () => {
 
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
+
+    const [showPassword, setShowPassword] = useState(false);
 
     /**
      * Creates a new user by calling the action and navigates the user to login route
@@ -147,6 +156,32 @@ export const Signup = () => {
                                 render={({ field }) => (
                                     <InputField
                                         {...field}
+                                        type={
+                                            showPassword ? 'text' : 'password'
+                                        }
+                                        slotProps={{
+                                            input: {
+                                                endAdornment: (
+                                                    <MuiInputAdornment position="end">
+                                                        <MuiIconButton
+                                                            onClick={() =>
+                                                                setShowPassword(
+                                                                    !showPassword,
+                                                                )
+                                                            }
+                                                            edge="end"
+                                                            aria-label="toggle password visibility"
+                                                        >
+                                                            {showPassword ? (
+                                                                <VisibilityOff />
+                                                            ) : (
+                                                                <Visibility />
+                                                            )}
+                                                        </MuiIconButton>
+                                                    </MuiInputAdornment>
+                                                ),
+                                            },
+                                        }}
                                         placeholder="Enter your full name"
                                         fullWidth
                                         error={!!errors.fullName}
@@ -203,8 +238,33 @@ export const Signup = () => {
                                 render={({ field }) => (
                                     <InputField
                                         {...field}
-                                        type="password"
                                         placeholder="Confirm your password"
+                                        type={
+                                            showPassword ? 'text' : 'password'
+                                        }
+                                        slotProps={{
+                                            input: {
+                                                endAdornment: (
+                                                    <MuiInputAdornment position="end">
+                                                        <MuiIconButton
+                                                            onClick={() =>
+                                                                setShowPassword(
+                                                                    !showPassword,
+                                                                )
+                                                            }
+                                                            edge="end"
+                                                            aria-label="toggle password visibility"
+                                                        >
+                                                            {showPassword ? (
+                                                                <VisibilityOff />
+                                                            ) : (
+                                                                <Visibility />
+                                                            )}
+                                                        </MuiIconButton>
+                                                    </MuiInputAdornment>
+                                                ),
+                                            },
+                                        }}
                                         fullWidth
                                         error={!!errors.confirmPassword}
                                         helperText={
@@ -228,14 +288,9 @@ export const Signup = () => {
 
                         <MuiTypography variant="body2" textAlign="center">
                             Already have an account ?
-                            <ClickableLink
-                                component={Link}
-                                to="/login"
-                                color="primary"
-                                fontWeight="inherit"
-                            >
+                            <Link href={ROUTES.AUTH.LOGIN} color="primary">
                                 Sign In
-                            </ClickableLink>
+                            </Link>
                         </MuiTypography>
                     </MuiStack>
                 </MuiStack>
