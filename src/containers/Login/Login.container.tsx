@@ -1,11 +1,8 @@
-import { ChangeEvent } from 'react';
-
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 import {
     alpha,
-    Box as MuiBox,
     Stack as MuiStack,
     Typography as MuiTypography,
 } from '@mui/material';
@@ -16,13 +13,12 @@ import { showToast } from '@features/toast/toastSlice';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ROUTES } from '@router/routes';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
-import { typography } from '@theme/foundations';
 import { theme } from '@theme/index';
 import { loginSchema } from '@validations/auth.validation';
 
 import { InputField } from '@components/InputField';
 import { Button } from '@components/Button';
-import { CenteredContainer } from './Login.styles';
+import { CenteredContainer, LoginForm } from './Login.styles';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import {
     IconButton as MuiIconButton,
@@ -32,17 +28,19 @@ import { useState } from 'react';
 import { Link } from '@components/Link';
 
 export const Login = () => {
-    const {
-        control,
-        handleSubmit,
-        formState: { errors },
-    } = useForm<LoginCredential>({
+    const form = useForm<LoginCredential>({
         resolver: yupResolver(loginSchema),
         defaultValues: {
             email: '',
             password: '',
         },
     });
+
+    const {
+        control,
+        handleSubmit,
+        formState: { errors },
+    } = form;
 
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
@@ -79,15 +77,7 @@ export const Login = () => {
 
     return (
         <CenteredContainer maxWidth="sm" disableGutters>
-            <MuiBox
-                component="form"
-                onSubmit={(e: ChangeEvent<HTMLInputElement>) =>
-                    void handleSubmit(onSubmit)(e)
-                }
-                width="100%"
-                maxWidth={typography.typographyUtil.pxToRem(500)}
-                paddingInline={7}
-            >
+            <LoginForm onSubmit={handleSubmit(onSubmit)}>
                 <MuiStack spacing={10}>
                     <MuiStack>
                         <MuiTypography variant="h3" textAlign="center">
@@ -102,7 +92,6 @@ export const Login = () => {
                             Your delicious meal is just a login away
                         </MuiTypography>
                     </MuiStack>
-
                     <MuiStack spacing={8}>
                         <MuiStack spacing={2}>
                             <MuiTypography variant="body1">Email</MuiTypography>
@@ -185,7 +174,7 @@ export const Login = () => {
                         </MuiTypography>
                     </MuiStack>
                 </MuiStack>
-            </MuiBox>
+            </LoginForm>
         </CenteredContainer>
     );
 };

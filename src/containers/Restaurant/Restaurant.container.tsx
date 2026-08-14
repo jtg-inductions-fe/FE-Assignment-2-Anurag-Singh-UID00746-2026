@@ -52,7 +52,7 @@ export const Restaurant = () => {
     const feedback = useAppSelector((state) => state.feedback);
     const dispatch = useAppDispatch();
 
-    const [itemtToDelete, setItemToDelete] = useState<MenuItem | undefined>(
+    const [itemToDelete, setItemToDelete] = useState<MenuItem | undefined>(
         undefined,
     );
 
@@ -109,16 +109,24 @@ export const Restaurant = () => {
      * Dispatches the asynchronous backend network deletion operation hook for the cached targeted menu item.
      */
     const handleConfirmDelete = () => {
-        if (itemtToDelete) {
+        if (itemToDelete) {
             dispatch(
                 deleteMenuItemThunk({
                     restaurantId: restaurant.id,
-                    menuItemId: itemtToDelete.id,
+                    menuItemId: itemToDelete.id,
                 }),
             );
         }
 
         handleCloseDialog();
+
+        dispatch(
+            showToast({
+                type: TOAST_TYPES.SUCCESS,
+                title: 'Success',
+                message: `${itemToDelete?.name} deleted successfully !!`,
+            }),
+        );
     };
 
     /**
@@ -159,7 +167,7 @@ export const Restaurant = () => {
         setItemToDelete(item);
         showDialog(
             {
-                title: `DELETE ${item.name} ?`,
+                title: `DELETE ${item.name}`,
                 description: `Are you sure you want to delete ${item.name} from your restaurant ?`,
                 type: ACTION_DIALOG_TYPES.ALERT,
                 confirmText: 'Delete',
@@ -254,6 +262,14 @@ export const Restaurant = () => {
                         Add Item
                     </Button>
                 )}
+
+            {menuItems.length === 0 && (
+                <ExceptionState
+                    type={EXCEPTION_STATE_TYPES.EMPTY}
+                    title="Items not found"
+                    description="We couldn't find any menu item you are looking for."
+                />
+            )}
             <MuiGrid container spacing={8} mt={8}>
                 {menuItems.map((item) => {
                     return (
@@ -271,7 +287,7 @@ export const Restaurant = () => {
                 })}
             </MuiGrid>
             <ActionDialog
-                open={feedback.open && Boolean(itemtToDelete)}
+                open={feedback.open && Boolean(itemToDelete)}
                 title={feedback.title}
                 description={feedback.description}
                 type={feedback.type}

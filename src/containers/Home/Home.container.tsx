@@ -11,6 +11,7 @@ import {
 import {
     ACTION_DIALOG_TYPES,
     EXCEPTION_STATE_TYPES,
+    TOAST_TYPES,
     USER_ROLE,
 } from '@components/constants';
 import { RestaurantCard } from '@containers/RestaurantCard/RestaurantCard.container';
@@ -31,6 +32,7 @@ import { permission, rolepermissions } from '@containers/common/constants';
 import { DISCOVERY_ACTION } from './discoveryActions';
 import { ROUTES } from '@router/routes';
 import { showDialog } from '@utils/openDialog';
+import { showToast } from '@features/toast/toastSlice';
 
 export const Home = () => {
     const navigate = useNavigate();
@@ -113,6 +115,14 @@ export const Home = () => {
             dispatch(deleteRestaurant(restaurantToDelete.id));
         }
         handleCloseDialog();
+
+        dispatch(
+            showToast({
+                type: TOAST_TYPES.SUCCESS,
+                title: 'Success',
+                message: 'Restaurant deleted successfully !!',
+            }),
+        );
     };
 
     const [category, setCategory] = useState<string>(FOOD_CATEGORY.BOTH);

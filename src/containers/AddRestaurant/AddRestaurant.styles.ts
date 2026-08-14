@@ -21,6 +21,10 @@ export const HeadingWrapper = styled(Box)(() => ({
     marginTop: typography.typographyUtil.pxToRem(20),
 }));
 
+export const RestaurantForm = styled('form')(() => ({
+    width: '100%',
+}));
+
 export const FormContainer = styled(Box)(({ theme }: ThemeType) => ({
     display: 'flex',
     flexDirection: 'column',

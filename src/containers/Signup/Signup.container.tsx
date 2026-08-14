@@ -1,5 +1,3 @@
-import { ChangeEvent } from 'react';
-
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
@@ -16,7 +14,6 @@ import { showToast } from '@features/toast/toastSlice';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ROUTES } from '@router/routes';
 import { useAppDispatch } from '@store/hooks';
-import { typography } from '@theme/foundations';
 import { theme } from '@theme/index';
 import { signupSchema } from '@validations/auth.validation';
 
@@ -31,14 +28,10 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 import { Link } from '@components/Link';
-import { Wrapper } from './Signup.styles';
+import { SignupForm, Wrapper } from './Signup.styles';
 
 export const Signup = () => {
-    const {
-        control,
-        handleSubmit,
-        formState: { errors, isSubmitting },
-    } = useForm<SignupCredential>({
+    const form = useForm<SignupCredential>({
         resolver: yupResolver(signupSchema),
         defaultValues: {
             fullName: '',
@@ -48,6 +41,12 @@ export const Signup = () => {
             role: USER_ROLE.CUSTOMER,
         },
     });
+
+    const {
+        control,
+        handleSubmit,
+        formState: { errors, isSubmitting },
+    } = form;
 
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
@@ -81,16 +80,7 @@ export const Signup = () => {
 
     return (
         <Wrapper>
-            <MuiBox
-                component="form"
-                onSubmit={(event: ChangeEvent<HTMLInputElement>) =>
-                    void handleSubmit(onSubmit)(event)
-                }
-                width="100%"
-                maxWidth={typography.typographyUtil.pxToRem(500)}
-                paddingInline={4}
-                mt={10}
-            >
+            <SignupForm onSubmit={handleSubmit(onSubmit)}>
                 <MuiStack spacing={10}>
                     <MuiStack spacing={1.5}>
                         <MuiTypography variant="h3" textAlign="center">
@@ -156,32 +146,6 @@ export const Signup = () => {
                                 render={({ field }) => (
                                     <InputField
                                         {...field}
-                                        type={
-                                            showPassword ? 'text' : 'password'
-                                        }
-                                        slotProps={{
-                                            input: {
-                                                endAdornment: (
-                                                    <MuiInputAdornment position="end">
-                                                        <MuiIconButton
-                                                            onClick={() =>
-                                                                setShowPassword(
-                                                                    !showPassword,
-                                                                )
-                                                            }
-                                                            edge="end"
-                                                            aria-label="toggle password visibility"
-                                                        >
-                                                            {showPassword ? (
-                                                                <VisibilityOff />
-                                                            ) : (
-                                                                <Visibility />
-                                                            )}
-                                                        </MuiIconButton>
-                                                    </MuiInputAdornment>
-                                                ),
-                                            },
-                                        }}
                                         placeholder="Enter your full name"
                                         fullWidth
                                         error={!!errors.fullName}
@@ -218,8 +182,33 @@ export const Signup = () => {
                                 render={({ field }) => (
                                     <InputField
                                         {...field}
-                                        type="password"
                                         placeholder="Enter your password"
+                                        type={
+                                            showPassword ? 'text' : 'password'
+                                        }
+                                        slotProps={{
+                                            input: {
+                                                endAdornment: (
+                                                    <MuiInputAdornment position="end">
+                                                        <MuiIconButton
+                                                            onClick={() =>
+                                                                setShowPassword(
+                                                                    !showPassword,
+                                                                )
+                                                            }
+                                                            edge="end"
+                                                            aria-label="toggle password visibility"
+                                                        >
+                                                            {showPassword ? (
+                                                                <VisibilityOff />
+                                                            ) : (
+                                                                <Visibility />
+                                                            )}
+                                                        </MuiIconButton>
+                                                    </MuiInputAdornment>
+                                                ),
+                                            },
+                                        }}
                                         fullWidth
                                         error={!!errors.password}
                                         helperText={errors.password?.message}
@@ -294,7 +283,7 @@ export const Signup = () => {
                         </MuiTypography>
                     </MuiStack>
                 </MuiStack>
-            </MuiBox>
+            </SignupForm>
         </Wrapper>
     );
 };

@@ -1,5 +1,6 @@
 import { ThemeType } from '@components/types';
 import { Container, styled, Typography, TypographyProps } from '@mui/material';
+import { typography } from '@theme/foundations';
 
 export const Wrapper = styled(Container)({
     display: 'flex',
@@ -8,6 +9,12 @@ export const Wrapper = styled(Container)({
     justifyContent: 'center',
     minHeight: '95dvh',
     width: '100%',
+});
+
+export const SignupForm = styled('form')({
+    width: '100%',
+    maxWidth: typography.typographyUtil.pxToRem(500),
+    paddingInline: typography.typographyUtil.pxToRem(7),
 });
 
 export const ClickableLink = styled(Typography)<

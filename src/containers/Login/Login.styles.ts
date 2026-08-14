@@ -1,11 +1,18 @@
 import { ThemeType } from '@components/types';
 import { Container, styled, Typography, TypographyProps } from '@mui/material';
+import { typography } from '@theme/foundations';
 
 export const CenteredContainer = styled(Container)({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     minHeight: '85dvh',
+});
+
+export const LoginForm = styled('form')({
+    width: '100%',
+    maxWidth: typography.typographyUtil.pxToRem(500),
+    paddingInline: typography.typographyUtil.pxToRem(7),
 });
 
 export const ClickableLink = styled(Typography)<
