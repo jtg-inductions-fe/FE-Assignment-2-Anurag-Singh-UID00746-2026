@@ -52,7 +52,7 @@ import { FOOD_CATEGORY } from '@constant/index';
 import { ActionDialog } from '@components/ActionDialog';
 import { showDialog } from '@utils/openDialog';
 
-const AddMenuItem = () => {
+export const AddMenuItem = () => {
     const {
         control,
         handleSubmit,
@@ -404,5 +404,3 @@ const AddMenuItem = () => {
         </Root>
     );
 };
-
-export default AddMenuItem;

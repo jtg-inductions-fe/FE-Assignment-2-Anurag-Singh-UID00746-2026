@@ -10,7 +10,7 @@ export const restaurants: Restaurant[] = [
         name: 'Punjab Grill',
         description: 'Authentic North Indian & Mughlai Cuisine',
 
-        image: '/src/assets/images/restaurants/punjab-grill.webp',
+        image: '/images/restaurants/punjab-grill.webp',
 
         isOpenToday: true,
         category: FOOD_CATEGORY.BOTH,
@@ -118,7 +118,7 @@ export const restaurants: Restaurant[] = [
         name: 'California Burrito',
         description: 'Mexican Burritos, Bowls & Tacos',
 
-        image: '/src/assets/images/restaurants/california-burrito.jpeg',
+        image: '/images/restaurants/california-burrito.jpeg',
 
         isOpenToday: true,
         category: FOOD_CATEGORY.BOTH,
@@ -225,7 +225,7 @@ export const restaurants: Restaurant[] = [
         name: 'Biryani Blues',
         description: 'Authentic Hyderabadi Biryani & Kebabs',
 
-        image: '/src/assets/images/restaurants/biryani-blues.webp',
+        image: '/images/restaurants/biryani-blues.webp',
 
         isOpenToday: true,
         category: FOOD_CATEGORY.BOTH,
@@ -293,7 +293,7 @@ export const restaurants: Restaurant[] = [
         name: 'Burger Singh',
         description: 'Indian Style Burgers & Loaded Fries',
 
-        image: '/src/assets/images/restaurants/burger-singh.webp',
+        image: '/images/restaurants/burger-singh.webp',
 
         isOpenToday: true,
         category: FOOD_CATEGORY.BOTH,
@@ -361,7 +361,7 @@ export const restaurants: Restaurant[] = [
         name: 'Naivedyam',
         description: 'Authentic South Indian Cuisine',
 
-        image: '/src/assets/images/restaurants/naivedyam.webp',
+        image: '/images/restaurants/naivedyam.webp',
 
         isOpenToday: true,
         category: FOOD_CATEGORY.VEG,
@@ -420,7 +420,7 @@ export const restaurants: Restaurant[] = [
         name: 'The Big Chill Cafe',
         description: 'Italian, Continental & Desserts',
 
-        image: '/src/assets/images/restaurants/the-big-chill-cafe.webp',
+        image: '/images/restaurants/the-big-chill-cafe.webp',
 
         isOpenToday: true,
         category: FOOD_CATEGORY.NON_VEG,

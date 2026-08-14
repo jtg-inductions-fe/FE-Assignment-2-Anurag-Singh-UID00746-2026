@@ -2,9 +2,9 @@ import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 
 import AddIcon from '@mui/icons-material/Add';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
-import { Box, Link } from '@mui/material';
+import { Box as MuiBox, Link as MuiLink } from '@mui/material';
 
-import logo from '@assets/images/logo.webp';
+import logo from '/images/logo.webp';
 import {
     ACTION_DIALOG_TYPES,
     TOAST_TYPES,
@@ -33,7 +33,7 @@ import { HEADER_ACTION } from './headerActions';
 import { rolepermissions } from '@containers/common/constants';
 import { showDialog } from '@utils/openDialog';
 
-const Header = () => {
+export const Header = () => {
     const dispatch = useAppDispatch();
     const feedback = useAppSelector((state) => state.feedback);
     const navigate = useNavigate();
@@ -149,11 +149,11 @@ const Header = () => {
     return (
         <Root>
             <Container>
-                <Link href={ROUTES.ROOT}>
+                <MuiLink href={ROUTES.ROOT}>
                     <LogoWrapper>
                         <Image src={logo} alt="Bitego" />
                     </LogoWrapper>
-                </Link>
+                </MuiLink>
 
                 <SearchWrapper>
                     <SearchBar
@@ -183,7 +183,7 @@ const Header = () => {
                         ))}
                     </ActionWrapper>
                     {isLoggedIn && (
-                        <Box
+                        <MuiBox
                             tabIndex={0}
                             onKeyDown={(
                                 e: React.KeyboardEvent<HTMLDivElement>,
@@ -205,7 +205,7 @@ const Header = () => {
                                 handleLogout={handleLogoutClick}
                                 handleOrders={handleOrdersClick}
                             />
-                        </Box>
+                        </MuiBox>
                     )}
                 </RightSection>
             </Container>
@@ -225,5 +225,3 @@ const Header = () => {
         </Root>
     );
 };
-
-export default Header;

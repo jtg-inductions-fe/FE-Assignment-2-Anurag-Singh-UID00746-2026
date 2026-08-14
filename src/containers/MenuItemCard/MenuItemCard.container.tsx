@@ -19,7 +19,7 @@ import { Button } from '@components/Button';
 import { USER_ROLE } from '@components/constants';
 import { Chip } from '@components/Chip';
 
-const MenuItemCard = (props: MenuItemCardProps) => (
+export const MenuItemCard = (props: MenuItemCardProps) => (
     <StyledCard elevation={0}>
         <Image
             src={props.menuItem.image}
@@ -89,5 +89,3 @@ const MenuItemCard = (props: MenuItemCardProps) => (
         </Content>
     </StyledCard>
 );
-
-export default MenuItemCard;

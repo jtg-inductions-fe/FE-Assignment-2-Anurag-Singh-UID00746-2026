@@ -51,7 +51,7 @@ import { FOOD_CATEGORY } from '@constant/index';
 import { ActionDialog } from '@components/ActionDialog';
 import { showDialog } from '@utils/openDialog';
 
-const EditMenuItem = () => {
+export const EditMenuItem = () => {
     const {
         control,
         handleSubmit,
@@ -435,5 +435,3 @@ const EditMenuItem = () => {
         </Root>
     );
 };
-
-export default EditMenuItem;

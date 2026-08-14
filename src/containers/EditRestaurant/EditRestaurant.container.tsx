@@ -58,7 +58,7 @@ import { showDialog } from '@utils/openDialog';
 
 const editRestaurantSchema = restaurantSchema.omit(['imageUrl']);
 
-const EditRestaurant = () => {
+export const EditRestaurant = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const { id } = useParams<{ id: string }>();
@@ -527,5 +527,3 @@ const EditRestaurant = () => {
         </Root>
     );
 };
-
-export default EditRestaurant;

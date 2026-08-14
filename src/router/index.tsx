@@ -1,24 +1,22 @@
 import { createBrowserRouter } from 'react-router-dom';
-
-import AddMenuItem from '@containers/AddMenuItem/AddMenuItem.container';
-import AddRestaurant from '@containers/AddRestaurant/AddRestaurant.container';
-import CartPage from '@containers/CartPage/Cart.container';
-import EditMenuItem from '@containers/EditMenuItem/EditMenuItem.container';
-import EditRestaurant from '@containers/EditRestaurant/EditRestaurant.container';
-import Restaurant from '@containers/Restaurant/Restaurant.container';
 import RootLayout from '@layouts/RootLayout';
 
 import PublicRoute from './PublicRoute';
 import RoleGuard from './RoleGuard/RoleGuard';
 import { ROUTES, ROUTES_SEGMENTS } from './routes';
-import OrdersPage from '@containers/OrdersPage/Orders.container';
-import ErrorPage from '@containers/Exception/Error.container';
-import Home from '@containers/Home/Home.container';
-import Login from '@containers/Login/Login.container';
-import Signup from '@containers/Signup/Signup.container';
 import ProtectedRoute from './ProtectedRoute/ProtectedRoute';
 import { USER_ROLE } from '@components/constants';
-import NotFoundPage from '@containers/Exception/NotFound.container';
+import { ErrorPage, NotFoundPage } from '@containers/Exception';
+import { Home } from '@containers/Home';
+import { Login } from '@containers/Login';
+import { Signup } from '@containers/Signup';
+import { Restaurant } from '@containers/Restaurant';
+import { AddRestaurant } from '@containers/AddRestaurant';
+import { EditRestaurant } from '@containers/EditRestaurant';
+import { AddMenuItem } from '@containers/AddMenuItem';
+import { EditMenuItem } from '@containers/EditMenuItem';
+import { Cart } from '@containers/CartPage';
+import { OrdersPage } from '@containers/OrdersPage';
 
 export const router = createBrowserRouter([
     {
@@ -90,7 +88,7 @@ export const router = createBrowserRouter([
                         children: [
                             {
                                 path: ROUTES_SEGMENTS.CART,
-                                element: <CartPage />,
+                                element: <Cart />,
                             },
                         ],
                     },
