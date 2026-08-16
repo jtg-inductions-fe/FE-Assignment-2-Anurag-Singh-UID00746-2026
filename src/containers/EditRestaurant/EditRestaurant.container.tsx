@@ -56,7 +56,7 @@ import {
 } from '@constant/index';
 import { ActionDialog } from '@components/ActionDialog';
 import { showDialog } from '@utils/openDialog';
-import { messages } from '@validations/constants';
+import { convertTo12Hour } from '@utils/convertTo12Hour';
 
 const editRestaurantSchema = restaurantSchema.omit(['imageUrl']);
 
@@ -197,8 +197,8 @@ export const EditRestaurant = () => {
 
                 {} as Restaurant['operatingDays'],
             ),
-            openingTime: pendingFormData.openingTime,
-            closingTime: pendingFormData.closingTime,
+            openingTime: convertTo12Hour(pendingFormData.openingTime),
+            closingTime: convertTo12Hour(pendingFormData.closingTime),
             menuItems: restaurantToEdit.menuItems,
         };
 

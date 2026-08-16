@@ -7,26 +7,11 @@ import {
     QuantityDisplay,
 } from './QuantitySelector.styles';
 import { QuantitySelectorProps } from './QuantitySelector.types';
-import { Button } from '@components/Button';
 
 export const QuantitySelector = ({
     disabled = false,
     ...props
 }: QuantitySelectorProps) => {
-    if (props.quantity === 0) {
-        return (
-            <Button
-                variant="contained"
-                onClick={props.onIncrement}
-                disabled={disabled}
-                startIcon={<AddIcon />}
-                aria-label="Add item"
-            >
-                Add
-            </Button>
-        );
-    }
-
     return (
         <Container>
             <ActionButton

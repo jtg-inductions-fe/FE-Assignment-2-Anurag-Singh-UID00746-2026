@@ -19,7 +19,7 @@ export const restaurants: Restaurant[] = [
         contactNumber: '9876543210',
 
         operatingDays: {
-            monday: true,
+            monday: false,
             tuesday: true,
             wednesday: true,
             thursday: false,

@@ -2,14 +2,21 @@ import { ThemeType } from '@components/types';
 import { Container, styled, Typography, TypographyProps } from '@mui/material';
 import { typography } from '@theme/foundations';
 
-export const Wrapper = styled(Container)({
+export const Wrapper = styled(Container)(({ theme }: ThemeType) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
     minHeight: '95dvh',
     width: '100%',
-});
+    margin: theme.spacing(20, 0),
+    paddingInline: typography.typographyUtil.pxToRem(10),
+
+    [theme.breakpoints.up('sm')]: {
+        margin: 0,
+        padding: 0,
+    },
+}));
 
 export const SignupForm = styled('form')({
     width: '100%',

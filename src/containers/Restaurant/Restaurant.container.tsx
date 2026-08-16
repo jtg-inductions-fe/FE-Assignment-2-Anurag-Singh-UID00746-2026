@@ -43,6 +43,7 @@ import { ActionDialog } from '@components/ActionDialog';
 import { permission, rolepermissions } from '@containers/common/constants';
 import { showDialog } from '@utils/openDialog';
 import { MenuItemCard } from '@containers/MenuItemCard';
+import { isOpenToday } from '@utils/getOpenRestaurants';
 
 export const Restaurant = () => {
     const navigate = useNavigate();
@@ -168,7 +169,7 @@ export const Restaurant = () => {
         showDialog(
             {
                 title: `DELETE ${item.name}`,
-                description: `Are you sure you want to delete ${item.name} from your restaurant ?`,
+                description: `Are you sure you want to delete ${item.name} ?`,
                 type: ACTION_DIALOG_TYPES.ALERT,
                 confirmText: 'Delete',
                 cancelText: 'Cancel',
@@ -188,15 +189,7 @@ export const Restaurant = () => {
         return Number(isBInStock) - Number(isAInStock);
     });
 
-    const currentDay = new Date()
-        .toLocaleString('en-US', { weekday: 'long' })
-        .toLowerCase();
-
-    const isOpen = restaurant.operatingDays
-        ? !!restaurant.operatingDays[
-              currentDay as keyof typeof restaurant.operatingDays
-          ]
-        : true;
+    const isOpen = isOpenToday(restaurant);
 
     return (
         <MuiBox

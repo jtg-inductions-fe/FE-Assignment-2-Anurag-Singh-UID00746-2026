@@ -52,6 +52,7 @@ import { ActionDialog } from '@components/ActionDialog';
 import { Restaurant } from '@types';
 import { showDialog } from '@utils/openDialog';
 import { messages } from '@validations/constants';
+import { convertTo12Hour } from '@utils/convertTo12Hour';
 
 export const AddRestaurant = () => {
     const dispatch = useAppDispatch();
@@ -101,7 +102,6 @@ export const AddRestaurant = () => {
 
         setValue('operatingDays', nextOperatingDays, {
             shouldValidate: true,
-            shouldDirty: true,
         });
     };
 
@@ -152,8 +152,8 @@ export const AddRestaurant = () => {
                 },
                 {} as Restaurant['operatingDays'],
             ),
-            openingTime: pendingFormData.openingTime,
-            closingTime: pendingFormData.closingTime,
+            openingTime: convertTo12Hour(pendingFormData.openingTime),
+            closingTime: convertTo12Hour(pendingFormData.closingTime),
             menuItems: [],
         };
 

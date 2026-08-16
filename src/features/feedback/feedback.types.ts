@@ -11,7 +11,7 @@ export type DialogState = {
     description: string;
 
     /** The style or category of the pop-up, like alert, success, or warning. */
-    type: DialogType;
+    type?: DialogType;
 
     /** Optional text for the button that agrees or moves forward. */
     confirmText?: string;

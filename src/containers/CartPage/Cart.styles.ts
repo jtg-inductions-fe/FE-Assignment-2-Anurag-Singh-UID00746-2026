@@ -130,10 +130,6 @@ export const Description = styled(Box)(({ theme }: ThemeType) => ({
     },
 }));
 
-export const ItemDetails = styled(Box)({
-    minWidth: 0,
-});
-
 export const QuantityContainer = styled(Box)(({ theme }: ThemeType) => ({
     display: 'flex',
     gap: theme.spacing(6),
