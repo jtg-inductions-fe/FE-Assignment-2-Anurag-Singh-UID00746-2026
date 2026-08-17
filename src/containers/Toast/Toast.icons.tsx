@@ -1,11 +1,11 @@
-import ErrorAtoms from '@assets/images/error-atoms.webp';
-import ErrorToast from '@assets/images/error-toast.webp';
-import InfoAtoms from '@assets/images/info-atoms.webp';
-import InfoToast from '@assets/images/info-toast.webp';
-import SuccessAtoms from '@assets/images/success-atoms.webp';
-import SuccessToast from '@assets/images/success-toast.webp';
-import WarningAtoms from '@assets/images/warning-atoms.webp';
-import WarningToast from '@assets/images/warning-toast.webp';
+import ErrorAtoms from '/images/error-atoms.webp';
+import ErrorToast from '/images/error-toast.webp';
+import InfoAtoms from '/images/info-atoms.webp';
+import InfoToast from '/images/info-toast.webp';
+import SuccessAtoms from '/images/success-atoms.webp';
+import SuccessToast from '/images/success-toast.webp';
+import WarningAtoms from '/images/warning-atoms.webp';
+import WarningToast from '/images/warning-toast.webp';
 import { ToastType } from './Toast.types';
 import { TOAST_TYPES } from '@components/constants';
 

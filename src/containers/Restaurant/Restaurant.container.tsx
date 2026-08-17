@@ -20,7 +20,6 @@ import {
     TOAST_TYPES,
     USER_ROLE,
 } from '@components/constants';
-import MenuItemCard from '@containers/MenuItemCard/MenuItemCard.container';
 import { addToCart } from '@features/cart/cartSlice';
 import { closeDialog } from '@features/feedback/feedbackSlice';
 import { deleteMenuItemThunk } from '@features/restaurant/restaurantThunk';
@@ -43,8 +42,9 @@ import { Button } from '@components/Button';
 import { ActionDialog } from '@components/ActionDialog';
 import { permission, rolepermissions } from '@containers/common/constants';
 import { showDialog } from '@utils/openDialog';
+import { MenuItemCard } from '@containers/MenuItemCard';
 
-const Restaurant = () => {
+export const Restaurant = () => {
     const navigate = useNavigate();
     const { id } = useParams<{ id: string }>();
     const { user } = useAppSelector((state) => state.auth);
@@ -285,5 +285,3 @@ const Restaurant = () => {
         </MuiBox>
     );
 };
-
-export default Restaurant;

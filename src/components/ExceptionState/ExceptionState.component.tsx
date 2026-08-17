@@ -4,8 +4,8 @@ import { ArrowBack } from '@mui/icons-material';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { Typography as MuiTypography } from '@mui/material';
 
-import EmptyStateImage from '@assets/images/empty-state.webp';
-import ErrorStateImage from '@assets/images/error-state.webp';
+import EmptyStateImage from '/images/empty-state.webp';
+import ErrorStateImage from '/images/error-state.webp';
 
 import {
     StyledButton,

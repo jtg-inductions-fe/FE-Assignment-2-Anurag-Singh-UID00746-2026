@@ -1,24 +1,23 @@
 import { createBrowserRouter } from 'react-router-dom';
-
-import AddMenuItem from '@containers/AddMenuItem/AddMenuItem.container';
-import AddRestaurant from '@containers/AddRestaurant/AddRestaurant.container';
-import CartPage from '@containers/CartPage/Cart.container';
-import EditMenuItem from '@containers/EditMenuItem/EditMenuItem.container';
-import EditRestaurant from '@containers/EditRestaurant/EditRestaurant.container';
-import Restaurant from '@containers/Restaurant/Restaurant.container';
 import RootLayout from '@layouts/RootLayout';
 
 import PublicRoute from './PublicRoute';
 import RoleGuard from './RoleGuard/RoleGuard';
 import { ROUTES, ROUTES_SEGMENTS } from './routes';
-import OrdersPage from '@containers/OrdersPage/Orders.container';
-import ErrorPage from '@containers/Exception/Error.container';
-import Home from '@containers/Home/Home.container';
-import Login from '@containers/Login/Login.container';
-import Signup from '@containers/Signup/Signup.container';
 import ProtectedRoute from './ProtectedRoute/ProtectedRoute';
 import { USER_ROLE } from '@components/constants';
-import NotFoundPage from '@containers/Exception/NotFound.container';
+import { AddRestaurant } from '@containers/AddRestaurant';
+import { EditRestaurant } from '@containers/EditRestaurant';
+import { AddMenuItem } from '@containers/AddMenuItem';
+import { EditMenuItem } from '@containers/EditMenuItem';
+import { DiscoveryPage } from '@pages/Discovery';
+import { LoginPage } from '@pages/Login';
+import { SignupPage } from '@pages/Signup';
+import { RestaurantDetailsPage } from '@pages/RestaurantDetails';
+import { CartPage } from '@pages/Cart';
+import { OrdersPage } from '@pages/Orders';
+import { ErrorPage } from '@pages/Error';
+import { NotFoundPage } from '@pages/NotFound';
 
 export const router = createBrowserRouter([
     {
@@ -29,7 +28,7 @@ export const router = createBrowserRouter([
         children: [
             {
                 index: true,
-                element: <Home />,
+                element: <DiscoveryPage />,
             },
 
             {
@@ -38,15 +37,15 @@ export const router = createBrowserRouter([
                 children: [
                     {
                         path: ROUTES_SEGMENTS.AUTH.LOGIN,
-                        element: <Login />,
+                        element: <LoginPage />,
                     },
                     {
                         path: ROUTES_SEGMENTS.AUTH.SIGNUP,
-                        element: <Signup />,
+                        element: <SignupPage />,
                     },
                     {
                         path: ROUTES_SEGMENTS.RESTAURANTS.RESTAURANT_DETAILS,
-                        element: <Restaurant />,
+                        element: <RestaurantDetailsPage />,
                     },
                 ],
             },

@@ -2,7 +2,7 @@ import { EXCEPTION_STATE_TYPES } from '@components/constants';
 import { ExceptionState } from '@components/ExceptionState';
 import { Container } from './Exception.styles';
 
-const NotFoundPage = () => (
+export const NotFound = () => (
     <Container>
         <ExceptionState
             type={EXCEPTION_STATE_TYPES.EMPTY}
@@ -11,5 +11,3 @@ const NotFoundPage = () => (
         />
     </Container>
 );
-
-export default NotFoundPage;

@@ -51,7 +51,7 @@ import { ActionDialog } from '@components/ActionDialog';
 import { Restaurant } from '@types';
 import { showDialog } from '@utils/openDialog';
 
-const AddRestaurant = () => {
+export const AddRestaurant = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const { user } = useAppSelector((state) => state.auth);
@@ -489,5 +489,3 @@ const AddRestaurant = () => {
         </Root>
     );
 };
-
-export default AddRestaurant;

@@ -57,7 +57,7 @@ import { ActionDialog } from '@components/ActionDialog';
 import { BillCard } from '@components/BillCard';
 import { showDialog } from '@utils/openDialog';
 
-const Cart = () => {
+export const Cart = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
@@ -334,5 +334,3 @@ const Cart = () => {
         </Container>
     );
 };
-
-export default Cart;

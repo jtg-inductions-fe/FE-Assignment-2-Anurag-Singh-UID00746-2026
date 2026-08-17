@@ -24,7 +24,7 @@ import { InputField } from '@components/InputField';
 import { Button } from '@components/Button';
 import { CenteredContainer, ClickableLink } from './Login.styles';
 
-const Login = () => {
+export const Login = () => {
     const {
         control,
         handleSubmit,
@@ -160,5 +160,3 @@ const Login = () => {
         </CenteredContainer>
     );
 };
-
-export default Login;

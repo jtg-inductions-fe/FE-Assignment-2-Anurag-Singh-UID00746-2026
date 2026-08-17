@@ -32,7 +32,7 @@ import { DISCOVERY_ACTION } from './discoveryActions';
 import { ROUTES } from '@router/routes';
 import { showDialog } from '@utils/openDialog';
 
-const Home = () => {
+export const Home = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const { user } = useAppSelector((state) => state.auth);
@@ -232,5 +232,3 @@ const Home = () => {
         </MuiBox>
     );
 };
-
-export default Home;

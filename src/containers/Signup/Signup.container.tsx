@@ -26,7 +26,7 @@ import { Button } from '@components/Button';
 import { ClickableLink, Wrapper } from './Signup.styles';
 import { FeatureCard } from '@components/FeatureCard';
 
-const Signup = () => {
+export const Signup = () => {
     const {
         control,
         handleSubmit,
@@ -243,5 +243,3 @@ const Signup = () => {
         </Wrapper>
     );
 };
-
-export default Signup;

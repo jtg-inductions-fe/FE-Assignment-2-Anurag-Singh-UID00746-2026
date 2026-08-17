@@ -1,7 +1,7 @@
 import { ExceptionState } from '@components/ExceptionState';
 import { Container } from './Exception.styles';
 
-const ErrorPage = () => (
+export const Error = () => (
     <Container>
         <ExceptionState
             title="Something went wrong"
@@ -9,5 +9,3 @@ const ErrorPage = () => (
         />
     </Container>
 );
-
-export default ErrorPage;
