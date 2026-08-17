@@ -1,7 +1,7 @@
 import { ChangeEvent } from 'react';
 
 import { Controller, useForm } from 'react-hook-form';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import {
     alpha,
@@ -22,7 +22,14 @@ import { loginSchema } from '@validations/auth.validation';
 
 import { InputField } from '@components/InputField';
 import { Button } from '@components/Button';
-import { CenteredContainer, ClickableLink } from './Login.styles';
+import { CenteredContainer } from './Login.styles';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import {
+    IconButton as MuiIconButton,
+    InputAdornment as MuiInputAdornment,
+} from '@mui/material';
+import { useState } from 'react';
+import { Link } from '@components/Link';
 
 export const Login = () => {
     const {
@@ -40,6 +47,8 @@ export const Login = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const { isLoading } = useAppSelector((state) => state.auth);
+
+    const [showPassword, setShowPassword] = useState(false);
 
     /**
      * Submits the user login credentials to the backend.
@@ -122,8 +131,33 @@ export const Login = () => {
                                 render={({ field }) => (
                                     <InputField
                                         {...field}
-                                        type="password"
                                         placeholder="Enter your password"
+                                        type={
+                                            showPassword ? 'text' : 'password'
+                                        }
+                                        slotProps={{
+                                            input: {
+                                                endAdornment: (
+                                                    <MuiInputAdornment position="end">
+                                                        <MuiIconButton
+                                                            onClick={() =>
+                                                                setShowPassword(
+                                                                    !showPassword,
+                                                                )
+                                                            }
+                                                            edge="end"
+                                                            aria-label="toggle password visibility"
+                                                        >
+                                                            {showPassword ? (
+                                                                <VisibilityOff />
+                                                            ) : (
+                                                                <Visibility />
+                                                            )}
+                                                        </MuiIconButton>
+                                                    </MuiInputAdornment>
+                                                ),
+                                            },
+                                        }}
                                         fullWidth
                                         error={!!errors.password}
                                         helperText={errors.password?.message}
@@ -145,14 +179,9 @@ export const Login = () => {
 
                         <MuiTypography variant="body2" textAlign="center">
                             Don&apos;t have an account ?
-                            <ClickableLink
-                                component={Link}
-                                to="/signup"
-                                color="primary"
-                                fontWeight="inherit"
-                            >
+                            <Link href={ROUTES.AUTH.SIGNUP} color="primary">
                                 Sign Up
-                            </ClickableLink>
+                            </Link>
                         </MuiTypography>
                     </MuiStack>
                 </MuiStack>
