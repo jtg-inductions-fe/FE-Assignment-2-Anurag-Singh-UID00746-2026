@@ -1,7 +1,7 @@
 import { ExceptionState } from '@components/ExceptionState';
 import { Container } from './Exception.styles';
 
-export const ErrorPage = () => (
+export const Error = () => (
     <Container>
         <ExceptionState
             title="Something went wrong"

@@ -71,7 +71,7 @@ import { permission, rolepermissions } from '@containers/common/constants';
 import { List } from '@components/List';
 import { OrderSummaryCard } from '@components/OrderSummary';
 
-export const OrdersPage = () => {
+export const Orders = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
 
