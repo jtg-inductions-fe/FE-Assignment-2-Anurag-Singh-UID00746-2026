@@ -1,11 +1,9 @@
 import { ACTION_DIALOG_TYPES } from '@components/constants';
-import type { ButtonProps, ButtonProps as MuiButtonProps } from '@mui/material';
+import type { ButtonProps } from '@mui/material';
 import { ReactNode } from 'react';
 
 export type DialogType =
     (typeof ACTION_DIALOG_TYPES)[keyof typeof ACTION_DIALOG_TYPES];
-
-export type ActionDialogButtonColor = MuiButtonProps['color'];
 
 /**
  * Represents the type of Action dialog's prop.

@@ -50,14 +50,10 @@ import { Select } from '@components/BasicSelect';
 import { FOOD_CATEGORY } from '@constant/index';
 import { ActionDialog } from '@components/ActionDialog';
 import { showDialog } from '@utils/openDialog';
+import { MenuForm } from '@containers/AddMenuItem/AddMenuItem.styles';
 
 export const EditMenuItem = () => {
-    const {
-        control,
-        handleSubmit,
-        reset,
-        formState: { errors, isSubmitting },
-    } = useForm<MenuItemFormData>({
+    const form = useForm<MenuItemFormData>({
         resolver: yupResolver(menuItemSchema),
         defaultValues: {
             image: '',
@@ -68,6 +64,13 @@ export const EditMenuItem = () => {
             isVeg: true,
         },
     });
+
+    const {
+        control,
+        handleSubmit,
+        reset,
+        formState: { errors, isSubmitting },
+    } = form;
 
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
@@ -175,7 +178,7 @@ export const EditMenuItem = () => {
                 showToast({
                     type: TOAST_TYPES.SUCCESS,
                     title: 'Success',
-                    message: 'Menu item updated successfully !!',
+                    message: `${menuItem.name} updated successfully !!`,
                 }),
             );
             setPendingFormData(null);
@@ -203,11 +206,7 @@ export const EditMenuItem = () => {
 
     return (
         <Root>
-            <MuiBox
-                component="form"
-                onSubmit={handleSubmit(onSubmitForm)}
-                width="100%"
-            >
+            <MenuForm onSubmit={handleSubmit(onSubmitForm)}>
                 <Button
                     variant="outlined"
                     startIcon={<ArrowBackIosNewIcon />}
@@ -419,7 +418,7 @@ export const EditMenuItem = () => {
                         </Button>
                     </ActionContainer>
                 </FooterContainer>
-            </MuiBox>
+            </MenuForm>
             <ActionDialog
                 open={feedback.open && Boolean(pendingFormData)}
                 title={feedback.title}

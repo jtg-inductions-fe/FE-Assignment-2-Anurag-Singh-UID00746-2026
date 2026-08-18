@@ -85,6 +85,13 @@ export const OrdersPage = () => {
 
     const [expandedOrderId, setExpandedOrderId] = useState<string | null>(null);
 
+    const customerOrders = orders.filter(
+        (order) => order.customerId === user?.id,
+    );
+
+    const displayedOrders =
+        userRole === USER_ROLE.CUSTOMER ? customerOrders : orders;
+
     if (orders.length === 0) {
         return (
             <ExceptionState
@@ -176,7 +183,7 @@ export const OrdersPage = () => {
             </Header>
 
             <List
-                items={orders}
+                items={displayedOrders}
                 renderItem={(order) => {
                     const isExpanded = expandedOrderId === order.id;
 

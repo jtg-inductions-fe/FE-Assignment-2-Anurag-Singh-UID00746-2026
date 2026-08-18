@@ -84,8 +84,8 @@ export const Header = () => {
      */
     const onSubmit = () => {
         dispatch(logout());
-        void navigate(ROUTES.AUTH.LOGIN);
         dispatch(closeDialog());
+        void navigate(ROUTES.AUTH.LOGIN);
         dispatch(
             showToast({
                 type: TOAST_TYPES.SUCCESS,

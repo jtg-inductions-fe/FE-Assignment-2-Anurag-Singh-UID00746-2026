@@ -39,6 +39,7 @@ import {
     OperatingDayChip,
     OperatingDaysContainer,
     RangeContainer,
+    RestaurantForm,
     Root,
     SelectFormControl,
     TimeRangeContainer,
@@ -50,6 +51,8 @@ import { Select } from '@components/BasicSelect';
 import { ActionDialog } from '@components/ActionDialog';
 import { Restaurant } from '@types';
 import { showDialog } from '@utils/openDialog';
+import { messages } from '@validations/constants';
+import { convertTo12Hour } from '@utils/convertTo12Hour';
 
 export const AddRestaurant = () => {
     const dispatch = useAppDispatch();
@@ -61,14 +64,7 @@ export const AddRestaurant = () => {
     const [pendingFormData, setPendingFormData] =
         useState<AddRestaurantFormValues | null>(null);
 
-    const {
-        control,
-        handleSubmit,
-        reset,
-        setValue,
-        watch,
-        formState: { errors, isSubmitting },
-    } = useForm<AddRestaurantFormValues>({
+    const form = useForm<AddRestaurantFormValues>({
         resolver: yupResolver(restaurantSchema),
         defaultValues: {
             imageUrl: '',
@@ -82,6 +78,15 @@ export const AddRestaurant = () => {
             operatingDays: DEFAULT_DAYS,
         },
     });
+
+    const {
+        control,
+        handleSubmit,
+        reset,
+        setValue,
+        watch,
+        formState: { errors, isSubmitting },
+    } = form;
 
     const operatingDays = watch('operatingDays');
 
@@ -97,7 +102,6 @@ export const AddRestaurant = () => {
 
         setValue('operatingDays', nextOperatingDays, {
             shouldValidate: true,
-            shouldDirty: true,
         });
     };
 
@@ -148,8 +152,8 @@ export const AddRestaurant = () => {
                 },
                 {} as Restaurant['operatingDays'],
             ),
-            openingTime: pendingFormData.openingTime,
-            closingTime: pendingFormData.closingTime,
+            openingTime: convertTo12Hour(pendingFormData.openingTime),
+            closingTime: convertTo12Hour(pendingFormData.closingTime),
             menuItems: [],
         };
 
@@ -186,12 +190,10 @@ export const AddRestaurant = () => {
 
     return (
         <Root>
-            <MuiBox
-                component="form"
+            <RestaurantForm
                 onSubmit={(event: ChangeEvent<HTMLFormElement>) =>
                     void handleSubmit(onSubmitForm)(event)
                 }
-                width="100%"
             >
                 <Button
                     variant="outlined"
@@ -372,6 +374,11 @@ export const AddRestaurant = () => {
                                                 </Select>
                                             )}
                                         />
+                                        {errors.category && (
+                                            <MuiTypography color="error">
+                                                {messages.REQUIRED}
+                                            </MuiTypography>
+                                        )}
                                     </MuiStack>
                                 </SelectFormControl>
                                 <TimeRangeContainer>
@@ -473,7 +480,7 @@ export const AddRestaurant = () => {
                         </Button>
                     </ActionContainer>
                 </FooterContainer>
-            </MuiBox>
+            </RestaurantForm>
             <ActionDialog
                 open={feedback.open && Boolean(pendingFormData)}
                 title={feedback.title}

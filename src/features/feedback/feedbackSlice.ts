@@ -6,7 +6,7 @@ const initialState: DialogState = {
     open: false,
     title: '',
     description: '',
-    type: ACTION_DIALOG_TYPES.CONFIRM,
+    type: undefined,
     confirmText: undefined,
     cancelText: undefined,
 };

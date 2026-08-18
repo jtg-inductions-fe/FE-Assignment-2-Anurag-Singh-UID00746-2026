@@ -97,7 +97,7 @@ export const UserProfile = (props: UserProfileProps) => {
                 </UserMenuItem>
 
                 <MuiDivider />
-                <UserMenuItem onClick={handleCloseUserMenu}>
+                <UserMenuItem onClick={props.handleOrders}>
                     <Button
                         variant="text"
                         color="primary"
@@ -110,7 +110,7 @@ export const UserProfile = (props: UserProfileProps) => {
                     </Button>
                 </UserMenuItem>
                 <MuiDivider />
-                <UserMenuItem onClick={handleCloseUserMenu}>
+                <UserMenuItem onClick={props.handleLogout}>
                     <Button
                         variant="text"
                         color="error"

@@ -84,20 +84,22 @@ export const restaurantService = {
         restaurantId,
         menuItem,
     }: AddMenuItemParams): Promise<Restaurant> => {
-        await new Promise((resolve) => setTimeout(resolve, 2000));
+        const restaurantIndex = restaurants.findIndex(
+            (item) => item.id === restaurantId,
+        );
 
-        const restaurant = restaurants.find((item) => item.id === restaurantId);
-
-        if (!restaurant) {
+        if (restaurantIndex === -1) {
             throw new Error('Restaurant not found');
         }
 
-        restaurant.menuItems.unshift(menuItem);
-
-        return {
-            ...restaurant,
-            menuItems: restaurant.menuItems.map((item) => ({ ...item })),
+        const updatedRestaurant = {
+            ...restaurants[restaurantIndex],
+            menuItems: [menuItem, ...restaurants[restaurantIndex].menuItems],
         };
+
+        restaurants[restaurantIndex] = updatedRestaurant;
+
+        return updatedRestaurant;
     },
 
     /**
@@ -110,28 +112,24 @@ export const restaurantService = {
         restaurantId,
         menuItem,
     }: UpdateMenuItemParams): Promise<Restaurant> => {
-        await new Promise((resolve) => setTimeout(resolve, 2000));
+        const restaurantIndex = restaurants.findIndex(
+            (item) => item.id === restaurantId,
+        );
 
-        const restaurant = restaurants.find((item) => item.id === restaurantId);
-
-        if (!restaurant) {
+        if (restaurantIndex === -1) {
             throw new Error('Restaurant not found');
         }
 
-        const index = restaurant.menuItems.findIndex(
-            (item) => item.id === menuItem.id,
-        );
-
-        if (index === -1) {
-            throw new Error('Menu item not found');
-        }
-
-        restaurant.menuItems[index] = menuItem;
-
-        return {
-            ...restaurant,
-            menuItems: restaurant.menuItems.map((item) => ({ ...item })),
+        const updatedRestaurant = {
+            ...restaurants[restaurantIndex],
+            menuItems: restaurants[restaurantIndex].menuItems.map((item) =>
+                item.id === menuItem.id ? menuItem : item,
+            ),
         };
+
+        restaurants[restaurantIndex] = updatedRestaurant;
+
+        return updatedRestaurant;
     },
 
     /**

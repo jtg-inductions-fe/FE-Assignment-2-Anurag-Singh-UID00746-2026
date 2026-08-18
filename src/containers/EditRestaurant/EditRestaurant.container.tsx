@@ -41,6 +41,7 @@ import {
     OperatingDayChip,
     OperatingDaysContainer,
     RangeContainer,
+    RestaurantForm,
     Root,
     SelectFormControl,
     TimeRangeContainer,
@@ -55,6 +56,7 @@ import {
 } from '@constant/index';
 import { ActionDialog } from '@components/ActionDialog';
 import { showDialog } from '@utils/openDialog';
+import { convertTo12Hour } from '@utils/convertTo12Hour';
 
 const editRestaurantSchema = restaurantSchema.omit(['imageUrl']);
 
@@ -75,14 +77,7 @@ export const EditRestaurant = () => {
         (restaurant) => restaurant.id === id,
     );
 
-    const {
-        control,
-        handleSubmit,
-        reset,
-        setValue,
-        watch,
-        formState: { errors, isSubmitting },
-    } = useForm<EditRestaurantFormValues>({
+    const form = useForm<EditRestaurantFormValues>({
         resolver: yupResolver(editRestaurantSchema),
         defaultValues: {
             imageUrl: '',
@@ -96,6 +91,15 @@ export const EditRestaurant = () => {
             operatingDays: DEFAULT_DAYS,
         },
     });
+
+    const {
+        control,
+        handleSubmit,
+        reset,
+        setValue,
+        watch,
+        formState: { errors, isSubmitting },
+    } = form;
 
     useEffect(() => {
         if (!restaurantToEdit) {
@@ -193,8 +197,8 @@ export const EditRestaurant = () => {
 
                 {} as Restaurant['operatingDays'],
             ),
-            openingTime: pendingFormData.openingTime,
-            closingTime: pendingFormData.closingTime,
+            openingTime: convertTo12Hour(pendingFormData.openingTime),
+            closingTime: convertTo12Hour(pendingFormData.closingTime),
             menuItems: restaurantToEdit.menuItems,
         };
 
@@ -230,12 +234,10 @@ export const EditRestaurant = () => {
 
     return (
         <Root>
-            <MuiBox
-                component="form"
+            <RestaurantForm
                 onSubmit={(event: ChangeEvent<HTMLFormElement>) =>
                     void handleSubmit(onSubmitForm)(event)
                 }
-                width="100%"
             >
                 <Button
                     variant="outlined"
@@ -511,7 +513,7 @@ export const EditRestaurant = () => {
                         </Button>
                     </ActionContainer>
                 </FooterContainer>
-            </MuiBox>
+            </RestaurantForm>
             <ActionDialog
                 open={feedback.open && Boolean(pendingFormData)}
                 title={feedback.title}

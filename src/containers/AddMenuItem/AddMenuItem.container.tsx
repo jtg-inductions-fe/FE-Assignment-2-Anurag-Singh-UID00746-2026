@@ -38,6 +38,7 @@ import {
     FormContainer,
     FormGrid,
     HeadingWrapper,
+    MenuForm,
     MetaContainer,
     RangeContainer,
     Root,
@@ -53,12 +54,7 @@ import { ActionDialog } from '@components/ActionDialog';
 import { showDialog } from '@utils/openDialog';
 
 export const AddMenuItem = () => {
-    const {
-        control,
-        handleSubmit,
-        reset,
-        formState: { errors, isSubmitting },
-    } = useForm<MenuItemFormData>({
+    const form = useForm<MenuItemFormData>({
         resolver: yupResolver(menuItemSchema),
         defaultValues: {
             image: '',
@@ -69,6 +65,13 @@ export const AddMenuItem = () => {
             isVeg: true,
         },
     });
+
+    const {
+        control,
+        handleSubmit,
+        reset,
+        formState: { errors, isSubmitting },
+    } = form;
 
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
@@ -172,11 +175,7 @@ export const AddMenuItem = () => {
 
     return (
         <Root>
-            <MuiBox
-                component="form"
-                onSubmit={handleSubmit(onSubmitForm)}
-                width="100%"
-            >
+            <MenuForm onSubmit={handleSubmit(onSubmitForm)}>
                 <Button
                     variant="outlined"
                     startIcon={<ArrowBackIosNewIcon />}
@@ -388,7 +387,7 @@ export const AddMenuItem = () => {
                         </Button>
                     </ActionContainer>
                 </FooterContainer>
-            </MuiBox>
+            </MenuForm>
             <ActionDialog
                 open={feedback.open && Boolean(pendingFormData)}
                 title={feedback.title}

@@ -14,13 +14,13 @@ export const menuItemSchema = yup.object({
 
     price: yup
         .number()
-        .typeError('Price is required')
+        .typeError('Enter a valid price')
         .positive('Price must be greater than 0')
         .required(messages.REQUIRED),
 
     stock: yup
         .number()
-        .typeError('Stock is required')
+        .typeError('Enter a valid stock')
         .integer('Stock must be a whole number')
         .min(0, 'Stock cannot be negative')
         .required(messages.REQUIRED),
