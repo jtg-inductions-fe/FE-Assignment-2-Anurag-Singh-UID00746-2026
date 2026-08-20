@@ -1,11 +1,11 @@
 import { createTheme } from '@mui/material/styles';
 
-import { SCALING_FACTOR } from '@constant';
+import { SCALING_FACTOR } from '@constant/theme';
 
-/* Customized MUI components themes */
-import { components } from './components';
 /* Customized foundation themes */
 import { breakpoints, mixins, palette, typography } from './foundations';
+/* Customized MUI components themes */
+import { components } from '../components';
 
 /* 
 Initialize the theme with base theme elements (excluding typography styles and spacing to ensure the theme has correct breakpoints and pxToRem function set.)
@@ -27,6 +27,7 @@ let theme = createTheme({
 theme = createTheme(theme, {
     typography: {
         ...typography.typographyStyle(theme),
+        ...typography.typographyUtil,
     },
 });
 
