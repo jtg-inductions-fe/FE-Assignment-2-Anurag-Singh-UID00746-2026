@@ -8,10 +8,7 @@ import {
 } from './QuantitySelector.styles';
 import { QuantitySelectorProps } from './QuantitySelector.types';
 
-export const QuantitySelector = ({
-    disabled = false,
-    ...props
-}: QuantitySelectorProps) => {
+export const QuantitySelector = (props: QuantitySelectorProps) => {
     return (
         <Container>
             <ActionButton

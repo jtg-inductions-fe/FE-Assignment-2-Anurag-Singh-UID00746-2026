@@ -18,10 +18,8 @@ import {
 import { ExceptionStateProps } from './ExceptionState.types';
 import { EXCEPTION_STATE_TYPES } from '@components/constants';
 
-export const ExceptionState = ({
-    type = EXCEPTION_STATE_TYPES.ERROR,
-    ...boxProps
-}: ExceptionStateProps) => {
+export const ExceptionState = (boxProps: ExceptionStateProps) => {
+    const { type = EXCEPTION_STATE_TYPES.ERROR } = boxProps;
     const navigate = useNavigate();
 
     const handleFixedRetry = () => {

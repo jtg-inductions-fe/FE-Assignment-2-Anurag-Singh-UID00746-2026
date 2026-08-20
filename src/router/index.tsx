@@ -31,6 +31,11 @@ export const router = createBrowserRouter([
             },
 
             {
+                path: ROUTES_SEGMENTS.RESTAURANTS.RESTAURANT_DETAILS,
+                element: <Restaurant />,
+            },
+
+            {
                 element: <PublicRoute />,
 
                 children: [
@@ -41,10 +46,6 @@ export const router = createBrowserRouter([
                     {
                         path: ROUTES_SEGMENTS.AUTH.SIGNUP,
                         element: <Signup />,
-                    },
-                    {
-                        path: ROUTES_SEGMENTS.RESTAURANTS.RESTAURANT_DETAILS,
-                        element: <Restaurant />,
                     },
                 ],
             },

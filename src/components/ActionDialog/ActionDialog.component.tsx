@@ -16,11 +16,9 @@ import { ActionDialogProps } from './ActionDialog.types';
 import { ACTION_DIALOG_TYPES } from '@components/constants';
 import { Button } from '@components/Button/Button.component';
 
-export const ActionDialog = ({
-    type = ACTION_DIALOG_TYPES.CONFIRM,
-    cancelText = 'Cancel',
-    ...props
-}: ActionDialogProps) => {
+export const ActionDialog = (props: ActionDialogProps) => {
+    const { type = ACTION_DIALOG_TYPES.CONFIRM, cancelText = 'Cancel' } = props;
+
     const renderIcon = () => {
         if (props.icon) return props.icon;
         return type === ACTION_DIALOG_TYPES.ALERT ? (
