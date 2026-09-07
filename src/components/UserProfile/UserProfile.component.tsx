@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import LogoutIcon from '@mui/icons-material/Logout';
-import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
 import {
     IconButton,
@@ -24,7 +24,6 @@ import { USER_ROLE, TOAST_TYPES } from '@components/constants';
 import { Button } from '@components/Button';
 import { UserProfileProps } from './UserProfile.types';
 
-import { deleteUser } from '@features/auth/authThunk';
 import { showToast } from '@features/toast/toastSlice';
 import { ROUTES_SEGMENTS } from '@router/routes';
 
@@ -73,7 +72,7 @@ export const UserProfile = (props: UserProfileProps) => {
 
     const handleDeleteProfile = async () => {
         try {
-            await dispatch(deleteUser()).unwrap();
+            navigate(ROUTES_SEGMENTS.USER.PROFILE_UPDATE);
 
             dispatch(
                 showToast({
@@ -84,8 +83,6 @@ export const UserProfile = (props: UserProfileProps) => {
             );
 
             handleCloseUserMenu();
-
-            navigate(ROUTES_SEGMENTS.AUTH.LOGIN);
         } catch (error) {
             dispatch(
                 showToast({
@@ -95,6 +92,10 @@ export const UserProfile = (props: UserProfileProps) => {
                 }),
             );
         }
+    };
+
+    const handleAddresses = () => {
+        navigate(ROUTES_SEGMENTS.ADDRESS.VIEW_ADDRESSES);
     };
 
     return (
@@ -130,7 +131,7 @@ export const UserProfile = (props: UserProfileProps) => {
                     </MuiTypography>
 
                     <IconButton color="error" onClick={handleDeleteProfile}>
-                        <DeleteIcon />
+                        <EditIcon color="primary" />
                     </IconButton>
                 </UserMenuItem>
 
@@ -152,6 +153,19 @@ export const UserProfile = (props: UserProfileProps) => {
                         onKeyDown={handleOrdersKeyDown}
                     >
                         MY ORDERS
+                    </Button>
+                </UserMenuItem>
+
+                <MuiDivider />
+
+                <UserMenuItem onClick={handleAddresses}>
+                    <Button
+                        variant="text"
+                        sx={{ color: 'black' }}
+                        disableRipple
+                        onClick={handleAddresses}
+                    >
+                        MY ADDRESSES
                     </Button>
                 </UserMenuItem>
 

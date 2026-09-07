@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { Stack as MuiStack, Typography as MuiTypography } from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { updateUser } from '@features/auth/authThunk';
+import { getCurrentUser, updateUser } from '@features/auth/authThunk';
 import { UserProfileData, userSchema } from '@validations/auth.validation';
 import { useEffect } from 'react';
 import { InputField } from '@components/InputField';
@@ -37,6 +37,8 @@ export const EditProfile = () => {
     const handleUpdateProfile = async (data: UserProfileData) => {
         try {
             await dispatch(updateUser(data)).unwrap();
+            await dispatch(getCurrentUser()).unwrap();
+
             dispatch(
                 showToast({
                     type: TOAST_TYPES.SUCCESS,
@@ -45,12 +47,17 @@ export const EditProfile = () => {
                 }),
             );
             navigate(ROUTES.ROOT);
-        } catch (error) {
+        } catch (error: unknown) {
+            const errorMessage =
+                typeof error === 'string'
+                    ? error
+                    : (error as Error).message || 'An error occurred';
+
             dispatch(
                 showToast({
                     type: TOAST_TYPES.ERROR,
                     title: 'Profile Update Failed',
-                    message: error as string,
+                    message: errorMessage,
                 }),
             );
         }

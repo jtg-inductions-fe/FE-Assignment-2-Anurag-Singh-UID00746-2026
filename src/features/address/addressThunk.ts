@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { Address, AddressRequest } from '@features/auth/auth.types';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { addressService } from '@services/address.service';
@@ -10,6 +11,12 @@ export const createAddress = createAsyncThunk<
     try {
         await addressService.createAddress(data);
     } catch (error) {
+        if (axios.isAxiosError(error)) {
+            return rejectWithValue(
+                error.response?.data?.detail ?? error.message,
+            );
+        }
+
         return rejectWithValue((error as Error).message);
     }
 });
@@ -22,6 +29,12 @@ export const updateAddress = createAsyncThunk<
     try {
         await addressService.updateAddress(addressId, data);
     } catch (error) {
+        if (axios.isAxiosError(error)) {
+            return rejectWithValue(
+                error.response?.data?.detail ?? error.message,
+            );
+        }
+
         return rejectWithValue((error as Error).message);
     }
 });
@@ -35,6 +48,12 @@ export const getAddressById = createAsyncThunk<
         const address = await addressService.getAddressById(addressId);
         return address;
     } catch (error) {
+        if (axios.isAxiosError(error)) {
+            return rejectWithValue(
+                error.response?.data?.detail ?? error.message,
+            );
+        }
+
         return rejectWithValue((error as Error).message);
     }
 });
@@ -48,6 +67,12 @@ export const getAllAddresses = createAsyncThunk<
         const addresses = await addressService.getAllAddresses();
         return addresses;
     } catch (error) {
+        if (axios.isAxiosError(error)) {
+            return rejectWithValue(
+                error.response?.data?.detail ?? error.message,
+            );
+        }
+
         return rejectWithValue((error as Error).message);
     }
 });
@@ -61,6 +86,12 @@ export const deleteAddress = createAsyncThunk<
         await addressService.deleteAddress(addressId);
         return addressId;
     } catch (error) {
+        if (axios.isAxiosError(error)) {
+            return rejectWithValue(
+                error.response?.data?.detail ?? error.message,
+            );
+        }
+
         return rejectWithValue((error as Error).message);
     }
 });

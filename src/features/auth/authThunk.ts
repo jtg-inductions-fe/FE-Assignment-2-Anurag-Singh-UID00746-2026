@@ -1,4 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
 
 import { LoginCredential, SignupCredential } from './auth.types';
 import { User } from '@types';
@@ -16,6 +17,12 @@ export const login = createAsyncThunk<
     try {
         return await authService.login(credential);
     } catch (error) {
+        if (axios.isAxiosError(error)) {
+            return rejectWithValue(
+                error.response?.data?.detail ?? error.message,
+            );
+        }
+
         return rejectWithValue((error as Error).message);
     }
 });
@@ -32,6 +39,12 @@ export const signup = createAsyncThunk<
     try {
         await authService.signup(credential);
     } catch (error) {
+        if (axios.isAxiosError(error)) {
+            return rejectWithValue(
+                error.response?.data?.detail ?? error.message,
+            );
+        }
+
         return rejectWithValue((error as Error).message);
     }
 });
@@ -48,6 +61,12 @@ export const getCurrentUser = createAsyncThunk<
     try {
         return await authService.getCurrentUser();
     } catch (error) {
+        if (axios.isAxiosError(error)) {
+            return rejectWithValue(
+                error.response?.data?.detail ?? error.message,
+            );
+        }
+
         return rejectWithValue((error as Error).message);
     }
 });
@@ -60,6 +79,12 @@ export const updateUser = createAsyncThunk<
     try {
         await authService.updateUser(data);
     } catch (error) {
+        if (axios.isAxiosError(error)) {
+            return rejectWithValue(
+                error.response?.data?.detail ?? error.message,
+            );
+        }
+
         return rejectWithValue((error as Error).message);
     }
 });
@@ -74,6 +99,12 @@ export const logout = createAsyncThunk<void, void, { rejectValue: string }>(
         try {
             await authService.logout();
         } catch (error) {
+            if (axios.isAxiosError(error)) {
+                return rejectWithValue(
+                    error.response?.data?.detail ?? error.message,
+                );
+            }
+
             return rejectWithValue((error as Error).message);
         }
     },
@@ -85,6 +116,12 @@ export const deleteUser = createAsyncThunk<void, void, { rejectValue: string }>(
         try {
             await authService.deleteUser();
         } catch (error) {
+            if (axios.isAxiosError(error)) {
+                return rejectWithValue(
+                    error.response?.data?.detail ?? error.message,
+                );
+            }
+
             return rejectWithValue((error as Error).message);
         }
     },

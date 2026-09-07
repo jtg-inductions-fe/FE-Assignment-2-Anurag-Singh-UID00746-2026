@@ -1,13 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-
-import {
-    deleteUser,
-    getCurrentUser,
-    login,
-    logout,
-    signup,
-    updateUser,
-} from './authThunk';
 import { AuthState } from './auth.types';
 
 const initialState: AuthState = {
@@ -24,85 +15,85 @@ export const authSlice = createSlice({
 
     extraReducers: (builder) => {
         builder
-            .addCase(login.pending, (state) => {
+            .addCase('auth/login/pending', (state) => {
                 state.isLoading = true;
                 state.error = null;
             })
-            .addCase(login.fulfilled, (state, action) => {
+            .addCase('auth/login/fulfilled', (state, action: any) => {
                 state.user = action.payload;
                 state.isLoggedIn = true;
                 state.isLoading = false;
                 state.error = null;
             })
-            .addCase(login.rejected, (state, action) => {
+            .addCase('auth/login/rejected', (state, action: any) => {
                 state.isLoading = false;
                 state.error = action.payload ?? 'Something went wrong';
             })
-            .addCase(signup.pending, (state) => {
+            .addCase('auth/signup/pending', (state) => {
                 state.isLoading = true;
                 state.error = null;
             })
-            .addCase(signup.fulfilled, (state) => {
+            .addCase('auth/signup/fulfilled', (state) => {
                 state.isLoading = false;
                 state.error = null;
             })
-            .addCase(signup.rejected, (state, action) => {
+            .addCase('auth/signup/rejected', (state, action: any) => {
                 state.isLoading = false;
                 state.error = action.payload ?? 'Something went wrong';
             })
-            .addCase(getCurrentUser.pending, (state) => {
+            .addCase('auth/getCurrentUser/pending', (state) => {
                 state.isLoading = true;
                 state.error = null;
             })
-            .addCase(getCurrentUser.fulfilled, (state, action) => {
+            .addCase('auth/getCurrentUser/fulfilled', (state, action: any) => {
                 state.user = action.payload;
                 state.isLoggedIn = true;
                 state.isLoading = false;
                 state.error = null;
             })
-            .addCase(getCurrentUser.rejected, (state) => {
+            .addCase('auth/getCurrentUser/rejected', (state) => {
                 state.user = null;
                 state.isLoggedIn = false;
                 state.isLoading = false;
                 state.error = null;
             })
-            .addCase(logout.pending, (state) => {
+            .addCase('auth/logout/pending', (state) => {
                 state.isLoading = true;
                 state.error = null;
             })
-            .addCase(logout.fulfilled, (state) => {
+            .addCase('auth/logout/fulfilled', (state) => {
                 state.user = null;
                 state.isLoggedIn = false;
                 state.isLoading = false;
                 state.error = null;
             })
-            .addCase(logout.rejected, (state, action) => {
+            .addCase('auth/logout/rejected', (state, action: any) => {
                 state.isLoading = false;
                 state.error = action.payload ?? 'Something went wrong';
             })
-            .addCase(updateUser.pending, (state) => {
+            .addCase('auth/updateUser/pending', (state) => {
                 state.isLoading = true;
                 state.error = null;
             })
-            .addCase(updateUser.fulfilled, (state) => {
+            .addCase('auth/updateUser/fulfilled', (state) => {
                 state.isLoading = false;
                 state.error = null;
             })
-            .addCase(updateUser.rejected, (state, action) => {
+            .addCase('auth/updateUser/rejected', (state, action: any) => {
                 state.isLoading = false;
                 state.error = action.payload ?? 'Something went wrong';
             })
-            .addCase(deleteUser.pending, (state) => {
+            .addCase('auth/deleteUser/pending', (state) => {
                 state.isLoading = true;
                 state.error = null;
             })
-            .addCase(deleteUser.fulfilled, (state) => {
+            .addCase('auth/deleteUser/fulfilled', (state) => {
                 state.user = null;
                 state.isLoggedIn = false;
                 state.isLoading = false;
                 state.error = null;
             })
-            .addCase(deleteUser.rejected, (state, action) => {
+            .addCase('auth/deleteUser/rejected', (state, action: any) => {
                 state.isLoading = false;
                 state.error = action.payload ?? 'Something went wrong';
             });
