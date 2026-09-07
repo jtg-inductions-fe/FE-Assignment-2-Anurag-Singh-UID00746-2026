@@ -1,4 +1,7 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
+import { TOAST_TYPES } from '@components/constants';
+import { store } from '@store/index';
+import { showToast } from '@features/toast/toastSlice';
 
 const apiClient = axios.create({
     baseURL: import.meta.env.VITE_API_BASE_URL,
@@ -30,8 +33,24 @@ apiClient.interceptors.response.use(
             | RetryableRequestConfig
             | undefined;
 
+        if (!error.response) {
+            const message = 'No Internet Connection. ';
+
+            error.message = message;
+
+            store.dispatch(
+                showToast({
+                    type: TOAST_TYPES.ERROR,
+                    title: 'Network Error',
+                    message,
+                }),
+            );
+
+            return Promise.reject(error);
+        }
+
         if (
-            error.response?.status === 401 &&
+            error.response.status === 401 &&
             originalRequest &&
             !originalRequest._retry
         ) {
@@ -39,6 +58,7 @@ apiClient.interceptors.response.use(
 
             try {
                 await refreshClient.post('/auth/refresh');
+
                 return await apiClient(originalRequest);
             } catch (refreshError) {
                 return Promise.reject(refreshError);
