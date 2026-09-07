@@ -41,7 +41,6 @@ export const UserMenuItem = styled(MenuItem)(({ theme }: ThemeType) => ({
     padding: theme.spacing(2, 4, 1, 4),
     gap: typography.typographyUtil.pxToRem(4),
     display: 'flex',
-    alignItems: 'start',
-    flexDirection: 'column',
-    justifyContent: 'start',
+    alignItems: 'center',
+    justifyContent: 'space-between',
 }));

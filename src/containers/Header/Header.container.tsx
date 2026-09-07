@@ -10,8 +10,8 @@ import {
     TOAST_TYPES,
     USER_ROLE,
 } from '@components/constants';
-import { logout } from '@features/auth/authSlice';
 import { closeDialog } from '@features/feedback/feedbackSlice';
+import { logout } from '@features/auth/authThunk';
 import { showToast } from '@features/toast/toastSlice';
 import { ROUTES } from '@router/routes';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
@@ -82,17 +82,20 @@ export const Header = () => {
     /**
      * Dispatches logout action and redirects to the login route
      */
-    const onSubmit = () => {
-        dispatch(logout());
-        dispatch(closeDialog());
-        void navigate(ROUTES.AUTH.LOGIN);
-        dispatch(
-            showToast({
-                type: TOAST_TYPES.SUCCESS,
-                title: 'Success',
-                message: 'Logged out successfully !!',
-            }),
-        );
+    const onSubmit = async () => {
+        const result = await dispatch(logout());
+
+        if (logout.fulfilled.match(result)) {
+            dispatch(closeDialog());
+            void navigate(ROUTES.AUTH.LOGIN);
+            dispatch(
+                showToast({
+                    type: TOAST_TYPES.SUCCESS,
+                    title: 'Success',
+                    message: 'Logged out successfully !!',
+                }),
+            );
+        }
     };
 
     /**
@@ -129,7 +132,7 @@ export const Header = () => {
     const { user, isLoggedIn } = useAppSelector((state) => state.auth);
     const userRole = user?.role;
 
-    const permissions = rolepermissions[userRole ?? USER_ROLE.GUEST];
+    const permissions = rolepermissions[userRole ?? USER_ROLE.GUEST] ?? [];
 
     const visibleActions = HEADER_ACTION.filter((action) =>
         permissions.includes(action.permission),

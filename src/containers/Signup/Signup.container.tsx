@@ -39,6 +39,14 @@ export const Signup = () => {
             password: '',
             confirmPassword: '',
             role: USER_ROLE.CUSTOMER,
+            address: {
+                address_line_1: '',
+                address_line_2: '',
+                city: '',
+                state: '',
+                postal_code: '',
+                country: '',
+            },
         },
     });
 
@@ -258,6 +266,130 @@ export const Signup = () => {
                                         error={!!errors.confirmPassword}
                                         helperText={
                                             errors.confirmPassword?.message
+                                        }
+                                    />
+                                )}
+                            />
+                        </MuiStack>
+
+                        <MuiStack spacing={2}>
+                            <MuiTypography variant="body1">
+                                Address Line 1
+                            </MuiTypography>
+                            <Controller
+                                name="address.address_line_1"
+                                control={control}
+                                render={({ field }) => (
+                                    <InputField
+                                        {...field}
+                                        placeholder="Enter address line 1"
+                                        fullWidth
+                                        error={!!errors.address?.address_line_1}
+                                        helperText={
+                                            errors.address?.address_line_1
+                                                ?.message
+                                        }
+                                    />
+                                )}
+                            />
+                        </MuiStack>
+
+                        <MuiStack spacing={2}>
+                            <MuiTypography variant="body1">
+                                Address Line 2
+                            </MuiTypography>
+                            <Controller
+                                name="address.address_line_2"
+                                control={control}
+                                render={({ field }) => (
+                                    <InputField
+                                        {...field}
+                                        placeholder="Enter address line 2"
+                                        fullWidth
+                                        error={!!errors.address?.address_line_2}
+                                        helperText={
+                                            errors.address?.address_line_2
+                                                ?.message
+                                        }
+                                    />
+                                )}
+                            />
+                        </MuiStack>
+
+                        <MuiStack spacing={2}>
+                            <MuiTypography variant="body1">City</MuiTypography>
+                            <Controller
+                                name="address.city"
+                                control={control}
+                                render={({ field }) => (
+                                    <InputField
+                                        {...field}
+                                        placeholder="Enter your city"
+                                        fullWidth
+                                        error={!!errors.address?.city}
+                                        helperText={
+                                            errors.address?.city?.message
+                                        }
+                                    />
+                                )}
+                            />
+                        </MuiStack>
+
+                        <MuiStack spacing={2}>
+                            <MuiTypography variant="body1">State</MuiTypography>
+                            <Controller
+                                name="address.state"
+                                control={control}
+                                render={({ field }) => (
+                                    <InputField
+                                        {...field}
+                                        placeholder="Enter your state"
+                                        fullWidth
+                                        error={!!errors.address?.state}
+                                        helperText={
+                                            errors.address?.state?.message
+                                        }
+                                    />
+                                )}
+                            />
+                        </MuiStack>
+
+                        <MuiStack spacing={2}>
+                            <MuiTypography variant="body1">
+                                Postal Code
+                            </MuiTypography>
+                            <Controller
+                                name="address.postal_code"
+                                control={control}
+                                render={({ field }) => (
+                                    <InputField
+                                        {...field}
+                                        placeholder="Enter your postal code"
+                                        fullWidth
+                                        error={!!errors.address?.postal_code}
+                                        helperText={
+                                            errors.address?.postal_code?.message
+                                        }
+                                    />
+                                )}
+                            />
+                        </MuiStack>
+
+                        <MuiStack spacing={2}>
+                            <MuiTypography variant="body1">
+                                Country
+                            </MuiTypography>
+                            <Controller
+                                name="address.country"
+                                control={control}
+                                render={({ field }) => (
+                                    <InputField
+                                        {...field}
+                                        placeholder="Enter your country"
+                                        fullWidth
+                                        error={!!errors.address?.country}
+                                        helperText={
+                                            errors.address?.country?.message
                                         }
                                     />
                                 )}

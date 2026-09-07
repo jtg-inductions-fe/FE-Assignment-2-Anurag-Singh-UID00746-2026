@@ -39,9 +39,9 @@ export const INPUT_TYPES = {
  * Represents 3 different types of users
  */
 export const USER_ROLE = {
-    GUEST: 'guest',
-    CUSTOMER: 'customer',
-    OWNER: 'owner',
+    GUEST: 'GUEST',
+    CUSTOMER: 'CUSTOMER',
+    OWNER: 'RESTAURANT_OWNER',
 } as const;
 
 export type DialogType =

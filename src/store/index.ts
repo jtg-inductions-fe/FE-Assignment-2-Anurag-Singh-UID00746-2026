@@ -17,6 +17,7 @@ import feedbackReducer from '@features/feedback/feedbackSlice';
 import restaurantReducer from '@features/restaurant/restaurantSlice';
 import toastReducer from '@features/toast/toastSlice';
 import { configureStore } from '@reduxjs/toolkit';
+import addressReducer from '@features/address/addressSlice';
 
 const authPersistConfig = {
     key: 'auth',
@@ -43,6 +44,7 @@ const persistedOrdersReducer = persistReducer(
 export const store = configureStore({
     reducer: {
         auth: persistedAuthReducer,
+        address: addressReducer,
         toast: toastReducer,
         feedback: feedbackReducer,
         restaurant: restaurantReducer,
