@@ -1,18 +1,22 @@
 import {
+    createRestaurant,
+    deleteRestaurant as deleteRestaurantApi,
+    getRestaurants,
+    updateRestaurant as updateRestaurantApi,
+} from '@api/restaurant.api';
+import {
+    RestaurantRequest,
+    RestaurantUpdateRequest,
+} from '@api/types/restaurant.types';
+import {
     AddMenuItemParams,
     DeleteMenuItemParams,
     FetchRestaurantsParams,
     UpdateMenuItemParams,
 } from '@features/restaurant/restaurant.types';
+
+import { Restaurant, RestaurantResponse } from '../types/restaurant.types';
 import { restaurants } from '@mock/restaurant';
-
-import { Restaurant } from '@types';
-
-const cloneRestaurants = (): Restaurant[] =>
-    restaurants.map((restaurant) => ({
-        ...restaurant,
-        menuItems: restaurant.menuItems.map((item) => ({ ...item })),
-    }));
 
 export const restaurantService = {
     /**
@@ -22,56 +26,74 @@ export const restaurantService = {
      */
     fetchRestaurants: async (
         params: FetchRestaurantsParams,
-    ): Promise<Restaurant[]> => {
-        const { keyword } = params;
+    ): Promise<RestaurantResponse[]> => {
+        const response = await getRestaurants({
+            limit: params.limit,
+            cursor: params.cursor,
+            q: params.keyword,
+            type: params.restaurantType,
+        });
 
-        const allRestaurants = cloneRestaurants();
+        return response.items;
+    },
 
-        if (!keyword?.trim()) {
-            return Promise.resolve(allRestaurants);
+    /**
+     * Creates a new restaurant through the backend API.
+     * @param restaurant: restaurant data provided by the owner
+     * @returns the created restaurant
+     */
+    addRestaurant: async (
+        restaurant: RestaurantRequest,
+    ): Promise<RestaurantResponse> => {
+        await createRestaurant(restaurant);
+
+        const response = await getRestaurants({
+            limit: 1,
+        });
+
+        const createdRestaurant = response.items[0];
+
+        if (!createdRestaurant) {
+            throw new Error('Failed to fetch created restaurant');
         }
 
-        return Promise.resolve(
-            allRestaurants.filter((restaurant) =>
-                restaurant.name
-                    .toLowerCase()
-                    .includes(keyword.trim().toLowerCase()),
-            ),
-        );
+        return createdRestaurant;
     },
 
     /**
-     * Adds a new restaurant to the existing restaurants array
-     * @param restaurant: restaurant added by the owner
-     * @returns the newly added restaurant
-     */
-    addRestaurant: async (restaurant: Restaurant): Promise<Restaurant> => {
-        await new Promise((res) => setTimeout(res, 2000));
-
-        restaurants.unshift(restaurant);
-
-        return restaurant;
-    },
-
-    /**
-     * Updates an existing restaurant in the restaurants array
-     * @param restaurant: updated restaurant information
+     * Updates an existing restaurant through the backend API.
+     * @param restaurantId: id of the restaurant to update
+     * @param data: updated restaurant information
      * @returns the updated restaurant
      */
-    updateRestaurant: async (restaurant: Restaurant): Promise<Restaurant> => {
-        await new Promise((res) => setTimeout(res, 2000));
+    updateRestaurant: async (
+        restaurantId: string,
+        data: RestaurantUpdateRequest,
+    ): Promise<RestaurantResponse> => {
+        await updateRestaurantApi(restaurantId, data);
 
-        const index = restaurants.findIndex(
-            (item) => item.id === restaurant.id,
+        const response = await getRestaurants({
+            limit: 100,
+        });
+
+        const updatedRestaurant = response.items.find(
+            (item) => item.id === restaurantId,
         );
 
-        if (index === -1) {
-            throw new Error(`Restaurant "${restaurant.id}" was not found`);
+        if (!updatedRestaurant) {
+            throw new Error(`Restaurant "${restaurantId}" was not found`);
         }
 
-        restaurants[index] = restaurant;
+        return updatedRestaurant;
+    },
 
-        return restaurant;
+    /**
+     * Deletes an existing restaurant through the backend API.
+     * @param restaurantId: id of the restaurant to delete
+     * @returns nothing after successful deletion
+     */
+    deleteRestaurant: async (restaurantId: string): Promise<void> => {
+        await deleteRestaurantApi(restaurantId);
     },
 
     /**

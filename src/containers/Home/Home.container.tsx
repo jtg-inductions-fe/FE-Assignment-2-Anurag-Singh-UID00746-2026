@@ -16,34 +16,37 @@ import {
 } from '@components/constants';
 import { RestaurantCard } from '@containers/RestaurantCard/RestaurantCard.container';
 import { closeDialog } from '@features/feedback/feedbackSlice';
-import { deleteRestaurant } from '@features/restaurant/restaurantSlice';
+import { deleteRestaurantThunk } from '@features/restaurant/restaurantThunk';
 import { useSearchRestaurants } from '@hooks/useSearchRestaurants';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { theme } from '@theme/index';
 import { isOpenToday } from '@utils/getOpenRestaurants';
 import { getVisibleRestaurants } from '@utils/getVisibleRestaurants';
 
-import { Restaurant } from '@types';
+import { FoodType } from '@api/types/restaurant.types';
 import { ToggleButtonGroup } from '@components/MultiToggle';
 import { ExceptionState } from '@components/ExceptionState';
-import { FOOD_CATEGORY } from '@constant/index';
 import { ActionDialog } from '@components/ActionDialog';
 import { permission, rolepermissions } from '@containers/common/constants';
 import { DISCOVERY_ACTION } from './discoveryActions';
 import { ROUTES } from '@router/routes';
 import { showDialog } from '@utils/openDialog';
 import { showToast } from '@features/toast/toastSlice';
+import { RestaurantResponse } from '../../types/restaurant.types';
 
 export const Home = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
+
     const { user } = useAppSelector((state) => state.auth);
     const { restaurants } = useAppSelector((state) => state.restaurant);
     const feedback = useAppSelector((state) => state.feedback);
 
     const [restaurantToDelete, setRestaurantToDelete] = useState<
-        Restaurant | undefined
+        RestaurantResponse | undefined
     >(undefined);
+
+    const [category, setCategory] = useState<FoodType | 'BOTH'>('BOTH');
 
     useSearchRestaurants();
 
@@ -72,7 +75,7 @@ export const Home = () => {
      * Navigates the user to the details page of the selected restaurant.
      * @param restaurant - The restaurant object to view.
      */
-    const openRestaurant = (restaurant: Restaurant) => {
+    const openRestaurant = (restaurant: RestaurantResponse) => {
         void navigate(
             ROUTES.RESTAURANTS.RESTAURANT_DETAILS.replace(':id', restaurant.id),
         );
@@ -82,7 +85,7 @@ export const Home = () => {
      * Navigates the user to the edit form page for the selected restaurant.
      * @param restaurant - The restaurant object to edit.
      */
-    const handleEditRestaurant = (restaurant: Restaurant) => {
+    const handleEditRestaurant = (restaurant: RestaurantResponse) => {
         void navigate(
             ROUTES.RESTAURANTS.EDIT_RESTAURANT.replace(':id', restaurant.id),
         );
@@ -92,8 +95,9 @@ export const Home = () => {
      * Saves the target restaurant for deletion and opens the confirmation popup.
      * @param restaurant - The restaurant object selected for deletion.
      */
-    const handleDeleteRestaurant = (restaurant: Restaurant) => {
+    const handleDeleteRestaurant = (restaurant: RestaurantResponse) => {
         setRestaurantToDelete(restaurant);
+
         showDialog(
             {
                 title: 'DELETE RESTAURANT',
@@ -108,65 +112,49 @@ export const Home = () => {
     };
 
     /**
-     * Triggers the deletion action for the saved restaurant and closes the popup.
+     * Triggers the deletion action for the selected restaurant and closes the popup
+     * after the backend deletion succeeds.
      */
-    const handleConfirmDelete = () => {
-        if (restaurantToDelete) {
-            dispatch(deleteRestaurant(restaurantToDelete.id));
+    const handleConfirmDelete = async () => {
+        if (!restaurantToDelete) {
+            return;
         }
-        handleCloseDialog();
 
-        dispatch(
-            showToast({
-                type: TOAST_TYPES.SUCCESS,
-                title: 'Success',
-                message: 'Restaurant deleted successfully !!',
-            }),
+        const result = await dispatch(
+            deleteRestaurantThunk(restaurantToDelete.id),
         );
+
+        if (deleteRestaurantThunk.fulfilled.match(result)) {
+            handleCloseDialog();
+
+            dispatch(
+                showToast({
+                    type: TOAST_TYPES.SUCCESS,
+                    title: 'Success',
+                    message: 'Restaurant deleted successfully !!',
+                }),
+            );
+        }
     };
 
-    const [category, setCategory] = useState<string>(FOOD_CATEGORY.BOTH);
-
     /**
-     * Filters restaurants by selected food category and sorts them
-     * so that restaurants open today appear first.
-     */
-    const filteredVisibleRestaurants = visibleRestaurants
-        .filter((restaurant) => {
-            if (category === FOOD_CATEGORY.BOTH) {
-                return true;
-            }
-
-            return restaurant.category === category;
-        })
-        .sort((a, b) => {
-            const currentDay = new Date()
-                .toLocaleString('en-US', { weekday: 'long' })
-                .toLowerCase();
-
-            const isAOpen = a.operatingDays
-                ? !!a.operatingDays[currentDay as keyof typeof a.operatingDays]
-                : true;
-
-            const isBOpen = b.operatingDays
-                ? !!b.operatingDays[currentDay as keyof typeof b.operatingDays]
-                : true;
-
-            return Number(isBOpen) - Number(isAOpen);
-        });
-
-    /**
-     * Updates the active food category filter state when a user clicks a tab or toggle.
-     * Defaults back to 'BOTH' if the selection is cleared.
+     * Updates the active food type filter state when a user clicks a tab or toggle.
+     * Defaults to 'BOTH' when no filter is selected.
      * @param _event - The mouse click event context.
-     * @param newCategory - The newly chosen category string value.
+     * @param newCategory - The newly chosen food type or BOTH option.
      */
     const handleChange = (
         _event: React.MouseEvent<HTMLElement>,
-        newCategory: string,
+        newCategory: FoodType | 'BOTH',
     ) => {
-        setCategory(newCategory);
+        if (newCategory) {
+            setCategory(newCategory);
+        }
     };
+
+    const filteredVisibleRestaurants = visibleRestaurants.filter(
+        (restaurant) => category === 'BOTH' || restaurant.type === category,
+    );
 
     return (
         <MuiBox
@@ -180,17 +168,19 @@ export const Home = () => {
                 onChange={handleChange}
                 aria-label="Restaurant category"
             >
-                <MuiToggleButton value={FOOD_CATEGORY.BOTH}>
+                <MuiToggleButton value="BOTH">
                     <MuiTypography variant="body1" color="primary" mt={0.5}>
                         Both
                     </MuiTypography>
                 </MuiToggleButton>
-                <MuiToggleButton value={FOOD_CATEGORY.VEG} color="success">
+
+                <MuiToggleButton value="VEG" color="success">
                     <MuiTypography variant="body1" color="success" mt={0.5}>
                         Veg
                     </MuiTypography>
                 </MuiToggleButton>
-                <MuiToggleButton value={FOOD_CATEGORY.NON_VEG} color="error">
+
+                <MuiToggleButton value="NON_VEG" color="error">
                     <MuiTypography variant="body1" color="error" mt={0.5}>
                         Non Veg
                     </MuiTypography>
@@ -234,10 +224,18 @@ export const Home = () => {
                 type={feedback.type}
                 confirmText={feedback.confirmText}
                 cancelText={feedback.cancelText}
-                cancelButtonConfig={{ color: 'primary', variant: 'outlined' }}
-                confirmButtonConfig={{ color: 'error', variant: 'contained' }}
+                cancelButtonConfig={{
+                    color: 'primary',
+                    variant: 'outlined',
+                }}
+                confirmButtonConfig={{
+                    color: 'error',
+                    variant: 'contained',
+                }}
                 onClose={handleCloseDialog}
-                onConfirm={handleConfirmDelete}
+                onConfirm={() => {
+                    void handleConfirmDelete();
+                }}
             />
         </MuiBox>
     );

@@ -1,6 +1,6 @@
 import { USER_ROLE } from '@components/constants';
-import { Restaurant } from '@types';
 import { User } from '@types';
+import { RestaurantResponse } from '../types/restaurant.types';
 
 /**
  * Filters and returns the restaurants that the current user is allowed to see.
@@ -10,12 +10,12 @@ import { User } from '@types';
  * @returns An array of filtered restaurants visible to the user.
  */
 export const getVisibleRestaurants = (
-    restaurants: Restaurant[],
+    restaurants: RestaurantResponse[],
     user: User | null,
 ) => {
     if (!user || user.role === USER_ROLE.CUSTOMER) {
         return restaurants;
     }
 
-    return restaurants.filter((restaurant) => restaurant.ownerId === user.id);
+    return restaurants.filter((restaurant) => restaurant.owner_id === user.id);
 };

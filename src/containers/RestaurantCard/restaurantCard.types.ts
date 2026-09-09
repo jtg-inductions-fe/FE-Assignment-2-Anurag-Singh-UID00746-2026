@@ -1,10 +1,10 @@
 import { DiscoveryAction } from '@containers/Home/discoveryActions';
-import { Restaurant } from '@types';
+import { RestaurantResponse } from '../../types/restaurant.types';
 
 /** Props for the RestaurantCard component. */
 export type RestaurantCardProps = {
     /** The restaurant data model object containing. */
-    restaurant: Restaurant;
+    restaurant: RestaurantResponse;
 
     /** Array of allowed discovery action settings for this card. */
     actions: DiscoveryAction[];
@@ -13,13 +13,13 @@ export type RestaurantCardProps = {
     isOpen: boolean;
 
     /** Callback function triggered when the user clicks anywhere on the main card surface. */
-    onCardClick: (restaurant: Restaurant) => void;
+    onCardClick: (restaurant: RestaurantResponse) => void;
 
     /** Callback function triggered when the user clicks the edit button action. */
-    onEdit: (restaurant: Restaurant) => void;
+    onEdit: (restaurant: RestaurantResponse) => void;
 
     /** Callback function triggered when the user clicks the delete button action. */
-    onDelete: (restaurant: Restaurant) => void;
+    onDelete: (restaurant: RestaurantResponse) => void;
 
     /** Toggles the conditional rendering visibility of the edit icon button interface. */
     canEdit: boolean;
