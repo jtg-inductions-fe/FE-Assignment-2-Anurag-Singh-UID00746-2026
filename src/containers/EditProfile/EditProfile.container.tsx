@@ -9,7 +9,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { getCurrentUser, updateUser } from '@features/auth/authThunk';
 import { UserProfileData, userSchema } from '@validations/auth.validation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { InputField } from '@components/InputField';
 import { Button } from '@components/Button/Button.component';
 import { StorefrontOutlined } from '@mui/icons-material';
@@ -26,6 +26,8 @@ export const EditProfile = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
+    const [isUpdating, setIsUpdating] = useState(false);
+
     useEffect(() => {
         if (user) {
             form.reset({
@@ -35,6 +37,8 @@ export const EditProfile = () => {
     }, [user, form]);
 
     const handleUpdateProfile = async (data: UserProfileData) => {
+        setIsUpdating(true);
+
         try {
             await dispatch(updateUser(data)).unwrap();
             await dispatch(getCurrentUser()).unwrap();
@@ -46,6 +50,7 @@ export const EditProfile = () => {
                     message: 'Your profile has been updated successfully.',
                 }),
             );
+
             navigate(ROUTES.ROOT);
         } catch (error: unknown) {
             const errorMessage =
@@ -60,6 +65,8 @@ export const EditProfile = () => {
                     message: errorMessage,
                 }),
             );
+        } finally {
+            setIsUpdating(false);
         }
     };
 
@@ -79,6 +86,7 @@ export const EditProfile = () => {
 
                     <MuiStack spacing={2}>
                         <MuiTypography variant="body1">Full Name</MuiTypography>
+
                         <Controller
                             name="name"
                             control={form.control}
@@ -87,6 +95,7 @@ export const EditProfile = () => {
                                     {...field}
                                     placeholder="Enter your Name"
                                     fullWidth
+                                    disabled={isUpdating}
                                     error={!!form.formState.errors.name}
                                     helperText={
                                         form.formState.errors.name?.message
@@ -102,9 +111,12 @@ export const EditProfile = () => {
                     type="submit"
                     variant="contained"
                     startIcon={<StorefrontOutlined />}
-                    loading={form.formState.isSubmitting}
+                    loading={form.formState.isSubmitting || isUpdating}
+                    disabled={isUpdating}
                 >
-                    {!form.formState.isSubmitting && 'Save changes'}
+                    {!form.formState.isSubmitting &&
+                        !isUpdating &&
+                        'Save changes'}
                 </Button>
             </SignupForm>
         </Wrapper>

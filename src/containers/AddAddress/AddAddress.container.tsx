@@ -17,6 +17,7 @@ import { useAppDispatch } from '@store/hooks';
 import { showToast } from '@features/toast/toastSlice';
 import { TOAST_TYPES } from '@components/constants';
 import { createAddress } from '@features/address/addressThunk';
+import { useState } from 'react';
 
 export const AddAddress = () => {
     const form = useForm<AddressRequest>({
@@ -39,9 +40,14 @@ export const AddAddress = () => {
 
     const dispatch = useAppDispatch();
 
+    const [isCreating, setIsCreating] = useState(false);
+
     const onSubmit = async (data: AddressRequest) => {
+        setIsCreating(true);
+
         try {
             await dispatch(createAddress(data)).unwrap();
+
             dispatch(
                 showToast({
                     type: TOAST_TYPES.SUCCESS,
@@ -57,6 +63,8 @@ export const AddAddress = () => {
                     message: error as string,
                 }),
             );
+        } finally {
+            setIsCreating(false);
         }
     };
 
@@ -92,6 +100,7 @@ export const AddAddress = () => {
                                         {...field}
                                         placeholder="Enter address line 1"
                                         fullWidth
+                                        disabled={isCreating}
                                         error={!!errors.address_line_1}
                                         helperText={
                                             errors.address_line_1?.message
@@ -113,6 +122,7 @@ export const AddAddress = () => {
                                         {...field}
                                         placeholder="Enter address line 2"
                                         fullWidth
+                                        disabled={isCreating}
                                         error={!!errors.address_line_2}
                                         helperText={
                                             errors.address_line_2?.message
@@ -132,6 +142,7 @@ export const AddAddress = () => {
                                         {...field}
                                         placeholder="Enter your city"
                                         fullWidth
+                                        disabled={isCreating}
                                         error={!!errors.city}
                                         helperText={errors.city?.message}
                                     />
@@ -149,6 +160,7 @@ export const AddAddress = () => {
                                         {...field}
                                         placeholder="Enter your state"
                                         fullWidth
+                                        disabled={isCreating}
                                         error={!!errors.state}
                                         helperText={errors.state?.message}
                                     />
@@ -168,6 +180,7 @@ export const AddAddress = () => {
                                         {...field}
                                         placeholder="Enter your postal code"
                                         fullWidth
+                                        disabled={isCreating}
                                         error={!!errors.postal_code}
                                         helperText={errors.postal_code?.message}
                                     />
@@ -187,6 +200,7 @@ export const AddAddress = () => {
                                         {...field}
                                         placeholder="Enter your country"
                                         fullWidth
+                                        disabled={isCreating}
                                         error={!!errors.country}
                                         helperText={errors.country?.message}
                                     />
@@ -198,11 +212,12 @@ export const AddAddress = () => {
                     <MuiStack spacing={6}>
                         <Button
                             type="submit"
-                            loading={isSubmitting}
+                            loading={isSubmitting || isCreating}
+                            disabled={isCreating}
                             variant="contained"
                             fullWidth
                         >
-                            {!isSubmitting && 'Create Address'}
+                            {!isSubmitting && !isCreating && 'Create Address'}
                         </Button>
                     </MuiStack>
                 </MuiStack>

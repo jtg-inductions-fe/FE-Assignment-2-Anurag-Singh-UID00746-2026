@@ -47,6 +47,7 @@ export const Login = () => {
     const { isLoading } = useAppSelector((state) => state.auth);
 
     const [showPassword, setShowPassword] = useState(false);
+    const [isLoggingIn, setIsLoggingIn] = useState(false);
 
     /**
      * Submits the user login credentials to the backend.
@@ -54,8 +55,11 @@ export const Login = () => {
      * @param data - The user's login email and password credentials.
      */
     const onSubmit = async (data: LoginCredential) => {
+        setIsLoggingIn(true);
+
         try {
             await dispatch(login(data)).unwrap();
+
             dispatch(
                 showToast({
                     type: TOAST_TYPES.SUCCESS,
@@ -63,6 +67,7 @@ export const Login = () => {
                     message: 'Login successful !!',
                 }),
             );
+
             await navigate(ROUTES.ROOT);
         } catch (error) {
             dispatch(
@@ -72,6 +77,8 @@ export const Login = () => {
                     message: error as string,
                 }),
             );
+        } finally {
+            setIsLoggingIn(false);
         }
     };
 
@@ -92,9 +99,11 @@ export const Login = () => {
                             Your delicious meal is just a login away
                         </MuiTypography>
                     </MuiStack>
+
                     <MuiStack spacing={8}>
                         <MuiStack spacing={2}>
                             <MuiTypography variant="body1">Email</MuiTypography>
+
                             <Controller
                                 name="email"
                                 control={control}
@@ -103,6 +112,7 @@ export const Login = () => {
                                         {...field}
                                         placeholder="Enter your email"
                                         fullWidth
+                                        disabled={isLoggingIn}
                                         error={!!errors.email}
                                         helperText={errors.email?.message}
                                     />
@@ -114,6 +124,7 @@ export const Login = () => {
                             <MuiTypography variant="body1">
                                 Password
                             </MuiTypography>
+
                             <Controller
                                 name="password"
                                 control={control}
@@ -124,6 +135,7 @@ export const Login = () => {
                                         type={
                                             showPassword ? 'text' : 'password'
                                         }
+                                        disabled={isLoggingIn}
                                         slotProps={{
                                             input: {
                                                 endAdornment: (
@@ -136,6 +148,9 @@ export const Login = () => {
                                                             }
                                                             edge="end"
                                                             aria-label="toggle password visibility"
+                                                            disabled={
+                                                                isLoggingIn
+                                                            }
                                                         >
                                                             {showPassword ? (
                                                                 <VisibilityOff />
@@ -160,10 +175,11 @@ export const Login = () => {
                         <Button
                             type="submit"
                             variant="contained"
-                            loading={isLoading}
+                            loading={isLoading || isLoggingIn}
+                            disabled={isLoggingIn}
                             fullWidth
                         >
-                            {!isLoading && 'login'}
+                            {!isLoading && !isLoggingIn && 'login'}
                         </Button>
 
                         <MuiTypography variant="body2" textAlign="center">
