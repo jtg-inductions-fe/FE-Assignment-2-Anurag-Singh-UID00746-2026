@@ -23,38 +23,41 @@ export const isOpenToday = (restaurant: RestaurantResponse): boolean => {
         currentDay as (typeof WEEK_DAYS)[number],
     );
 
+    if (currentDayIndex === -1) {
+        return false;
+    }
+
     const yesterdayIndex =
         (currentDayIndex - 1 + WEEK_DAYS.length) % WEEK_DAYS.length;
 
     const currentDayName = WEEK_DAYS[currentDayIndex];
     const yesterdayName = WEEK_DAYS[yesterdayIndex];
 
+    const workingDays = restaurant.working_days.map((day) =>
+        day.toString().trim().toUpperCase(),
+    );
+
     const currentTime = now.toTimeString().slice(0, 5);
 
     const openingTime = restaurant.opening_time.slice(0, 5);
+
     const closingTime = restaurant.closing_time.slice(0, 5);
 
     const isOvernight = openingTime > closingTime;
 
     if (!isOvernight) {
         return (
-            restaurant.working_days.includes(currentDayName) &&
+            workingDays.includes(currentDayName) &&
             openingTime <= currentTime &&
             currentTime <= closingTime
         );
     }
 
-    const openedToday = restaurant.working_days.includes(currentDayName);
+    const openedToday =
+        workingDays.includes(currentDayName) && currentTime >= openingTime;
 
-    if (openedToday && currentTime >= openingTime) {
-        return true;
-    }
+    const openedYesterday =
+        workingDays.includes(yesterdayName) && currentTime <= closingTime;
 
-    const openedYesterday = restaurant.working_days.includes(yesterdayName);
-
-    if (openedYesterday && currentTime <= closingTime) {
-        return true;
-    }
-
-    return false;
+    return openedToday || openedYesterday;
 };

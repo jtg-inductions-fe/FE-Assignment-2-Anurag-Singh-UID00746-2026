@@ -1,6 +1,7 @@
 import {
     createRestaurant,
     deleteRestaurant as deleteRestaurantApi,
+    getRestaurantById,
     getRestaurants,
     updateRestaurant as updateRestaurantApi,
 } from '@api/restaurant.api';
@@ -20,9 +21,12 @@ import { restaurants } from '@mock/restaurant';
 
 export const restaurantService = {
     /**
-     * Filters the restaurant based on the keyword searched by the user
-     * @param params: restaurant name from the URL
-     * @returns filtered list of restaurants based on the keyword
+     * Filters the restaurant based on the keyword searched by the user.
+     *
+     * @param params - Pagination, search, and restaurant type filter
+     * parameters used to retrieve restaurants.
+     *
+     * @returns A list of restaurants returned by the backend.
      */
     fetchRestaurants: async (
         params: FetchRestaurantsParams,
@@ -38,9 +42,27 @@ export const restaurantService = {
     },
 
     /**
+     * Fetches a single restaurant using its unique identifier.
+     *
+     * This method is primarily used when a restaurant needs to be
+     * loaded independently of the paginated restaurant listing.
+     *
+     * @param restaurantId - The unique identifier of the restaurant.
+     *
+     * @returns The restaurant returned by the backend.
+     */
+    fetchRestaurantById: async (
+        restaurantId: string,
+    ): Promise<RestaurantResponse> => {
+        return await getRestaurantById(restaurantId);
+    },
+
+    /**
      * Creates a new restaurant through the backend API.
-     * @param restaurant: restaurant data provided by the owner
-     * @returns the created restaurant
+     *
+     * @param restaurant - Restaurant data provided by the owner.
+     *
+     * @returns The created restaurant.
      */
     addRestaurant: async (
         restaurant: RestaurantRequest,
@@ -62,9 +84,16 @@ export const restaurantService = {
 
     /**
      * Updates an existing restaurant through the backend API.
-     * @param restaurantId: id of the restaurant to update
-     * @param data: updated restaurant information
-     * @returns the updated restaurant
+     *
+     * After the update request succeeds, the restaurant is fetched
+     * again using its ID so that the latest backend representation
+     * is returned to the Redux layer.
+     *
+     * @param restaurantId - The unique identifier of the restaurant.
+     *
+     * @param data - The restaurant fields that should be updated.
+     *
+     * @returns The updated restaurant returned by the backend.
      */
     updateRestaurant: async (
         restaurantId: string,
@@ -72,25 +101,15 @@ export const restaurantService = {
     ): Promise<RestaurantResponse> => {
         await updateRestaurantApi(restaurantId, data);
 
-        const response = await getRestaurants({
-            limit: 100,
-        });
-
-        const updatedRestaurant = response.items.find(
-            (item) => item.id === restaurantId,
-        );
-
-        if (!updatedRestaurant) {
-            throw new Error(`Restaurant "${restaurantId}" was not found`);
-        }
-
-        return updatedRestaurant;
+        return await getRestaurantById(restaurantId);
     },
 
     /**
      * Deletes an existing restaurant through the backend API.
-     * @param restaurantId: id of the restaurant to delete
-     * @returns nothing after successful deletion
+     *
+     * @param restaurantId - The unique identifier of the restaurant.
+     *
+     * @returns Nothing after successful deletion.
      */
     deleteRestaurant: async (restaurantId: string): Promise<void> => {
         await deleteRestaurantApi(restaurantId);

@@ -157,3 +157,20 @@ export const deleteMenuItemThunk = createAsyncThunk(
         }
     },
 );
+
+export const fetchRestaurantByIdThunk = createAsyncThunk<
+    Restaurant,
+    string,
+    { rejectValue: string }
+>(
+    'restaurant/fetchRestaurantById',
+    async (restaurantId, { rejectWithValue }) => {
+        try {
+            return await restaurantService.fetchRestaurantById(restaurantId);
+        } catch (error) {
+            return rejectWithValue(
+                getErrorMessage(error, 'Failed to fetch restaurant'),
+            );
+        }
+    },
+);

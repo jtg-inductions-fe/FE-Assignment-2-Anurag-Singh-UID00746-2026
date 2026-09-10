@@ -33,10 +33,7 @@ export const restaurantSchema = yup.object({
         })
         .required(messages.REQUIRED),
 
-    contactNumber: yup
-        .string()
-        .required(messages.REQUIRED)
-        .matches(/^[6-9]\d{9}$/, 'Enter a valid 10 digit mobile number'),
+    contactNumber: yup.string().required(messages.REQUIRED),
 
     category: yup
         .string()
@@ -53,3 +50,5 @@ export const restaurantSchema = yup.object({
         .required(messages.REQUIRED)
         .min(1, 'Select at least one operating day'),
 });
+
+export type AddRestaurantFormValues = yup.InferType<typeof restaurantSchema>;

@@ -57,6 +57,8 @@ export const AddRestaurant = () => {
     const [pendingFormData, setPendingFormData] =
         useState<AddRestaurantFormValues | null>(null);
 
+    const [isCreating, setIsCreating] = useState(false);
+
     const form = useForm<AddRestaurantFormValues>({
         resolver: yupResolver(restaurantSchema),
         defaultValues: {
@@ -130,6 +132,10 @@ export const AddRestaurant = () => {
      * The form values are converted into the backend RestaurantRequest
      * structure before being sent through the Redux thunk.
      *
+     * While the create request is pending, all editable form controls
+     * are disabled to prevent the user from modifying the form data
+     * after the submitted payload has already been sent to the backend.
+     *
      * On successful creation, the restaurant is added to the Redux store,
      * the form is reset, a success message is displayed, and the user
      * is redirected to the restaurant listing page.
@@ -170,6 +176,8 @@ export const AddRestaurant = () => {
             },
         };
 
+        setIsCreating(true);
+
         try {
             await dispatch(addRestaurantThunk(payload)).unwrap();
 
@@ -193,6 +201,8 @@ export const AddRestaurant = () => {
                     message: error as string,
                 }),
             );
+        } finally {
+            setIsCreating(false);
         }
     };
 
@@ -216,6 +226,7 @@ export const AddRestaurant = () => {
                     variant="outlined"
                     startIcon={<ArrowBackIosNewIcon />}
                     onClick={() => void navigate(ROUTES.ROOT)}
+                    disabled={isCreating}
                 >
                     Back
                 </Button>
@@ -248,6 +259,7 @@ export const AddRestaurant = () => {
                                             {...field}
                                             placeholder="Paste your URL here"
                                             fullWidth
+                                            disabled={isCreating}
                                             error={!!errors.imageUrl}
                                             helperText={
                                                 errors.imageUrl?.message
@@ -270,6 +282,7 @@ export const AddRestaurant = () => {
                                             {...field}
                                             placeholder="Enter your restaurant name"
                                             fullWidth
+                                            disabled={isCreating}
                                             error={!!errors.name}
                                             helperText={errors.name?.message}
                                         />
@@ -294,6 +307,7 @@ export const AddRestaurant = () => {
                                             fullWidth
                                             multiline
                                             rows={5}
+                                            disabled={isCreating}
                                             error={!!errors.description}
                                             helperText={
                                                 errors.description?.message
@@ -319,6 +333,7 @@ export const AddRestaurant = () => {
                                                 {...field}
                                                 placeholder="Enter address line 1"
                                                 fullWidth
+                                                disabled={isCreating}
                                                 error={
                                                     !!errors.address
                                                         ?.addressLine1
@@ -345,6 +360,7 @@ export const AddRestaurant = () => {
                                                 {...field}
                                                 placeholder="Enter address line 2"
                                                 fullWidth
+                                                disabled={isCreating}
                                                 error={
                                                     !!errors.address
                                                         ?.addressLine2
@@ -373,6 +389,7 @@ export const AddRestaurant = () => {
                                                 {...field}
                                                 placeholder="Enter city"
                                                 fullWidth
+                                                disabled={isCreating}
                                                 error={!!errors.address?.city}
                                                 helperText={
                                                     errors.address?.city
@@ -396,6 +413,7 @@ export const AddRestaurant = () => {
                                                 {...field}
                                                 placeholder="Enter state"
                                                 fullWidth
+                                                disabled={isCreating}
                                                 error={!!errors.address?.state}
                                                 helperText={
                                                     errors.address?.state
@@ -421,6 +439,7 @@ export const AddRestaurant = () => {
                                                 {...field}
                                                 placeholder="Enter postal code"
                                                 fullWidth
+                                                disabled={isCreating}
                                                 error={
                                                     !!errors.address?.postalCode
                                                 }
@@ -446,6 +465,7 @@ export const AddRestaurant = () => {
                                                 {...field}
                                                 placeholder="Enter country"
                                                 fullWidth
+                                                disabled={isCreating}
                                                 error={
                                                     !!errors.address?.country
                                                 }
@@ -473,6 +493,7 @@ export const AddRestaurant = () => {
                                                 {...field}
                                                 placeholder="Enter contact number"
                                                 fullWidth
+                                                disabled={isCreating}
                                                 error={!!errors.contactNumber}
                                                 helperText={
                                                     errors.contactNumber
@@ -497,6 +518,7 @@ export const AddRestaurant = () => {
                                                     <Select
                                                         {...field}
                                                         value={field.value}
+                                                        disabled={isCreating}
                                                         onChange={(event) =>
                                                             field.onChange(
                                                                 event.target
@@ -551,6 +573,7 @@ export const AddRestaurant = () => {
                                                 {...field}
                                                 type="time"
                                                 fullWidth
+                                                disabled={isCreating}
                                                 error={!!errors.openingTime}
                                                 helperText={
                                                     errors.openingTime?.message
@@ -573,6 +596,7 @@ export const AddRestaurant = () => {
                                                 {...field}
                                                 type="time"
                                                 fullWidth
+                                                disabled={isCreating}
                                                 error={!!errors.closingTime}
                                                 helperText={
                                                     errors.closingTime?.message
@@ -597,6 +621,7 @@ export const AddRestaurant = () => {
                                             selected={operatingDays.includes(
                                                 day.value,
                                             )}
+                                            disabled={isCreating}
                                             onClick={() =>
                                                 handleDayToggle(day.value)
                                             }
@@ -626,6 +651,7 @@ export const AddRestaurant = () => {
                             variant="outlined"
                             color="error"
                             onClick={() => reset()}
+                            disabled={isCreating}
                         >
                             Reset
                         </Button>
@@ -634,9 +660,13 @@ export const AddRestaurant = () => {
                             type="submit"
                             variant="contained"
                             startIcon={<StorefrontOutlined />}
-                            loading={loading || isSubmitting}
+                            loading={loading || isSubmitting || isCreating}
+                            disabled={isCreating}
                         >
-                            {!loading && !isSubmitting && 'Submit'}
+                            {!loading &&
+                                !isSubmitting &&
+                                !isCreating &&
+                                'Submit'}
                         </Button>
                     </ActionContainer>
                 </FooterContainer>
