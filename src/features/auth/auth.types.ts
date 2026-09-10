@@ -9,6 +9,49 @@ export interface LoginCredential {
     password: string;
 }
 
+export interface AddressRequest {
+    /** The first line of the address string. */
+    address_line_1: string;
+
+    /** The second line of the address string. This is optional and can be null. */
+    address_line_2?: string | null;
+
+    /** The city name string. */
+    city: string;
+
+    /** The state name string. */
+    state: string;
+
+    /** The postal code string. */
+    postal_code: string;
+
+    /** The country name string. */
+    country: string;
+}
+
+export interface Address {
+    /** The unique identifier for the address. */
+    id: string;
+
+    /** The first line of the address string. */
+    address_line_1: string;
+
+    /** The second line of the address string. This is optional and can be null. */
+    address_line_2?: string | null;
+
+    /** The city name string. */
+    city: string;
+
+    /** The state name string. */
+    state: string;
+
+    /** The postal code string. */
+    postal_code: string;
+
+    /** The country name string. */
+    country: string;
+}
+
 /** Form dataset payload structure model used for registering a completely new system user. */
 export interface SignupCredential {
     /** The legal first name and last name display text string of the applicant. */
@@ -23,8 +66,11 @@ export interface SignupCredential {
     /** Secondary security checkpoint validation value verifying matching password inputs. */
     confirmPassword: string;
 
-    /** Optional custom security operational authorization classification category mapping tier. */
-    role?: UserRole;
+    /** Custom security operational authorization classification category mapping tier. */
+    role: UserRole;
+
+    /** The address object containing the user's physical location details. */
+    address: AddressRequest;
 }
 
 export type AuthState = {

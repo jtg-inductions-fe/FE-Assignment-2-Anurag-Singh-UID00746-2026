@@ -17,6 +17,10 @@ import { AddMenuItem } from '@containers/AddMenuItem';
 import { EditMenuItem } from '@containers/EditMenuItem';
 import { Cart } from '@containers/CartPage';
 import { OrdersPage } from '@containers/OrdersPage';
+import { AddAddress } from '@containers/AddAddress/AddAddress.container';
+import { EditAddress } from '@containers/EditAddress/EditAddress.container';
+import { Address } from '@containers/AddressPage/Address.container';
+import { EditProfile } from '@containers/EditProfile/EditProfile.container';
 
 export const router = createBrowserRouter([
     {
@@ -33,6 +37,26 @@ export const router = createBrowserRouter([
             {
                 path: ROUTES_SEGMENTS.RESTAURANTS.RESTAURANT_DETAILS,
                 element: <Restaurant />,
+            },
+
+            {
+                path: ROUTES_SEGMENTS.ADDRESS.VIEW_ADDRESSES,
+                element: <Address />,
+            },
+
+            {
+                path: ROUTES_SEGMENTS.ADDRESS.CREATE_ADDRESS,
+                element: <AddAddress />,
+            },
+
+            {
+                path: ROUTES_SEGMENTS.ADDRESS.UPDATE_ADDRESS,
+                element: <EditAddress />,
+            },
+
+            {
+                path: ROUTES_SEGMENTS.USER.PROFILE_UPDATE,
+                element: <EditProfile />,
             },
 
             {

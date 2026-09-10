@@ -1,6 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-
-import { login, signup } from './authThunk';
 import { AuthState } from './auth.types';
 
 const initialState: AuthState = {
@@ -13,47 +11,93 @@ const initialState: AuthState = {
 export const authSlice = createSlice({
     name: 'auth',
     initialState,
-    reducers: {
-        logout: (state) => {
-            state.user = null;
-            state.isLoggedIn = false;
-            state.isLoading = false;
-            state.error = null;
-        },
-    },
+    reducers: {},
 
     extraReducers: (builder) => {
         builder
-            .addCase(login.pending, (state) => {
+            .addCase('auth/login/pending', (state) => {
                 state.isLoading = true;
                 state.error = null;
             })
-            .addCase(login.fulfilled, (state, action) => {
+            .addCase('auth/login/fulfilled', (state, action: any) => {
                 state.user = action.payload;
                 state.isLoggedIn = true;
                 state.isLoading = false;
                 state.error = null;
             })
-            .addCase(login.rejected, (state, action) => {
+            .addCase('auth/login/rejected', (state, action: any) => {
                 state.isLoading = false;
                 state.error = action.payload ?? 'Something went wrong';
             })
-            .addCase(signup.pending, (state) => {
+            .addCase('auth/signup/pending', (state) => {
                 state.isLoading = true;
                 state.error = null;
             })
-            .addCase(signup.fulfilled, (state, action) => {
+            .addCase('auth/signup/fulfilled', (state) => {
+                state.isLoading = false;
+                state.error = null;
+            })
+            .addCase('auth/signup/rejected', (state, action: any) => {
+                state.isLoading = false;
+                state.error = action.payload ?? 'Something went wrong';
+            })
+            .addCase('auth/getCurrentUser/pending', (state) => {
+                state.isLoading = true;
+                state.error = null;
+            })
+            .addCase('auth/getCurrentUser/fulfilled', (state, action: any) => {
                 state.user = action.payload;
                 state.isLoggedIn = true;
                 state.isLoading = false;
                 state.error = null;
             })
-            .addCase(signup.rejected, (state, action) => {
+            .addCase('auth/getCurrentUser/rejected', (state) => {
+                state.user = null;
+                state.isLoggedIn = false;
+                state.isLoading = false;
+                state.error = null;
+            })
+            .addCase('auth/logout/pending', (state) => {
+                state.isLoading = true;
+                state.error = null;
+            })
+            .addCase('auth/logout/fulfilled', (state) => {
+                state.user = null;
+                state.isLoggedIn = false;
+                state.isLoading = false;
+                state.error = null;
+            })
+            .addCase('auth/logout/rejected', (state, action: any) => {
+                state.isLoading = false;
+                state.error = action.payload ?? 'Something went wrong';
+            })
+            .addCase('auth/updateUser/pending', (state) => {
+                state.isLoading = true;
+                state.error = null;
+            })
+            .addCase('auth/updateUser/fulfilled', (state) => {
+                state.isLoading = false;
+                state.error = null;
+            })
+            .addCase('auth/updateUser/rejected', (state, action: any) => {
+                state.isLoading = false;
+                state.error = action.payload ?? 'Something went wrong';
+            })
+            .addCase('auth/deleteUser/pending', (state) => {
+                state.isLoading = true;
+                state.error = null;
+            })
+            .addCase('auth/deleteUser/fulfilled', (state) => {
+                state.user = null;
+                state.isLoggedIn = false;
+                state.isLoading = false;
+                state.error = null;
+            })
+            .addCase('auth/deleteUser/rejected', (state, action: any) => {
                 state.isLoading = false;
                 state.error = action.payload ?? 'Something went wrong';
             });
     },
 });
 
-export const { logout } = authSlice.actions;
 export default authSlice.reducer;

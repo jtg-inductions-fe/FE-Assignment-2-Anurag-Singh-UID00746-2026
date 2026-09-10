@@ -33,6 +33,16 @@ export const ROUTES_SEGMENTS = {
         SIGNUP: 'signup',
     },
 
+    ADDRESS: {
+        VIEW_ADDRESSES: '/addresses',
+        CREATE_ADDRESS: '/add',
+        UPDATE_ADDRESS: '/:addressId/edit',
+    },
+
+    USER: {
+        PROFILE_UPDATE: '/profile/edit',
+    },
+
     RESTAURANTS: {
         RESTAURANT_DETAILS: 'restaurants/:id',
         ADD_RESTAURANT: 'restaurants/add',

@@ -1,11 +1,16 @@
 import { useState } from 'react';
 
 import LogoutIcon from '@mui/icons-material/Logout';
+import EditIcon from '@mui/icons-material/Edit';
+import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
 import {
+    IconButton,
     Divider as MuiDivider,
     Typography as MuiTypography,
 } from '@mui/material';
-import { useAppSelector } from '@store/hooks';
+import { useNavigate } from 'react-router-dom';
+
+import { useAppDispatch, useAppSelector } from '@store/hooks';
 
 import {
     UserAvatar,
@@ -14,14 +19,21 @@ import {
     UserProfileBox,
     UserProfileMenu,
 } from './UserProfile.styles';
-import { USER_ROLE } from '@components/constants';
-import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
+
+import { USER_ROLE, TOAST_TYPES } from '@components/constants';
 import { Button } from '@components/Button';
 import { UserProfileProps } from './UserProfile.types';
 
+import { showToast } from '@features/toast/toastSlice';
+import { ROUTES_SEGMENTS } from '@router/routes';
+
 export const UserProfile = (props: UserProfileProps) => {
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+
     const { user } = useAppSelector((state) => state.auth);
+
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
 
     const handleOpenUserMenu = (
         event: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>,
@@ -58,6 +70,16 @@ export const UserProfile = (props: UserProfileProps) => {
         }
     };
 
+    const handleUpdateProfile = async () => {
+        navigate(ROUTES_SEGMENTS.USER.PROFILE_UPDATE);
+
+        handleCloseUserMenu();
+    };
+
+    const handleAddresses = () => {
+        navigate(ROUTES_SEGMENTS.ADDRESS.VIEW_ADDRESSES);
+    };
+
     return (
         <UserProfileBox>
             <UserIconButton
@@ -67,8 +89,9 @@ export const UserProfile = (props: UserProfileProps) => {
                 onClick={handleOpenUserMenu}
                 onKeyDown={handleUserMenuKeyDown}
             >
-                <UserAvatar alt={user?.fullName} src="null" />
+                <UserAvatar alt={user?.name?.toUpperCase()} src="null" />
             </UserIconButton>
+
             <UserProfileMenu
                 id="menu-appbar"
                 anchorEl={anchorElUser}
@@ -86,8 +109,12 @@ export const UserProfile = (props: UserProfileProps) => {
             >
                 <UserMenuItem onClick={handleCloseUserMenu}>
                     <MuiTypography variant="subtitle2">
-                        {user?.fullName.toUpperCase() || USER_ROLE.GUEST}
+                        {user?.name?.toUpperCase() || USER_ROLE.GUEST}
                     </MuiTypography>
+
+                    <IconButton color="error" onClick={handleUpdateProfile}>
+                        <EditIcon color="primary" />
+                    </IconButton>
                 </UserMenuItem>
 
                 <UserMenuItem onClick={handleCloseUserMenu}>
@@ -97,6 +124,7 @@ export const UserProfile = (props: UserProfileProps) => {
                 </UserMenuItem>
 
                 <MuiDivider />
+
                 <UserMenuItem onClick={props.handleOrders}>
                     <Button
                         variant="text"
@@ -109,7 +137,22 @@ export const UserProfile = (props: UserProfileProps) => {
                         MY ORDERS
                     </Button>
                 </UserMenuItem>
+
                 <MuiDivider />
+
+                <UserMenuItem onClick={handleAddresses}>
+                    <Button
+                        variant="text"
+                        sx={{ color: 'black' }}
+                        disableRipple
+                        onClick={handleAddresses}
+                    >
+                        MY ADDRESSES
+                    </Button>
+                </UserMenuItem>
+
+                <MuiDivider />
+
                 <UserMenuItem onClick={props.handleLogout}>
                     <Button
                         variant="text"

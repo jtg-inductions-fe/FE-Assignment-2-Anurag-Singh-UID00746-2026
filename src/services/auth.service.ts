@@ -1,52 +1,52 @@
 import { LoginCredential, SignupCredential } from '@features/auth/auth.types';
-import { users } from '@mock/user';
-
 import { User } from '@types';
+import {
+    deleteUser,
+    getCurrentUser,
+    login,
+    logout,
+    refreshAccessToken,
+    register,
+    updateUser,
+} from '@api/auth.api';
 
 export const authService = {
-    /**
-     *
-     * @param email: user's email as string
-     * @returns authenticated user after verifying the credentials
-     */
-    login: async ({ email }: LoginCredential) => {
-        await new Promise((res) => setTimeout(res, 2000));
+    login: async (credential: LoginCredential): Promise<User> => {
+        await login({
+            email: credential.email,
+            password: credential.password,
+        });
 
-        const validated = users.find(
-            (user) => user.email.toLowerCase() === email.toLowerCase(),
-        );
-
-        if (!validated) {
-            throw new Error('Invalid email or password');
-        }
-
-        return validated;
+        return await getCurrentUser();
     },
 
-    /**
-     *
-     * @param data: user's credentials taken through the signup form
-     * @returns a new user after storing with its credentials
-     */
-    signup: async (data: SignupCredential) => {
-        await new Promise((res) => setTimeout(res, 2000));
+    signup: async (credential: SignupCredential): Promise<void> => {
+        await register({
+            name: credential.fullName,
+            email: credential.email,
+            password: credential.password,
+            role: credential.role,
+            address: credential.address,
+        });
+    },
 
-        const existing = users.find(
-            (user) => user.email.toLowerCase() === data.email.toLowerCase(),
-        );
+    updateUser: async (data: Partial<User>): Promise<void> => {
+        await updateUser(data);
+    },
 
-        if (existing) {
-            throw new Error('User already exists');
-        }
+    deleteUser: async (): Promise<void> => {
+        await deleteUser();
+    },
 
-        const newUser: User = {
-            id: crypto.randomUUID(),
-            fullName: data.fullName,
-            email: data.email,
-            password: data.password,
-            role: data.role,
-        };
+    refreshAccessToken: async (): Promise<void> => {
+        await refreshAccessToken();
+    },
 
-        return newUser;
+    logout: async (): Promise<void> => {
+        await logout();
+    },
+
+    getCurrentUser: async (): Promise<User> => {
+        return await getCurrentUser();
     },
 };

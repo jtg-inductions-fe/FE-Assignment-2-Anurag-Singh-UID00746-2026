@@ -4,8 +4,8 @@ export type UserRole = (typeof USER_ROLE)[keyof typeof USER_ROLE];
 
 export type User = {
     id: string;
-    fullName: string;
+    name: string;
     email: string;
     password: string;
-    role?: UserRole;
+    role: UserRole;
 };

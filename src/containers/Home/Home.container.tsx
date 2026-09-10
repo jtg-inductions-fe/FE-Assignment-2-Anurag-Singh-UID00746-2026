@@ -59,7 +59,7 @@ export const Home = () => {
         setRestaurantToDelete(undefined);
     };
 
-    const permissions = rolepermissions[userRole ?? USER_ROLE.GUEST];
+    const permissions = rolepermissions[userRole ?? USER_ROLE.GUEST] ?? [];
 
     const canEdit = permissions?.includes(permission.EDIT_RESTAURANT);
     const canDelete = permissions?.includes(permission.DELETE_RESTAURANT);
