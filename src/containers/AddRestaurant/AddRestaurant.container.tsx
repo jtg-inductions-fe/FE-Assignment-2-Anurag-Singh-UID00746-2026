@@ -16,16 +16,10 @@ import { ACTION_DIALOG_TYPES, TOAST_TYPES } from '@components/constants';
 import { closeDialog } from '@features/feedback/feedbackSlice';
 import { addRestaurantThunk } from '@features/restaurant/restaurantThunk';
 import { showToast } from '@features/toast/toastSlice';
-import { nanoid } from '@reduxjs/toolkit';
 import { ROUTES } from '@router/routes';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { theme } from '@theme/index';
-import {
-    DAYS,
-    DEFAULT_DAYS,
-    FOOD_CATEGORY,
-    FoodCategory,
-} from '@constant/index';
+import { DAYS, DEFAULT_DAYS } from '@constant/index';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { restaurantSchema } from '@validations/restaurant.validation';
 
@@ -49,20 +43,21 @@ import { Button } from '@components/Button';
 import { InputField } from '@components/InputField';
 import { Select } from '@components/BasicSelect';
 import { ActionDialog } from '@components/ActionDialog';
-import { Restaurant } from '@types';
 import { showDialog } from '@utils/openDialog';
 import { messages } from '@validations/constants';
-import { convertTo12Hour } from '@utils/convertTo12Hour';
+import { FoodType, RestaurantRequest } from '@api/types/restaurant.types';
 
 export const AddRestaurant = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-    const { user } = useAppSelector((state) => state.auth);
+
     const { loading } = useAppSelector((state) => state.restaurant);
     const feedback = useAppSelector((state) => state.feedback);
 
     const [pendingFormData, setPendingFormData] =
         useState<AddRestaurantFormValues | null>(null);
+
+    const [isCreating, setIsCreating] = useState(false);
 
     const form = useForm<AddRestaurantFormValues>({
         resolver: yupResolver(restaurantSchema),
@@ -70,7 +65,14 @@ export const AddRestaurant = () => {
             imageUrl: '',
             name: '',
             description: '',
-            address: '',
+            address: {
+                addressLine1: '',
+                addressLine2: '',
+                city: '',
+                state: '',
+                postalCode: '',
+                country: '',
+            },
             contactNumber: '',
             category: '',
             openingTime: '',
@@ -111,6 +113,7 @@ export const AddRestaurant = () => {
      */
     const onSubmitForm = (data: AddRestaurantFormValues) => {
         setPendingFormData(data);
+
         showDialog(
             {
                 title: 'ADD RESTAURANT',
@@ -124,41 +127,60 @@ export const AddRestaurant = () => {
     };
 
     /**
-     * Creates a new restaurant item after the user clicks confirm.
-     * On success, clears the form data and redirects the user to the home page.
+     * Creates a new restaurant after the user confirms the submitted form.
+     *
+     * The form values are converted into the backend RestaurantRequest
+     * structure before being sent through the Redux thunk.
+     *
+     * While the create request is pending, all editable form controls
+     * are disabled to prevent the user from modifying the form data
+     * after the submitted payload has already been sent to the backend.
+     *
+     * On successful creation, the restaurant is added to the Redux store,
+     * the form is reset, a success message is displayed, and the user
+     * is redirected to the restaurant listing page.
      */
     const handleConfirmSubmit = async () => {
-        if (!pendingFormData) return;
+        if (!pendingFormData) {
+            return;
+        }
 
         dispatch(closeDialog());
 
-        const payload: Restaurant = {
-            id: nanoid(),
-            ownerId: user?.id ?? 'guest-user',
+        const payload: RestaurantRequest = {
             name: pendingFormData.name,
-            description: pendingFormData.description,
-            image: pendingFormData.imageUrl,
-            address: pendingFormData.address,
-            contactNumber: pendingFormData.contactNumber,
-            category: pendingFormData.category as FoodCategory,
-            isOpenToday: true,
-            operatingDays: DAYS.reduce(
-                (acc, { value }) => {
-                    const key =
-                        value.toLowerCase() as keyof Restaurant['operatingDays'];
-                    acc[key] = pendingFormData.operatingDays.includes(value);
-
-                    return acc;
-                },
-                {} as Restaurant['operatingDays'],
+            image_url: pendingFormData.imageUrl || null,
+            description: pendingFormData.description || null,
+            contact_number: pendingFormData.contactNumber,
+            opening_time: pendingFormData.openingTime,
+            closing_time: pendingFormData.closingTime,
+            working_days: pendingFormData.operatingDays.map(
+                (day) =>
+                    day.toUpperCase() as RestaurantRequest['working_days'][number],
             ),
-            openingTime: convertTo12Hour(pendingFormData.openingTime),
-            closingTime: convertTo12Hour(pendingFormData.closingTime),
-            menuItems: [],
+            type: pendingFormData.category as FoodType,
+            cuisine: pendingFormData.category,
+
+            address: {
+                address_line_1: pendingFormData.address.addressLine1,
+
+                address_line_2: pendingFormData.address.addressLine2 || null,
+
+                city: pendingFormData.address.city,
+
+                state: pendingFormData.address.state,
+
+                postal_code: pendingFormData.address.postalCode,
+
+                country: pendingFormData.address.country,
+            },
         };
+
+        setIsCreating(true);
 
         try {
             await dispatch(addRestaurantThunk(payload)).unwrap();
+
             dispatch(
                 showToast({
                     type: TOAST_TYPES.SUCCESS,
@@ -166,8 +188,10 @@ export const AddRestaurant = () => {
                     message: 'Restaurant added successfully !!',
                 }),
             );
+
             reset();
             setPendingFormData(null);
+
             void navigate(ROUTES.ROOT);
         } catch (error) {
             dispatch(
@@ -177,11 +201,14 @@ export const AddRestaurant = () => {
                     message: error as string,
                 }),
             );
+        } finally {
+            setIsCreating(false);
         }
     };
 
     /**
-     * Closes the confirmation popup box and deletes the temporary form data.
+     * Closes the confirmation popup box and clears the temporarily
+     * stored restaurant form data.
      */
     const handleCancelSubmit = () => {
         dispatch(closeDialog());
@@ -199,11 +226,14 @@ export const AddRestaurant = () => {
                     variant="outlined"
                     startIcon={<ArrowBackIosNewIcon />}
                     onClick={() => void navigate(ROUTES.ROOT)}
+                    disabled={isCreating}
                 >
                     Back
                 </Button>
+
                 <HeadingWrapper>
                     <MuiTypography variant="h3">ADD RESTAURANT</MuiTypography>
+
                     <MuiTypography
                         variant="subtitle1"
                         color={alpha(theme.palette.text.secondary, 0.6)}
@@ -212,6 +242,7 @@ export const AddRestaurant = () => {
                         details below.
                     </MuiTypography>
                 </HeadingWrapper>
+
                 <FormContainer>
                     <FormGrid>
                         <MetaContainer>
@@ -219,6 +250,7 @@ export const AddRestaurant = () => {
                                 <MuiTypography variant="body1">
                                     Image URL
                                 </MuiTypography>
+
                                 <Controller
                                     name="imageUrl"
                                     control={control}
@@ -227,6 +259,7 @@ export const AddRestaurant = () => {
                                             {...field}
                                             placeholder="Paste your URL here"
                                             fullWidth
+                                            disabled={isCreating}
                                             error={!!errors.imageUrl}
                                             helperText={
                                                 errors.imageUrl?.message
@@ -235,10 +268,12 @@ export const AddRestaurant = () => {
                                     )}
                                 />
                             </MuiStack>
+
                             <MuiStack spacing={2} width="100%">
                                 <MuiTypography variant="body1">
                                     Restaurant name
                                 </MuiTypography>
+
                                 <Controller
                                     name="name"
                                     control={control}
@@ -247,6 +282,7 @@ export const AddRestaurant = () => {
                                             {...field}
                                             placeholder="Enter your restaurant name"
                                             fullWidth
+                                            disabled={isCreating}
                                             error={!!errors.name}
                                             helperText={errors.name?.message}
                                         />
@@ -254,11 +290,13 @@ export const AddRestaurant = () => {
                                 />
                             </MuiStack>
                         </MetaContainer>
+
                         <MuiBox width="100%">
                             <MuiStack spacing={2}>
                                 <MuiTypography variant="body1">
                                     Restaurant description
                                 </MuiTypography>
+
                                 <Controller
                                     name="description"
                                     control={control}
@@ -269,6 +307,7 @@ export const AddRestaurant = () => {
                                             fullWidth
                                             multiline
                                             rows={5}
+                                            disabled={isCreating}
                                             error={!!errors.description}
                                             helperText={
                                                 errors.description?.message
@@ -278,32 +317,174 @@ export const AddRestaurant = () => {
                                 />
                             </MuiStack>
                         </MuiBox>
+
                         <FormGrid>
                             <MetaContainer>
                                 <MuiStack spacing={2} width="100%">
                                     <MuiTypography variant="body1">
-                                        Address
+                                        Address Line 1
                                     </MuiTypography>
+
                                     <Controller
-                                        name="address"
+                                        name="address.addressLine1"
                                         control={control}
                                         render={({ field }) => (
                                             <InputField
                                                 {...field}
-                                                placeholder="Enter address of your restaurant"
+                                                placeholder="Enter address line 1"
                                                 fullWidth
-                                                error={!!errors.address}
+                                                disabled={isCreating}
+                                                error={
+                                                    !!errors.address
+                                                        ?.addressLine1
+                                                }
                                                 helperText={
-                                                    errors.address?.message
+                                                    errors.address?.addressLine1
+                                                        ?.message
                                                 }
                                             />
                                         )}
                                     />
                                 </MuiStack>
+
+                                <MuiStack spacing={2} width="100%">
+                                    <MuiTypography variant="body1">
+                                        Address Line 2
+                                    </MuiTypography>
+
+                                    <Controller
+                                        name="address.addressLine2"
+                                        control={control}
+                                        render={({ field }) => (
+                                            <InputField
+                                                {...field}
+                                                placeholder="Enter address line 2"
+                                                fullWidth
+                                                disabled={isCreating}
+                                                error={
+                                                    !!errors.address
+                                                        ?.addressLine2
+                                                }
+                                                helperText={
+                                                    errors.address?.addressLine2
+                                                        ?.message
+                                                }
+                                            />
+                                        )}
+                                    />
+                                </MuiStack>
+                            </MetaContainer>
+
+                            <MetaContainer>
+                                <MuiStack spacing={2} width="100%">
+                                    <MuiTypography variant="body1">
+                                        City
+                                    </MuiTypography>
+
+                                    <Controller
+                                        name="address.city"
+                                        control={control}
+                                        render={({ field }) => (
+                                            <InputField
+                                                {...field}
+                                                placeholder="Enter city"
+                                                fullWidth
+                                                disabled={isCreating}
+                                                error={!!errors.address?.city}
+                                                helperText={
+                                                    errors.address?.city
+                                                        ?.message
+                                                }
+                                            />
+                                        )}
+                                    />
+                                </MuiStack>
+
+                                <MuiStack spacing={2} width="100%">
+                                    <MuiTypography variant="body1">
+                                        State
+                                    </MuiTypography>
+
+                                    <Controller
+                                        name="address.state"
+                                        control={control}
+                                        render={({ field }) => (
+                                            <InputField
+                                                {...field}
+                                                placeholder="Enter state"
+                                                fullWidth
+                                                disabled={isCreating}
+                                                error={!!errors.address?.state}
+                                                helperText={
+                                                    errors.address?.state
+                                                        ?.message
+                                                }
+                                            />
+                                        )}
+                                    />
+                                </MuiStack>
+                            </MetaContainer>
+
+                            <MetaContainer>
+                                <MuiStack spacing={2} width="100%">
+                                    <MuiTypography variant="body1">
+                                        Postal Code
+                                    </MuiTypography>
+
+                                    <Controller
+                                        name="address.postalCode"
+                                        control={control}
+                                        render={({ field }) => (
+                                            <InputField
+                                                {...field}
+                                                placeholder="Enter postal code"
+                                                fullWidth
+                                                disabled={isCreating}
+                                                error={
+                                                    !!errors.address?.postalCode
+                                                }
+                                                helperText={
+                                                    errors.address?.postalCode
+                                                        ?.message
+                                                }
+                                            />
+                                        )}
+                                    />
+                                </MuiStack>
+
+                                <MuiStack spacing={2} width="100%">
+                                    <MuiTypography variant="body1">
+                                        Country
+                                    </MuiTypography>
+
+                                    <Controller
+                                        name="address.country"
+                                        control={control}
+                                        render={({ field }) => (
+                                            <InputField
+                                                {...field}
+                                                placeholder="Enter country"
+                                                fullWidth
+                                                disabled={isCreating}
+                                                error={
+                                                    !!errors.address?.country
+                                                }
+                                                helperText={
+                                                    errors.address?.country
+                                                        ?.message
+                                                }
+                                            />
+                                        )}
+                                    />
+                                </MuiStack>
+                            </MetaContainer>
+
+                            <MetaContainer>
                                 <MuiStack spacing={2} width="100%">
                                     <MuiTypography variant="body1">
                                         Contact number
                                     </MuiTypography>
+
                                     <Controller
                                         name="contactNumber"
                                         control={control}
@@ -312,6 +493,7 @@ export const AddRestaurant = () => {
                                                 {...field}
                                                 placeholder="Enter contact number"
                                                 fullWidth
+                                                disabled={isCreating}
                                                 error={!!errors.contactNumber}
                                                 helperText={
                                                     errors.contactNumber
@@ -321,117 +503,117 @@ export const AddRestaurant = () => {
                                         )}
                                     />
                                 </MuiStack>
-                            </MetaContainer>
-                            <RangeContainer>
-                                <SelectFormControl>
-                                    <MuiStack spacing={2} width="100%">
-                                        <MuiTypography variant="body1">
-                                            Food category
-                                        </MuiTypography>
-                                        <Controller
-                                            name="category"
-                                            control={control}
-                                            render={({ field }) => (
-                                                <Select
-                                                    {...field}
-                                                    value={field.value}
-                                                    onChange={(event) =>
-                                                        field.onChange(
-                                                            event.target.value,
-                                                        )
-                                                    }
-                                                    displayEmpty
-                                                    fullWidth
-                                                    error={!!errors.category}
-                                                >
-                                                    <MuiMenuItem
-                                                        value=""
-                                                        disabled
-                                                    >
-                                                        Select Category
-                                                    </MuiMenuItem>
-                                                    <MuiMenuItem
-                                                        value={
-                                                            FOOD_CATEGORY.BOTH
-                                                        }
-                                                    >
-                                                        BOTH
-                                                    </MuiMenuItem>
-                                                    <MuiMenuItem
-                                                        value={
-                                                            FOOD_CATEGORY.VEG
-                                                        }
-                                                    >
-                                                        VEG
-                                                    </MuiMenuItem>
-                                                    <MuiMenuItem
-                                                        value={
-                                                            FOOD_CATEGORY.NON_VEG
-                                                        }
-                                                    >
-                                                        NON VEG
-                                                    </MuiMenuItem>
-                                                </Select>
-                                            )}
-                                        />
-                                        {errors.category && (
-                                            <MuiTypography color="error">
-                                                {messages.REQUIRED}
+
+                                <RangeContainer>
+                                    <SelectFormControl>
+                                        <MuiStack spacing={2} width="100%">
+                                            <MuiTypography variant="body1">
+                                                Food category
                                             </MuiTypography>
+
+                                            <Controller
+                                                name="category"
+                                                control={control}
+                                                render={({ field }) => (
+                                                    <Select
+                                                        {...field}
+                                                        value={field.value}
+                                                        disabled={isCreating}
+                                                        onChange={(event) =>
+                                                            field.onChange(
+                                                                event.target
+                                                                    .value,
+                                                            )
+                                                        }
+                                                        displayEmpty
+                                                        fullWidth
+                                                        error={
+                                                            !!errors.category
+                                                        }
+                                                    >
+                                                        <MuiMenuItem
+                                                            value=""
+                                                            disabled
+                                                        >
+                                                            Select Category
+                                                        </MuiMenuItem>
+
+                                                        <MuiMenuItem value="VEG">
+                                                            VEG
+                                                        </MuiMenuItem>
+
+                                                        <MuiMenuItem value="NON_VEG">
+                                                            NON VEG
+                                                        </MuiMenuItem>
+                                                    </Select>
+                                                )}
+                                            />
+
+                                            {errors.category && (
+                                                <MuiTypography color="error">
+                                                    {messages.REQUIRED}
+                                                </MuiTypography>
+                                            )}
+                                        </MuiStack>
+                                    </SelectFormControl>
+                                </RangeContainer>
+                            </MetaContainer>
+
+                            <TimeRangeContainer>
+                                <MuiStack spacing={2} width="100%">
+                                    <MuiTypography variant="body1">
+                                        Opening time
+                                    </MuiTypography>
+
+                                    <Controller
+                                        name="openingTime"
+                                        control={control}
+                                        render={({ field }) => (
+                                            <InputField
+                                                {...field}
+                                                type="time"
+                                                fullWidth
+                                                disabled={isCreating}
+                                                error={!!errors.openingTime}
+                                                helperText={
+                                                    errors.openingTime?.message
+                                                }
+                                            />
                                         )}
-                                    </MuiStack>
-                                </SelectFormControl>
-                                <TimeRangeContainer>
-                                    <MuiStack spacing={2} width="100%">
-                                        <MuiTypography variant="body1">
-                                            Opening time
-                                        </MuiTypography>
-                                        <Controller
-                                            name="openingTime"
-                                            control={control}
-                                            render={({ field }) => (
-                                                <InputField
-                                                    {...field}
-                                                    type="time"
-                                                    fullWidth
-                                                    error={!!errors.openingTime}
-                                                    helperText={
-                                                        errors.openingTime
-                                                            ?.message
-                                                    }
-                                                />
-                                            )}
-                                        />
-                                    </MuiStack>
-                                    <MuiStack spacing={2} width="100%">
-                                        <MuiTypography variant="body1">
-                                            Closing time
-                                        </MuiTypography>
-                                        <Controller
-                                            name="closingTime"
-                                            control={control}
-                                            render={({ field }) => (
-                                                <InputField
-                                                    {...field}
-                                                    type="time"
-                                                    fullWidth
-                                                    error={!!errors.closingTime}
-                                                    helperText={
-                                                        errors.closingTime
-                                                            ?.message
-                                                    }
-                                                />
-                                            )}
-                                        />
-                                    </MuiStack>
-                                </TimeRangeContainer>
-                            </RangeContainer>
+                                    />
+                                </MuiStack>
+
+                                <MuiStack spacing={2} width="100%">
+                                    <MuiTypography variant="body1">
+                                        Closing time
+                                    </MuiTypography>
+
+                                    <Controller
+                                        name="closingTime"
+                                        control={control}
+                                        render={({ field }) => (
+                                            <InputField
+                                                {...field}
+                                                type="time"
+                                                fullWidth
+                                                disabled={isCreating}
+                                                error={!!errors.closingTime}
+                                                helperText={
+                                                    errors.closingTime?.message
+                                                }
+                                            />
+                                        )}
+                                    />
+                                </MuiStack>
+                            </TimeRangeContainer>
                         </FormGrid>
+
                         <FormGrid>
                             <MuiStack spacing={2} width="100%">
                                 <MuiTypography variant="body1">
                                     Operating days
                                 </MuiTypography>
+
                                 <OperatingDaysContainer>
                                     {DAYS.map((day) => (
                                         <OperatingDayChip
@@ -439,6 +621,7 @@ export const AddRestaurant = () => {
                                             selected={operatingDays.includes(
                                                 day.value,
                                             )}
+                                            disabled={isCreating}
                                             onClick={() =>
                                                 handleDayToggle(day.value)
                                             }
@@ -447,6 +630,7 @@ export const AddRestaurant = () => {
                                         </OperatingDayChip>
                                     ))}
                                 </OperatingDaysContainer>
+
                                 {errors.operatingDays && (
                                     <MuiTypography
                                         color="error.main"
@@ -459,6 +643,7 @@ export const AddRestaurant = () => {
                         </FormGrid>
                     </FormGrid>
                 </FormContainer>
+
                 <FooterContainer>
                     <ActionContainer>
                         <Button
@@ -466,6 +651,7 @@ export const AddRestaurant = () => {
                             variant="outlined"
                             color="error"
                             onClick={() => reset()}
+                            disabled={isCreating}
                         >
                             Reset
                         </Button>
@@ -474,13 +660,18 @@ export const AddRestaurant = () => {
                             type="submit"
                             variant="contained"
                             startIcon={<StorefrontOutlined />}
-                            loading={loading || isSubmitting}
+                            loading={loading || isSubmitting || isCreating}
+                            disabled={isCreating}
                         >
-                            {!loading && !isSubmitting && 'Submit'}
+                            {!loading &&
+                                !isSubmitting &&
+                                !isCreating &&
+                                'Submit'}
                         </Button>
                     </ActionContainer>
                 </FooterContainer>
             </RestaurantForm>
+
             <ActionDialog
                 open={feedback.open && Boolean(pendingFormData)}
                 title={feedback.title}
@@ -488,8 +679,14 @@ export const AddRestaurant = () => {
                 type={feedback.type}
                 confirmText={feedback.confirmText}
                 cancelText={feedback.cancelText}
-                cancelButtonConfig={{ color: 'error', variant: 'outlined' }}
-                confirmButtonConfig={{ color: 'primary', variant: 'contained' }}
+                cancelButtonConfig={{
+                    color: 'error',
+                    variant: 'outlined',
+                }}
+                confirmButtonConfig={{
+                    color: 'primary',
+                    variant: 'contained',
+                }}
                 onClose={handleCancelSubmit}
                 onConfirm={handleConfirmSubmit}
             />

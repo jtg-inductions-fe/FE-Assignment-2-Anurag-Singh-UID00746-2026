@@ -50,3 +50,85 @@ export type Restaurant = {
     /** The complete list of available food items sold on their active menu. */
     menuItems: MenuItem[];
 };
+
+import { FoodType, WeekDay } from '@api/types/restaurant.types';
+
+export interface Address {
+    id: string;
+    address_line_1: string;
+    address_line_2: string | null;
+    city: string;
+    state: string;
+    postal_code: string;
+    country: string;
+}
+
+/**
+ * All information describing a restaurant profile.
+ */
+export type RestaurantResponse = {
+    /**
+     * The unique ID of the restaurant.
+     */
+    id: string;
+
+    /**
+     * The ID of the owner who manages this restaurant.
+     */
+    owner_id: string;
+
+    /**
+     * The display name of the restaurant.
+     */
+    name: string;
+
+    /**
+     * A short text describing the kitchen or style of the restaurant.
+     */
+    description: string | null;
+
+    /**
+     * The image URL link for the restaurant banner photo.
+     */
+    image_url: string | null;
+
+    /**
+     * The physical address details of the restaurant.
+     */
+    address: Address | null;
+
+    /**
+     * The contact phone number for customer queries.
+     */
+    contact_number: string;
+
+    /**
+     * The classification type for food served.
+     */
+    type: FoodType;
+
+    /**
+     * The cuisine offered by the restaurant.
+     */
+    cuisine: string;
+
+    /**
+     * The country code associated with the restaurant.
+     */
+    country_code: string | null;
+
+    /**
+     * Weekly timetable showing which specific days the store opens.
+     */
+    working_days: WeekDay[];
+
+    /**
+     * Daily opening time.
+     */
+    opening_time: string;
+
+    /**
+     * Daily closing time.
+     */
+    closing_time: string;
+};

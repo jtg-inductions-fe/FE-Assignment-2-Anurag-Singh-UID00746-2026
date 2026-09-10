@@ -80,6 +80,10 @@ export const UserProfile = (props: UserProfileProps) => {
         navigate(ROUTES_SEGMENTS.ADDRESS.VIEW_ADDRESSES);
     };
 
+    const handleAddresses = () => {
+        navigate(ROUTES_SEGMENTS.ADDRESS.VIEW_ADDRESSES);
+    };
+
     return (
         <UserProfileBox>
             <UserIconButton

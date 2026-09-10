@@ -4,12 +4,14 @@ import {
     addMenuItemThunk,
     addRestaurantThunk,
     deleteMenuItemThunk,
+    deleteRestaurantThunk,
     fetchRestaurantsThunk,
     updateMenuItemThunk,
     updateRestaurantThunk,
 } from './restaurantThunk';
-import { Restaurant } from '@types';
+
 import { RestaurantState } from './restaurant.types';
+import { RestaurantResponse } from '../../types/restaurant.types';
 
 const initialState: RestaurantState = {
     restaurants: [],
@@ -21,7 +23,7 @@ const restaurantSlice = createSlice({
     name: 'restaurant',
     initialState,
     reducers: {
-        addRestaurant: (state, action: PayloadAction<Restaurant>) => {
+        addRestaurant: (state, action: PayloadAction<RestaurantResponse>) => {
             state.restaurants = [action.payload, ...state.restaurants];
         },
 
@@ -40,48 +42,37 @@ const restaurantSlice = createSlice({
             })
             .addCase(fetchRestaurantsThunk.fulfilled, (state, action) => {
                 state.loading = false;
+                state.error = null;
                 state.restaurants = action.payload;
             })
             .addCase(fetchRestaurantsThunk.rejected, (state, action) => {
                 state.loading = false;
-                state.error = action.error.message ?? 'Something went wrong';
+                state.error = action.payload ?? 'Failed to fetch restaurants';
             })
+
             .addCase(addRestaurantThunk.pending, (state) => {
                 state.loading = true;
                 state.error = null;
             })
             .addCase(addRestaurantThunk.fulfilled, (state, action) => {
                 state.loading = false;
+                state.error = null;
+
                 state.restaurants = [action.payload, ...state.restaurants];
             })
             .addCase(addRestaurantThunk.rejected, (state, action) => {
                 state.loading = false;
-                state.error =
-                    action.error.message ?? 'Failed to add restaurant';
+                state.error = action.payload ?? 'Failed to add restaurant';
             })
+
             .addCase(updateRestaurantThunk.pending, (state) => {
                 state.loading = true;
                 state.error = null;
             })
             .addCase(updateRestaurantThunk.fulfilled, (state, action) => {
                 state.loading = false;
-                state.restaurants = state.restaurants.map((restaurant) =>
-                    restaurant.id === action.payload.id
-                        ? action.payload
-                        : restaurant,
-                );
-            })
-            .addCase(updateRestaurantThunk.rejected, (state, action) => {
-                state.loading = false;
-                state.error =
-                    action.error.message ?? 'Failed to update restaurant';
-            })
-            .addCase(addMenuItemThunk.pending, (state) => {
-                state.loading = true;
                 state.error = null;
-            })
-            .addCase(addMenuItemThunk.fulfilled, (state, action) => {
-                state.loading = false;
+
                 const index = state.restaurants.findIndex(
                     (restaurant) => restaurant.id === action.payload.id,
                 );
@@ -90,6 +81,42 @@ const restaurantSlice = createSlice({
                     state.restaurants[index] = action.payload;
                 }
             })
+            .addCase(updateRestaurantThunk.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload ?? 'Failed to update restaurant';
+            })
+
+            .addCase(deleteRestaurantThunk.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(deleteRestaurantThunk.fulfilled, (state, action) => {
+                state.loading = false;
+                state.error = null;
+
+                state.restaurants = state.restaurants.filter(
+                    (restaurant) => restaurant.id !== action.payload,
+                );
+            })
+            .addCase(deleteRestaurantThunk.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload ?? 'Failed to delete restaurant';
+            })
+
+            .addCase(addMenuItemThunk.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            // .addCase(addMenuItemThunk.fulfilled, (state, action) => {
+            //     state.loading = false;
+            //     const index = state.restaurants.findIndex(
+            //         (restaurant) => restaurant.id === action.payload.id,
+            //     );
+
+            //     if (index !== -1) {
+            //         state.restaurants[index] = action.payload;
+            //     }
+            // })
             .addCase(addMenuItemThunk.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error.message ?? 'Failed to add menu Item';
@@ -98,15 +125,15 @@ const restaurantSlice = createSlice({
                 state.loading = true;
                 state.error = null;
             })
-            .addCase(updateMenuItemThunk.fulfilled, (state, action) => {
-                const index = state.restaurants.findIndex(
-                    (restaurant) => restaurant.id === action.payload.id,
-                );
+            // .addCase(updateMenuItemThunk.fulfilled, (state, action) => {
+            //     const index = state.restaurants.findIndex(
+            //         (restaurant) => restaurant.id === action.payload.id,
+            //     );
 
-                if (index !== -1) {
-                    state.restaurants[index] = action.payload;
-                }
-            })
+            //     if (index !== -1) {
+            //         state.restaurants[index] = action.payload;
+            //     }
+            // })
             .addCase(updateMenuItemThunk.rejected, (state, action) => {
                 state.loading = false;
                 state.error =
@@ -116,15 +143,15 @@ const restaurantSlice = createSlice({
                 state.loading = true;
                 state.error = null;
             })
-            .addCase(deleteMenuItemThunk.fulfilled, (state, action) => {
-                const index = state.restaurants.findIndex(
-                    (restaurant) => restaurant.id === action.payload.id,
-                );
+            // .addCase(deleteMenuItemThunk.fulfilled, (state, action) => {
+            //     const index = state.restaurants.findIndex(
+            //         (restaurant) => restaurant.id === action.payload.id,
+            //     );
 
-                if (index !== -1) {
-                    state.restaurants[index] = action.payload;
-                }
-            })
+            //     if (index !== -1) {
+            //         state.restaurants[index] = action.payload;
+            //     }
+            // })
             .addCase(deleteMenuItemThunk.rejected, (state, action) => {
                 state.loading = false;
                 state.error =

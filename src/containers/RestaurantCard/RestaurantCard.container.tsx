@@ -1,6 +1,7 @@
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { alpha, Typography as MuiTypography } from '@mui/material';
+import HttpsOutlinedIcon from '@mui/icons-material/HttpsOutlined';
 
 import {
     ActionContainer,
@@ -16,10 +17,9 @@ import {
     StyledCardContent,
     StyledIconButton,
 } from './RestaurantCard.styles';
+
 import { RestaurantCardProps } from './restaurantCard.types';
-import HttpsOutlinedIcon from '@mui/icons-material/HttpsOutlined';
 import { theme } from '@theme/index';
-import { FOOD_CATEGORY } from '@constant/index';
 import { Image } from '@components/ImageBox/ImageBox.styles';
 import { Chip } from '@components/Chip';
 
@@ -83,11 +83,15 @@ export const RestaurantCard = (props: RestaurantCardProps) => {
 
             <ImageContainer>
                 <Image
-                    src={props.restaurant.image}
+                    src={
+                        props.restaurant.image_url ||
+                        '/images/restaurants/punjab-grill.webp'
+                    }
                     alt={props.restaurant.name}
                     height={250}
                     width="100%"
                 />
+
                 {!props.isOpen && (
                     <Overlay>
                         <OverlayContent>
@@ -97,6 +101,7 @@ export const RestaurantCard = (props: RestaurantCardProps) => {
                                     color="primary"
                                 />
                             </IconWrapper>
+
                             <MuiTypography
                                 variant="subtitle1"
                                 color={alpha(theme.palette.common.white, 0.9)}
@@ -119,12 +124,12 @@ export const RestaurantCard = (props: RestaurantCardProps) => {
                         >
                             {props.restaurant.name}
                         </MuiTypography>
-                        {props.restaurant.category === FOOD_CATEGORY.VEG && (
+
+                        {props.restaurant.type === 'VEG' && (
                             <Chip label="Veg" size="medium" color="success" />
                         )}
 
-                        {props.restaurant.category ===
-                            FOOD_CATEGORY.NON_VEG && (
+                        {props.restaurant.type === 'NON_VEG' && (
                             <Chip label="Non Veg" size="medium" color="error" />
                         )}
                     </HeaderBox>
@@ -149,7 +154,7 @@ export const RestaurantCard = (props: RestaurantCardProps) => {
                         textOverflow="ellipsis"
                         overflow="hidden"
                     >
-                        {props.restaurant.address}
+                        {props.restaurant.address?.address_line_1}
                     </MuiTypography>
                 </MetaContainer>
             </StyledCardContent>

@@ -1,77 +1,118 @@
 import {
+    createRestaurant,
+    deleteRestaurant as deleteRestaurantApi,
+    getRestaurantById,
+    getRestaurants,
+    updateRestaurant as updateRestaurantApi,
+} from '@api/restaurant.api';
+import {
+    RestaurantRequest,
+    RestaurantUpdateRequest,
+} from '@api/types/restaurant.types';
+import {
     AddMenuItemParams,
     DeleteMenuItemParams,
     FetchRestaurantsParams,
     UpdateMenuItemParams,
 } from '@features/restaurant/restaurant.types';
+
+import { Restaurant, RestaurantResponse } from '../types/restaurant.types';
 import { restaurants } from '@mock/restaurant';
-
-import { Restaurant } from '@types';
-
-const cloneRestaurants = (): Restaurant[] =>
-    restaurants.map((restaurant) => ({
-        ...restaurant,
-        menuItems: restaurant.menuItems.map((item) => ({ ...item })),
-    }));
 
 export const restaurantService = {
     /**
-     * Filters the restaurant based on the keyword searched by the user
-     * @param params: restaurant name from the URL
-     * @returns filtered list of restaurants based on the keyword
+     * Filters the restaurant based on the keyword searched by the user.
+     *
+     * @param params - Pagination, search, and restaurant type filter
+     * parameters used to retrieve restaurants.
+     *
+     * @returns A list of restaurants returned by the backend.
      */
     fetchRestaurants: async (
         params: FetchRestaurantsParams,
-    ): Promise<Restaurant[]> => {
-        const { keyword } = params;
+    ): Promise<RestaurantResponse[]> => {
+        const response = await getRestaurants({
+            limit: params.limit,
+            cursor: params.cursor,
+            q: params.keyword,
+            type: params.restaurantType,
+        });
 
-        const allRestaurants = cloneRestaurants();
-
-        if (!keyword?.trim()) {
-            return Promise.resolve(allRestaurants);
-        }
-
-        return Promise.resolve(
-            allRestaurants.filter((restaurant) =>
-                restaurant.name
-                    .toLowerCase()
-                    .includes(keyword.trim().toLowerCase()),
-            ),
-        );
+        return response.items;
     },
 
     /**
-     * Adds a new restaurant to the existing restaurants array
-     * @param restaurant: restaurant added by the owner
-     * @returns the newly added restaurant
+     * Fetches a single restaurant using its unique identifier.
+     *
+     * This method is primarily used when a restaurant needs to be
+     * loaded independently of the paginated restaurant listing.
+     *
+     * @param restaurantId - The unique identifier of the restaurant.
+     *
+     * @returns The restaurant returned by the backend.
      */
-    addRestaurant: async (restaurant: Restaurant): Promise<Restaurant> => {
-        await new Promise((res) => setTimeout(res, 2000));
-
-        restaurants.unshift(restaurant);
-
-        return restaurant;
+    fetchRestaurantById: async (
+        restaurantId: string,
+    ): Promise<RestaurantResponse> => {
+        return await getRestaurantById(restaurantId);
     },
 
     /**
-     * Updates an existing restaurant in the restaurants array
-     * @param restaurant: updated restaurant information
-     * @returns the updated restaurant
+     * Creates a new restaurant through the backend API.
+     *
+     * @param restaurant - Restaurant data provided by the owner.
+     *
+     * @returns The created restaurant.
      */
-    updateRestaurant: async (restaurant: Restaurant): Promise<Restaurant> => {
-        await new Promise((res) => setTimeout(res, 2000));
+    addRestaurant: async (
+        restaurant: RestaurantRequest,
+    ): Promise<RestaurantResponse> => {
+        await createRestaurant(restaurant);
 
-        const index = restaurants.findIndex(
-            (item) => item.id === restaurant.id,
-        );
+        const response = await getRestaurants({
+            limit: 1,
+        });
 
-        if (index === -1) {
-            throw new Error(`Restaurant "${restaurant.id}" was not found`);
+        const createdRestaurant = response.items[0];
+
+        if (!createdRestaurant) {
+            throw new Error('Failed to fetch created restaurant');
         }
 
-        restaurants[index] = restaurant;
+        return createdRestaurant;
+    },
 
-        return restaurant;
+    /**
+     * Updates an existing restaurant through the backend API.
+     *
+     * After the update request succeeds, the restaurant is fetched
+     * again using its ID so that the latest backend representation
+     * is returned to the Redux layer.
+     *
+     * @param restaurantId - The unique identifier of the restaurant.
+     *
+     * @param data - The restaurant fields that should be updated.
+     *
+     * @returns The updated restaurant returned by the backend.
+     */
+    updateRestaurant: async (
+        restaurantId: string,
+        data: RestaurantUpdateRequest,
+    ): Promise<RestaurantResponse> => {
+        await updateRestaurantApi(restaurantId, data);
+
+        return await getRestaurantById(restaurantId);
+    },
+
+    /**
+     * Deletes an existing restaurant through the backend API.
+     *
+     * @param restaurantId - The unique identifier of the restaurant.
+     *
+     * @returns Nothing after successful deletion.
+     */
+    deleteRestaurant: async (restaurantId: string): Promise<void> => {
+        await deleteRestaurantApi(restaurantId);
     },
 
     /**
