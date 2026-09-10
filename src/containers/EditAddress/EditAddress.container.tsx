@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -26,6 +26,8 @@ export const EditAddress = () => {
 
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
+
+    const [isUpdating, setIsUpdating] = useState(false);
 
     const form = useForm<AddressRequest>({
         resolver: yupResolver(addressSchema),
@@ -92,6 +94,8 @@ export const EditAddress = () => {
             return;
         }
 
+        setIsUpdating(true);
+
         try {
             await dispatch(
                 updateAddress({
@@ -117,6 +121,8 @@ export const EditAddress = () => {
                     message: error as string,
                 }),
             );
+        } finally {
+            setIsUpdating(false);
         }
     };
 
@@ -153,6 +159,7 @@ export const EditAddress = () => {
                                         {...field}
                                         placeholder="Enter address line 1"
                                         fullWidth
+                                        disabled={isUpdating}
                                         error={!!errors.address_line_1}
                                         helperText={
                                             errors.address_line_1?.message
@@ -175,6 +182,7 @@ export const EditAddress = () => {
                                         {...field}
                                         placeholder="Enter address line 2"
                                         fullWidth
+                                        disabled={isUpdating}
                                         error={!!errors.address_line_2}
                                         helperText={
                                             errors.address_line_2?.message
@@ -195,6 +203,7 @@ export const EditAddress = () => {
                                         {...field}
                                         placeholder="Enter your city"
                                         fullWidth
+                                        disabled={isUpdating}
                                         error={!!errors.city}
                                         helperText={errors.city?.message}
                                     />
@@ -213,6 +222,7 @@ export const EditAddress = () => {
                                         {...field}
                                         placeholder="Enter your state"
                                         fullWidth
+                                        disabled={isUpdating}
                                         error={!!errors.state}
                                         helperText={errors.state?.message}
                                     />
@@ -233,6 +243,7 @@ export const EditAddress = () => {
                                         {...field}
                                         placeholder="Enter your postal code"
                                         fullWidth
+                                        disabled={isUpdating}
                                         error={!!errors.postal_code}
                                         helperText={errors.postal_code?.message}
                                     />
@@ -253,6 +264,7 @@ export const EditAddress = () => {
                                         {...field}
                                         placeholder="Enter your country"
                                         fullWidth
+                                        disabled={isUpdating}
                                         error={!!errors.country}
                                         helperText={errors.country?.message}
                                     />
@@ -264,11 +276,12 @@ export const EditAddress = () => {
                     <MuiStack spacing={6}>
                         <Button
                             type="submit"
-                            loading={isSubmitting}
+                            loading={isSubmitting || isUpdating}
+                            disabled={isUpdating}
                             variant="contained"
                             fullWidth
                         >
-                            {!isSubmitting && 'Update Address'}
+                            {!isSubmitting && !isUpdating && 'Update Address'}
                         </Button>
                     </MuiStack>
                 </MuiStack>

@@ -60,13 +60,17 @@ export const Signup = () => {
     const navigate = useNavigate();
 
     const [showPassword, setShowPassword] = useState(false);
+    const [isSigningUp, setIsSigningUp] = useState(false);
 
     /**
      * Creates a new user by calling the action and navigates the user to login route
      */
     const onSubmit = async (data: SignupCredential) => {
+        setIsSigningUp(true);
+
         try {
             await dispatch(signup(data)).unwrap();
+
             dispatch(
                 showToast({
                     type: TOAST_TYPES.SUCCESS,
@@ -74,6 +78,7 @@ export const Signup = () => {
                     message: 'Account created successfully !!',
                 }),
             );
+
             await navigate(ROUTES.AUTH.LOGIN);
         } catch (error) {
             dispatch(
@@ -83,6 +88,8 @@ export const Signup = () => {
                     message: error as string,
                 }),
             );
+        } finally {
+            setIsSigningUp(false);
         }
     };
 
@@ -156,6 +163,7 @@ export const Signup = () => {
                                         {...field}
                                         placeholder="Enter your full name"
                                         fullWidth
+                                        disabled={isSigningUp}
                                         error={!!errors.fullName}
                                         helperText={errors.fullName?.message}
                                     />
@@ -173,6 +181,7 @@ export const Signup = () => {
                                         {...field}
                                         placeholder="Enter your email"
                                         fullWidth
+                                        disabled={isSigningUp}
                                         error={!!errors.email}
                                         helperText={errors.email?.message}
                                     />
@@ -194,6 +203,7 @@ export const Signup = () => {
                                         type={
                                             showPassword ? 'text' : 'password'
                                         }
+                                        disabled={isSigningUp}
                                         slotProps={{
                                             input: {
                                                 endAdornment: (
@@ -206,6 +216,9 @@ export const Signup = () => {
                                                             }
                                                             edge="end"
                                                             aria-label="toggle password visibility"
+                                                            disabled={
+                                                                isSigningUp
+                                                            }
                                                         >
                                                             {showPassword ? (
                                                                 <VisibilityOff />
@@ -239,6 +252,7 @@ export const Signup = () => {
                                         type={
                                             showPassword ? 'text' : 'password'
                                         }
+                                        disabled={isSigningUp}
                                         slotProps={{
                                             input: {
                                                 endAdornment: (
@@ -251,6 +265,9 @@ export const Signup = () => {
                                                             }
                                                             edge="end"
                                                             aria-label="toggle password visibility"
+                                                            disabled={
+                                                                isSigningUp
+                                                            }
                                                         >
                                                             {showPassword ? (
                                                                 <VisibilityOff />
@@ -284,6 +301,7 @@ export const Signup = () => {
                                         {...field}
                                         placeholder="Enter address line 1"
                                         fullWidth
+                                        disabled={isSigningUp}
                                         error={!!errors.address?.address_line_1}
                                         helperText={
                                             errors.address?.address_line_1
@@ -306,6 +324,7 @@ export const Signup = () => {
                                         {...field}
                                         placeholder="Enter address line 2"
                                         fullWidth
+                                        disabled={isSigningUp}
                                         error={!!errors.address?.address_line_2}
                                         helperText={
                                             errors.address?.address_line_2
@@ -326,6 +345,7 @@ export const Signup = () => {
                                         {...field}
                                         placeholder="Enter your city"
                                         fullWidth
+                                        disabled={isSigningUp}
                                         error={!!errors.address?.city}
                                         helperText={
                                             errors.address?.city?.message
@@ -345,6 +365,7 @@ export const Signup = () => {
                                         {...field}
                                         placeholder="Enter your state"
                                         fullWidth
+                                        disabled={isSigningUp}
                                         error={!!errors.address?.state}
                                         helperText={
                                             errors.address?.state?.message
@@ -366,6 +387,7 @@ export const Signup = () => {
                                         {...field}
                                         placeholder="Enter your postal code"
                                         fullWidth
+                                        disabled={isSigningUp}
                                         error={!!errors.address?.postal_code}
                                         helperText={
                                             errors.address?.postal_code?.message
@@ -387,6 +409,7 @@ export const Signup = () => {
                                         {...field}
                                         placeholder="Enter your country"
                                         fullWidth
+                                        disabled={isSigningUp}
                                         error={!!errors.address?.country}
                                         helperText={
                                             errors.address?.country?.message
@@ -400,11 +423,12 @@ export const Signup = () => {
                     <MuiStack spacing={6}>
                         <Button
                             type="submit"
-                            loading={isSubmitting}
+                            loading={isSubmitting || isSigningUp}
+                            disabled={isSigningUp}
                             variant="contained"
                             fullWidth
                         >
-                            {!isSubmitting && 'Create Account'}
+                            {!isSubmitting && !isSigningUp && 'Create Account'}
                         </Button>
 
                         <MuiTypography variant="body2" textAlign="center">

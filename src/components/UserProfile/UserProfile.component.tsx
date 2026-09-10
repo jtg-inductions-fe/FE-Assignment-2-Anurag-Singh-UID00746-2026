@@ -70,28 +70,14 @@ export const UserProfile = (props: UserProfileProps) => {
         }
     };
 
-    const handleDeleteProfile = async () => {
-        try {
-            navigate(ROUTES_SEGMENTS.USER.PROFILE_UPDATE);
+    const handleUpdateProfile = async () => {
+        navigate(ROUTES_SEGMENTS.USER.PROFILE_UPDATE);
 
-            dispatch(
-                showToast({
-                    type: TOAST_TYPES.SUCCESS,
-                    title: 'Success',
-                    message: 'Profile deleted successfully !!',
-                }),
-            );
+        handleCloseUserMenu();
+    };
 
-            handleCloseUserMenu();
-        } catch (error) {
-            dispatch(
-                showToast({
-                    type: TOAST_TYPES.ERROR,
-                    title: 'Profile Deletion Failed',
-                    message: error as string,
-                }),
-            );
-        }
+    const handleAddresses = () => {
+        navigate(ROUTES_SEGMENTS.ADDRESS.VIEW_ADDRESSES);
     };
 
     const handleAddresses = () => {
@@ -130,7 +116,7 @@ export const UserProfile = (props: UserProfileProps) => {
                         {user?.name?.toUpperCase() || USER_ROLE.GUEST}
                     </MuiTypography>
 
-                    <IconButton color="error" onClick={handleDeleteProfile}>
+                    <IconButton color="error" onClick={handleUpdateProfile}>
                         <EditIcon color="primary" />
                     </IconButton>
                 </UserMenuItem>
